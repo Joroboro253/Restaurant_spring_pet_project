@@ -13,8 +13,15 @@
 
 <main>
 
-  <h1>Здесь будет меню</h1>
+  <h1>Меню</h1>
+  <div th:each="el : ${dishs}" class="alert alert-info mt-2">
+    <h3 th:text="${el.title}"/>
+    <p th:text="${el.description}"/>
+    <a th:href="'/dish/' + ${el.id}" class="btn btn-warning">Детальнее</a>
 
+
+
+  </div>
 
 
 </main>

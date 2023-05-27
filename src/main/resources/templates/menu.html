@@ -18,10 +18,11 @@
     <h3 th:text="${el.title}"/>
     <p th:text="${el.description}"/>
     <a th:href="'/dish/' + ${el.id}" class="btn btn-warning">Детальнее</a>
-
-
-
   </div>
+
+<!--  для перехода по кнопке нужен JavaScript-->
+<!--  кнопка требует редактирования внешнего вида-->
+  <button type="button"  class="btn-success" th:href="'/dish-add'">Добавить блюдо</button>
 
 
 </main>

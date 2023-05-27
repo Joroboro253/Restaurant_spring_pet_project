@@ -15,6 +15,6 @@ public class MainController {
 
     @GetMapping("/authorization")
     public String newOrder(Model model) {
-        return "authorizarion";
+        return "register";
     }
 }

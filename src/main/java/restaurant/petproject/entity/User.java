@@ -3,7 +3,7 @@ package restaurant.petproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.management.relation.Role;
+
 import java.util.ArrayList;
 import java.util.List;
 

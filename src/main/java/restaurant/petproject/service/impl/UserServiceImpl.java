@@ -1,6 +1,9 @@
 package restaurant.petproject.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import restaurant.petproject.dto.UserDto;
 
 import restaurant.petproject.entity.User;
@@ -15,10 +18,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class UserServiceImpl implements UserService {
 
+
     private UserRepository userRepository;
+
     private RoleRepository roleRepository;
+
     private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
@@ -44,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -52,11 +59,11 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> mapToUserDto(user))
+                .map((user) -> convertEntityToDto(user))
                         .collect(Collectors.toList());
     }
 
-    private UserDto mapToUserDto(User user) {
+    private UserDto convertEntityToDto(User user) {
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
         userDto.setFirstName(str[0]);

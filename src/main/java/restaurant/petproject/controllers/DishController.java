@@ -17,20 +17,18 @@ public class DishController {
     @GetMapping("/menu")
     public String menuMain(Model model){
         Iterable<Dish> dishs = dishRepository.findAll();
-        model.addAttribute("dishs", dishs);
+        model.addAttribute("dish", dishs);
         return "menu";
     }
 
-    @GetMapping("/dish/add")
-    public String dishAdd(Model model){
-        return "dish-add";
-    }
+
 
     @PostMapping("/dish/add")
     public String nodePostAdd(@RequestParam String title, @RequestParam String description, int price){
         Dish dish = new Dish(title, description, price);
         dishRepository.save(dish);
         return "redirect:/menu";
+//        return "/menu";
     }
 
 

@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Controller;
+
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +32,15 @@ public class SpringSecurity {
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/index").permitAll()
-                                .requestMatchers("/users").hasRole("ADMIN")
+                                .requestMatchers("/menu").permitAll()
+                                .requestMatchers("/orders").permitAll()
+                                .requestMatchers("/authorization").permitAll()
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/users").permitAll()
+                                .requestMatchers("/dish").permitAll()
+                                .requestMatchers("/add").permitAll()
+                                .requestMatchers("/dish/add").permitAll()
+
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

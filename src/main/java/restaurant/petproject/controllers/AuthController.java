@@ -1,6 +1,8 @@
 package restaurant.petproject.controllers;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,19 +15,41 @@ import restaurant.petproject.service.UserService;
 
 import java.util.List;
 
+
 @Controller
 public class AuthController {
-
+    @Autowired
     private UserService userService;
 
+
+
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
+    public AuthController() {
+    }
+
+    //    При создании без параметров возникает ошибка
+//    public AuthController() {
+//    }
+
     // Здесь должен быть код для обработки начальной страницы, но он уже есть в классе MainController
-    @GetMapping("/index")
+    @GetMapping("index")
     public String home(){
         return "index";
     }
 
+
+
+    @GetMapping("/login")
+    public String loginForm(){
+        return "login";
+    }
+
+
+
     //handler method t handle user registration from request
-    @GetMapping("/register")
+    @GetMapping("register")
     public String showRegistrationFrom(Model model){
         //create model object to store form data
         UserDto user = new UserDto();
@@ -38,7 +62,7 @@ public class AuthController {
     //handler method to handle user registration from submit request
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model){
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
+        User existingUser = userService.findByEmail(userDto.getEmail());
 
         if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
             result.rejectValue("email", null, "There is already registered with" +
@@ -62,10 +86,6 @@ public class AuthController {
         return "users";
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
 
 
 }

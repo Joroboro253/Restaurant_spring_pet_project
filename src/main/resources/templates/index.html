@@ -11,39 +11,18 @@
         crossorigin="anonymous">
 </head>
 <body>
+
 <header th:insert="blocks/header :: header"></header>
-<!--      <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+
+<!--  login and registration-->
 <!--        <li class="nav-item">-->
 <!--          <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>-->
 <!--        </li>-->
 <!--        <li class="nav-item">-->
-<!--          <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>-->
+<!--          <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>-->
 <!--        </li>-->
-<!--      </ul>-->
 
-<div class="container">
-  <div class="row">
-    <h1> Зарегестрированные пользыватели </h1>
-  </div>
-  <table class="table table-striped table-bordered table-hover">
-    <thead class="table-dark">
-    <tr>
-      <th>Имя</th>
-      <th>Фамилия</th>
-      <th>Почта</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user: ${users}">
-      <td th:text="${user.firstName}"></td>
-      <td th:text="${user.lastName}"></td>
-      <td th:text="${user.email}"></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
 
 <div th:insert="blocks/footer :: footer"></div>
-
 </body>
 </html>

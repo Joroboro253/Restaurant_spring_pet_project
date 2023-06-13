@@ -11,13 +11,20 @@
 
 <header th:insert="blocks/header :: header"></header>
 
-<main>
+<main class="container mt-5">
 
   <h1>Меню</h1>
-  <div th:each="el : ${dishs}" class="alert alert-info mt-2">
+  <div th:each="el : ${dish}" class="alert alert-info mt-2">
     <h3 th:text="${el.title}"/>
     <p th:text="${el.description}"/>
     <a th:href="'/dish/' + ${el.id}" class="btn btn-warning">Детальнее</a>
+  </div>
+
+<!--  // new -->
+  <hr>
+  <div class="card-columns">
+    <#list products as product>
+
   </div>
 
 <!--  для перехода по кнопке нужен JavaScript-->

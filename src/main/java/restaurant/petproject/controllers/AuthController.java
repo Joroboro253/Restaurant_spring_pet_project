@@ -2,7 +2,6 @@ package restaurant.petproject.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import restaurant.petproject.dto.UserDto;
-import restaurant.petproject.entity.User;
+import restaurant.petproject.models.User;
 import restaurant.petproject.service.UserService;
 
 import java.util.List;
@@ -49,12 +48,17 @@ public class AuthController {
 
 
     //handler method t handle user registration from request
-    @GetMapping("register")
+    @GetMapping("/register")
     public String showRegistrationFrom(Model model){
         //create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "register";
+    }
+
+    @GetMapping("/authorization")
+    public String authorization(Model model){
+        return "authorization";
     }
 
 
@@ -84,6 +88,11 @@ public class AuthController {
         List<UserDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "users";
+    }
+
+    @GetMapping("/logout")
+    public String logout(Model model){
+        return "login";
     }
 
 

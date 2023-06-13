@@ -1,13 +1,11 @@
 package restaurant.petproject.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import restaurant.petproject.dto.UserDto;
 
-import restaurant.petproject.entity.User;
-import restaurant.petproject.entity.Role;
+import restaurant.petproject.models.User;
+import restaurant.petproject.models.Role;
 import restaurant.petproject.repository.RoleRepository;
 import restaurant.petproject.repository.UserRepository;
 import restaurant.petproject.service.UserService;

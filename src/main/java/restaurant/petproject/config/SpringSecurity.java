@@ -28,18 +28,13 @@ public class SpringSecurity {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.csrf(csrf ->csrf.disable())
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/index").permitAll()
-                                .requestMatchers("/menu").permitAll()
-                                .requestMatchers("/orders").permitAll()
-                                .requestMatchers("/authorization").permitAll()
-                                .requestMatchers("/").permitAll()
-                                .requestMatchers("/users").permitAll()
-                                .requestMatchers("/dish").permitAll()
-                                .requestMatchers("/add").permitAll()
-                                .requestMatchers("/dish/add").permitAll()
+                        authorize.requestMatchers("/register/**", "/index", "/menu", "/orders", "/authorization",
+                                "/", "/users", "/dish", "/add", "/dish/add", "redirect:/menu", "/error", "/dish/{id}",
+                                "/dish/{id}/edit", "/dish/{id}/remove", "/dish/{id}/orders", "/dish/{id}/**", "/users",
+                                "/logout").permitAll()
+
 
                 ).formLogin(
                         form -> form

@@ -1,7 +1,7 @@
 package restaurant.petproject.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import restaurant.petproject.entity.User;
+import restaurant.petproject.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

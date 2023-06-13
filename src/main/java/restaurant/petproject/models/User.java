@@ -1,4 +1,4 @@
-package restaurant.petproject.entity;
+package restaurant.petproject.models;
 
 import jakarta.persistence.*;
 import lombok.*;

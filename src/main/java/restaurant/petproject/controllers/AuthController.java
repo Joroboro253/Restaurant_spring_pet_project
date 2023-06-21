@@ -33,7 +33,7 @@ public class AuthController {
 //    }
 
     // Здесь должен быть код для обработки начальной страницы, но он уже есть в классе MainController
-    @GetMapping("index")
+    @GetMapping("/index")
     public String home(){
         return "index";
     }

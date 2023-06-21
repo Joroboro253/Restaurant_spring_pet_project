@@ -33,7 +33,7 @@ public class SpringSecurity {
                         authorize.requestMatchers("/register/**", "/index", "/menu", "/orders", "/authorization",
                                 "/", "/users", "/dish", "/add", "/dish/add", "redirect:/menu", "/error", "/dish/{id}",
                                 "/dish/{id}/edit", "/dish/{id}/remove", "/dish/{id}/orders", "/dish/{id}/**", "/users",
-                                "/logout").permitAll()
+                                "/logout", "/static/**").permitAll()
 
 
                 ).formLogin(

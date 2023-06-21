@@ -1,8 +1,10 @@
 package restaurant.petproject.models.enums;
 
 import org.springframework.security.core.GrantedAuthority;
+import restaurant.petproject.models.Role;
 
-public enum Role implements GrantedAuthority {
+
+public enum RoleEnum implements GrantedAuthority {
     ROLE_USER, ROLE_ADMIN;
 
     @Override

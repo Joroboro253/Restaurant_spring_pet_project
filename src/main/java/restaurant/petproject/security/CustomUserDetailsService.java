@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -24,15 +24,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-
-        if(user != null) {
-            return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                    user.getPassword(),
-                    mapRolesToAuthorities(user.getRoles()));
-        } else {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
+//        User user = userRepository.findByEmail(email);
+//
+//        if(user != null) {
+//            return new org.springframework.security.core.userdetails.User(user.getEmail(),
+//                    user.getPassword(),
+//                    mapRolesToAuthorities(user.getRoles()));
+//        } else {
+//            throw new UsernameNotFoundException("Invalid username or password.");
+//        }
+        return userRepository.findByEmail(email);
     }
 
     private Collection < ? extends GrantedAuthority> mapRolesToAuthorities(Collection <Role> roles) {

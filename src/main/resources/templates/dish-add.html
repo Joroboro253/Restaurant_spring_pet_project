@@ -9,7 +9,7 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 
-<div content="container mt-5 mv-5">
+<div content="container mt-5 mv-5" class="row mx-3">
   <h1>Создание нового блюда</h1>
   <form action="/dish/add" method="post">
 
@@ -17,7 +17,7 @@
     <textarea name="description" placeholder="Описание блюда" class="form-control"></textarea><br>
     <input type="number" name="price" placeholder="Цена" class="from-control"><br>
 
-    <button type="submit" class="btn btn-success">Добавить блюдо</button>
+    <br><button type="submit" class="btn btn-success">Добавить блюдо</button>
   </form>
 </div>
 

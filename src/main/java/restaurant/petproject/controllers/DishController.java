@@ -3,17 +3,17 @@ package restaurant.petproject.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import restaurant.petproject.models.Dish;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.service.DishService;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,8 +25,8 @@ public class DishController {
 
     @GetMapping("/menu")
     public String menuMain(Model model){
-        Iterable<Dish> dishs = dishRepository.findAll();
-        model.addAttribute("dish", dishs);
+        Iterable<Dish> dishes = dishRepository.findAll();
+        model.addAttribute("dish", dishes);
         return "menu";
     }
 
@@ -59,12 +59,56 @@ public class DishController {
 
     @GetMapping("/dish/{id}")
     public String dishDetails(@PathVariable Long id, Model model, Principal principal) {
-        Dish dish = dishService.getDishById(id);
-//        model.addAttribute("user", dishService.getUserByPrinipal(principal));
-        model.addAttribute("user", dishService.getUserByPrincipal(principal));
-        model.addAttribute("dish", dish);
+        if(!dishRepository.existsById(id)) {
+            return "redirect:/dish";
+        }
+        Optional<Dish> dish = dishRepository.findById(id);
+        ArrayList<Dish> res = new ArrayList<>();
+//        model.addAttribute("user", dishService.getUserByPrincipal(principal));
+//        model.addAttribute("dish", dish);
+        dish.ifPresent(res::add);
+        model.addAttribute("dish", res);
         return "dish-info";
     }
+
+    @GetMapping("/dish/{id}/edit")
+    public String dishEdit(@PathVariable(value = "id") long id, Model model) {
+        if(!dishRepository.existsById(id)) {
+            return "redirect:/menu";
+        }
+        Optional<Dish> dish = dishRepository.findById(id);
+        ArrayList<Dish> res = new ArrayList<>();
+        dish.ifPresent(res::add);
+        model.addAttribute("dish", res);
+        return "dish-edit";
+    }
+
+    @PostMapping("/dish/{id}/edit")
+    public String dishPostUpdate(@PathVariable(value = "id") long id, @RequestParam String title, @RequestParam String description, @RequestParam int price, Model model) {
+        Dish dish = dishRepository.findById(id).orElseThrow();
+        dish.setTitle(title);
+        dish.setDescription(description);
+        dish.setPrice(price);
+        dishRepository.save(dish);
+
+        return "redirect:/menu";
+    }
+
+
+    @PostMapping("/dish/{id}/remove")
+    public String dishPostDelete(@PathVariable(value = "id") long id, Model model) {
+        Dish dish = dishRepository.findById(id).orElseThrow();
+        dishRepository.delete(dish);
+
+        return "redirect:/menu";
+    }
+
+    @GetMapping("/dish/{id}/remove")
+    public String dishGetDelete(@PathVariable(value = "id") long id, Model model){
+        return "/menu";
+    }
+
+
 
   //  @GetMapping()
 

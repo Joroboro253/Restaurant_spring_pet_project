@@ -12,32 +12,22 @@
 <header th:insert="blocks/header :: header"></header>
 
 <main>
-
-<!--  <h1>Меню</h1>-->
-<!--  <div th:each="el : ${dish}" class="alert alert-info mt-2">-->
-<!--    <h3 th:text="${el.title}"/>-->
-<!--    <p th:text="${el.description}"/>-->
-<!--    <a th:href="'/dish/' + ${el.id}" class="btn btn-warning">Детальнее</a>-->
-<!--  </div>-->
-
+<div class="row mx-3">
   <h1>Меню</h1>
-  <div class="row">
-    <div th:each="el, stat : ${dish}" class="col-lg-2 col-md-4 col-sm-6 mt-2">
-      <div class="card">
-        <div class="card-body">
+  <div class="row mt-5">
+    <div th:each="el : ${dish}" class="col-lg-2 col-md-4 col-sm-6 mt-2">
+        <div class="card-body alert alert-info">
           <h3 th:text="${el.title}"/>
           <p th:text="${el.description}"/>
-          <a th:href="'/dish' + ${el.id}" class="btn btn-warning">Детальнее</a>
+          <p th:text="${el.price} + ' ₴'"/>
+          <a th:href="'/dish/' + ${el.id}" class="btn btn-warning">Детальнее</a>
         </div>
-      </div>
     </div>
   </div>
-
-<!--  для перехода по кнопке нужен JavaScript-->
-<!--  кнопка требует редактирования внешнего вида-->
   <br>
-  <button type="button"  class="btn btn-warning" th:href="'/dish-add'">Добавить блюдо</button>
 
+</div>
+  <a th:href="'/dish/add'" class="btn btn-warning row mx-3">Добавить блюдо</a>
 
 </main>
 

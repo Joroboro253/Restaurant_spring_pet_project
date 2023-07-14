@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <title>Заметки</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -12,8 +12,9 @@
     <div th:each="el : ${dish}" class="alert alert-info mt-2">
         <h1 th:text="${el.title}"/>
         <p th:text="${el.description}"/>
-        <a th:href="'/note/' + ${el.price} + '/edit'" class="btn btn-warning">Редактировать</a><br><br>
-        <form th:action="'/note/' + ${el.id} + '/remove'" method="post">
+        <p th:text="${el.price}"/>
+        <a th:href="'/dish/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br><br>
+        <form th:action="'/dish/' + ${el.id} + '/remove'" method="post">
             <button class="btn btn-warning" type="submit">Удалить</button>
         </form>
         <!--        <a th:href="'/note/' + ${el.id} + '/remove'" class="btn btn-warning">Удалить</a>-->

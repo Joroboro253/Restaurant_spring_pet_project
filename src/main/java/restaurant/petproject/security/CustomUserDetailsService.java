@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import restaurant.petproject.entity.Role;
-import restaurant.petproject.entity.User;
+import restaurant.petproject.entity.UserEntity;
 import restaurant.petproject.repository.UserRepository;
 
 import java.util.Collection;
@@ -22,17 +22,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    // Сделано как загулшка
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-
-        if(user != null) {
-            return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                    user.getPassword(),
-                    mapRolesToAuthorities(user.getRoles()));
-        } else {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
+        return userRepository.findByEmail(email);
     }
 
     private Collection < ? extends GrantedAuthority> mapRolesToAuthorities(Collection <Role> roles) {

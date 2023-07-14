@@ -1,12 +1,10 @@
 package restaurant.petproject.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import restaurant.petproject.dto.UserDto;
 
-import restaurant.petproject.entity.User;
+import restaurant.petproject.entity.UserEntity;
 import restaurant.petproject.entity.Role;
 import restaurant.petproject.repository.RoleRepository;
 import restaurant.petproject.repository.UserRepository;
@@ -36,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(UserDto userDto) {
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
         //encrypt the password using spring security
@@ -51,19 +49,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
     public List<UserDto> findAllUsers() {
-        List<User> users = userRepository.findAll();
+        List<UserEntity> users = userRepository.findAll();
         return users.stream()
                 .map((user) -> convertEntityToDto(user))
                         .collect(Collectors.toList());
     }
 
-    private UserDto convertEntityToDto(User user) {
+    private UserDto convertEntityToDto(UserEntity user) {
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
         userDto.setFirstName(str[0]);

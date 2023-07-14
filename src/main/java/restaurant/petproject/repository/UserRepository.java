@@ -1,9 +1,9 @@
 package restaurant.petproject.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import restaurant.petproject.entity.User;
+import restaurant.petproject.entity.UserEntity;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    User findByEmail(String email);
+    UserEntity findByEmail(String email);
 }

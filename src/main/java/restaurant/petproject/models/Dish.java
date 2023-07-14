@@ -1,13 +1,11 @@
 package restaurant.petproject.models;
 
 import com.sun.istack.NotNull;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import restaurant.petproject.entity.UserEntity;
 
-import javax.annotation.processing.Generated;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -18,12 +16,20 @@ public class Dish {
     private Long id;
 
     @NotNull
-
     private String title;
 
     private String description;
-
     private int price;
+    private LocalDateTime dateOfCreated;
+
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @PrePersist
+    private void onCreate() {
+        dateOfCreated = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -55,6 +61,14 @@ public class Dish {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public Dish(String title, String description, int price) {

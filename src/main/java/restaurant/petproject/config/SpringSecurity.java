@@ -40,6 +40,8 @@ public class SpringSecurity {
                                 .requestMatchers("/dish").permitAll()
                                 .requestMatchers("/add").permitAll()
                                 .requestMatchers("/dish/add").permitAll()
+                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/dish/**").permitAll()
 
                 ).formLogin(
                         form -> form

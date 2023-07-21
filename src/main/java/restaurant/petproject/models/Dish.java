@@ -6,6 +6,8 @@ import lombok.Data;
 import restaurant.petproject.entity.UserEntity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,9 +28,18 @@ public class Dish {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "dish")
+    private List<Image> images = new ArrayList<>();
+    private Long previewImageId;
+
     @PrePersist
     private void onCreate() {
         dateOfCreated = LocalDateTime.now();
+    }
+
+    public void addImageToProduct(Image image) {
+        image.setDish(this);
+        images.add(image);
     }
 
     public Long getId() {

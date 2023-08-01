@@ -1,36 +1,35 @@
-package restaurant.petproject.models;
+package restaurant.petproject.entity;
 
 import com.sun.istack.NotNull;
 import jakarta.persistence.*;
 import lombok.Data;
-import restaurant.petproject.entity.UserEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+// Lombok создаст автоматически геттеры и сеттеры
 @Data
+@Table(name = "dishes")
 @Entity
 public class Dish {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @NotNull
     private String title;
-
     private String description;
     private int price;
-    private LocalDateTime dateOfCreated;
-
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "dish")
     private List<Image> images = new ArrayList<>();
     private Long previewImageId;
+    // cascade = CascadeType.REFRESH // was cascade = CascadeType.ALL
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn
+    private User user;
+    private LocalDateTime dateOfCreated;
+
 
     @PrePersist
     private void onCreate() {
@@ -42,45 +41,7 @@ public class Dish {
         images.add(image);
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
 
     public Dish(String title, String description, int price) {
         this.title = title;
@@ -90,4 +51,6 @@ public class Dish {
 
     public Dish() {
     }
+
+
 }

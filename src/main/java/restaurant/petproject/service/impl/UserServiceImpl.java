@@ -4,7 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import restaurant.petproject.dto.UserDto;
 
-import restaurant.petproject.entity.UserEntity;
+import restaurant.petproject.entity.User;
 import restaurant.petproject.entity.Role;
 import restaurant.petproject.repository.RoleRepository;
 import restaurant.petproject.repository.UserRepository;
@@ -32,9 +32,14 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+//    public boolean createUser(User user) {
+//        String email = user.getEmail();
+//
+//    }
+
     @Override
     public void saveUser(UserDto userDto) {
-        UserEntity user = new UserEntity();
+        User user = new User();
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
         //encrypt the password using spring security
@@ -49,19 +54,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
     public List<UserDto> findAllUsers() {
-        List<UserEntity> users = userRepository.findAll();
+        List<User> users = userRepository.findAll();
         return users.stream()
                 .map((user) -> convertEntityToDto(user))
                         .collect(Collectors.toList());
     }
 
-    private UserDto convertEntityToDto(UserEntity user) {
+    private UserDto convertEntityToDto(User user) {
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
         userDto.setFirstName(str[0]);

@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import restaurant.petproject.entity.Role;
-import restaurant.petproject.entity.UserEntity;
 import restaurant.petproject.repository.UserRepository;
 
 import java.util.Collection;

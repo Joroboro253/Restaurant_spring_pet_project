@@ -1,6 +1,6 @@
 package restaurant.petproject.service;
 
-import restaurant.petproject.models.Dish;
+import restaurant.petproject.entity.Dish;
 
 import java.security.Principal;
 

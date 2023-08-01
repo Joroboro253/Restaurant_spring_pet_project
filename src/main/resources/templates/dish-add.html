@@ -11,12 +11,53 @@
 
 <div content="container mt-5 mv-5" class="row mx-3">
   <h1>Создание нового блюда</h1>
-  <form action="/dish/add" method="post">
 
-    <input type="text" name="title" placeholder="Название блюда" class="form-control"><br>
-    <textarea name="description" placeholder="Описание блюда" class="form-control"></textarea><br>
-    <input type="number" name="price" placeholder="Цена" class="from-control"><br>
+  <form action="/dish/add" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <div class="form-group">
+        <label for="title">Название блюда</label>
+        <input type="text" required class="form-control" id="title" name="title">
+      </div>
+      <div class="form-group">
+        <label for="description">Описание блюда</label>
+        <input type="text" required class="form-control" id="description" name="description">
+      </div>
+      <div class="form-group">
+        <label for="price">Цена</label>
+        <input type="number" required class="form-control" id="price" name="price">
+        <div class="input-group-append">
+          <span class="input-group-text">₴</span>
+        </div>
+      </div>
+      <div class="custom-file">
+        <p>Первая фотография блюда</p>
+        <input type="file" class="form-control" id="image" name="image" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required="required" multiple>
 
+<!--        <input type="file" class="form-control" id="image2" name="image2" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required="required">-->
+<!--        <label class="custom-file-label" for="file1">Первая фотография блюда</label>-->
+      </div>
+      </div>
+<!--      <div class="form-group">-->
+<!--        <div class="custom-file">-->
+<!--          <input required type="file" name="file2" id="file2">-->
+<!--          <label class="custom-file-label" for="file2">Вторая фотография блюда</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <textarea name="description" placeholder="Описание блюда" class="form-control"></textarea><br>-->
+<!--      <input type="number" name="price" placeholder="Цена" class="from-control"><br>-->
+<!--      <div class="form-group">-->
+<!--        <div class="custom-file">-->
+<!--          <input required type="file" name="file1" id="file1">-->
+<!--          <label class="custom-file-label" for="file1">Первая фотография блюда</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <div class="custom-file">-->
+<!--          <input required type="file" name="file2" id="file2">-->
+<!--          <label class="custom-file-label" for="file2">Вторая фотография блюда</label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
     <br><button type="submit" class="btn btn-success">Добавить блюдо</button>
   </form>
 </div>

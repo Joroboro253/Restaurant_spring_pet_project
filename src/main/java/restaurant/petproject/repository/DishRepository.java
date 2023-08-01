@@ -1,8 +1,7 @@
 package restaurant.petproject.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
-import restaurant.petproject.models.Dish;
+import restaurant.petproject.entity.Dish;
 
 import java.util.List;
 

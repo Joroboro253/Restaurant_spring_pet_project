@@ -119,8 +119,16 @@
             <artifactId>hibernate-validator</artifactId>
             <version>8.0.0.Final</version>
         </dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<!-- https://mvnrepository.com/artifact/org.webjars.bower/bootstrap -->
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>5.3.0</version>
+		</dependency>
 
-    </dependencies>
+
+	</dependencies>
 
 	<build>
 		<plugins>

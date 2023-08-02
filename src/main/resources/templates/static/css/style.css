@@ -1,3 +1,31 @@
+/*body{*/
+/*    background-image: url('');*/
+/*}*/
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex: 0 0 auto;
+}
+
 .copyright {
     color: white;
     position: absolute;
@@ -18,8 +46,8 @@
 }
 
 .item-img {
-    width: 250px;
-    height: 190px;
+    width: 100px;
+    height: 2px;
 }
 
 .container {
@@ -32,6 +60,6 @@
 }
 
 .preview_img {
-    width: 100%;
-    height: auto;
+    width: 100px;
+    height: 100px;
 }

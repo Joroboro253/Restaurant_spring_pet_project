@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 public class Dish {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     private String title;
@@ -29,8 +29,6 @@ public class Dish {
     @JoinColumn
     private User user;
     private LocalDateTime dateOfCreated;
-
-
     @PrePersist
     private void onCreate() {
         dateOfCreated = LocalDateTime.now();
@@ -40,17 +38,11 @@ public class Dish {
         image.setDish(this);
         images.add(image);
     }
-
-
-
     public Dish(String title, String description, int price) {
         this.title = title;
         this.description = description;
         this.price = price;
     }
-
     public Dish() {
     }
-
-
 }

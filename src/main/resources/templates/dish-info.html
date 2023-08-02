@@ -29,7 +29,7 @@
         <h1 th:text="${el.title}"/>
         <p th:text="${el.description}"/>
         <p th:text="${el.price}"/>
-        <img th:src="@{${'/display?id=' + el.id}}" alr="">
+        <img class="item-img" th:src="@{${'/display?id=' + el.id}}" alt="Фото блюда">
         <a th:href="'/dish/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br><br>
         <form th:action="'/dish/' + ${el.id} + '/remove'" method="post">
             <button class="btn btn-warning" type="submit">Удалить</button>

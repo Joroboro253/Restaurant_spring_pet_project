@@ -3,6 +3,8 @@ package restaurant.petproject.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +64,16 @@ public class DishController {
 //    }
 //
 
+    // Этот контроллер отвечает за отображение фото
+    @GetMapping("/display")
+    public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
+    {
+        Image image = imageService.viewById(id);
+        byte [] imageBytes = null;
+        imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+    }
+
     @PostMapping("/dish/add")
     public String addImagePost(@RequestParam("image")MultipartFile file, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
         byte[] bytes = file.getBytes();
@@ -94,6 +107,9 @@ public class DishController {
         Image image = imageService.viewById(id);
         byte [] imageBytes = null;
         imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
+
+        String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
+        model.addAttribute("image", encodedImage);
         return "dish-info";
     }
 

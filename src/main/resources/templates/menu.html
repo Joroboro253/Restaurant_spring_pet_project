@@ -18,7 +18,7 @@
     <div th:each="el : ${dish}" class="col-lg-2 col-md-4 col-sm-6 mt-2">
         <div class="card-body alert alert-info">
           <h3 th:text="${el.title}"/>
-          <p th:text="${el.description}"/>
+          <img class="preview_img" th:src="@{${'/display?id=' + el.id}}" alt="Фото блюда"><br>
           <p th:text="${el.price} + ' ₴'"/>
           <a th:href="'/dish/' + ${el.id}" class="btn btn-warning">Детальнее</a>
         </div>

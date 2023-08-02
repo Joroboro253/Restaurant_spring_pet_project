@@ -8,29 +8,29 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 
-<div class="container mt-5">
-
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div th:each="image, stat : ${images}" class="carousel-item" th:classappend="${stat.first}? 'active' : ''">
-                <img th:src="@{/images/{id}(id=${image.id})}" class="d-block w-100" alt="Slide" th:alt="'Slide ' + ${stat.index}">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5 th:text="'Slide ' + ${stat.index}">Slide</h5>
-                    <a th:href="@{/images/{id}(id=${image.id})}">
-                        <img class="product" style="height: 100px" th:src="@{/images/{id}(id=${image.id})}">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
-    <div th:each="el : ${dish}" class="col-lg-2 col-md-4 col-sm-6 mt-2">
+<!--    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">-->
+<!--        <div class="carousel-inner">-->
+<!--            <div th:each="image, stat : ${images}" class="carousel-item" th:classappend="${stat.first}? 'active' : ''">-->
+<!--                <img th:src="@{/images/{id}(id=${image.id})}" class="d-block w-100" alt="Slide" th:alt="'Slide ' + ${stat.index}">-->
+<!--                <div class="carousel-caption d-none d-md-block">-->
+<!--                    <h5 th:text="'Slide ' + ${stat.index}">Slide</h5>-->
+<!--                    <a th:href="@{/images/{id}(id=${image.id})}">-->
+<!--                        <img class="product" style="height: 100px" th:src="@{/images/{id}(id=${image.id})}">-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<div class="container">
+    <div th:each="el : ${dish}" class="card alert alert-info">
         <h1 th:text="${el.title}"/>
         <p th:text="${el.description}"/>
         <p th:text="${el.price}"/>
-        <img class="item-img" th:src="@{${'/display?id=' + el.id}}" alt="Фото блюда">
-        <a th:href="'/dish/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br><br>
+        <img class="item-img" th:src="@{${'/display?id=' + el.id}}" alt="Фото блюда"><br>
+        <a th:href="'/dish/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br>
         <form th:action="'/dish/' + ${el.id} + '/remove'" method="post">
             <button class="btn btn-warning" type="submit">Удалить</button>
         </form>

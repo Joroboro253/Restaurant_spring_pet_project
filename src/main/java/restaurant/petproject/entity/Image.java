@@ -19,7 +19,7 @@ public class Image {
 //    private boolean previewImage;
     @Lob
     private Blob image;
-    private Date date = new Date();
+
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Dish dish;
 
@@ -37,14 +37,6 @@ public class Image {
 
     public void setImage(Blob image) {
         this.image = image;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public Dish getDish() {

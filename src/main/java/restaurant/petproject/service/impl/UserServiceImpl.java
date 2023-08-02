@@ -1,5 +1,7 @@
 package restaurant.petproject.service.impl;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import restaurant.petproject.dto.UserDto;
@@ -18,12 +20,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserServiceImpl implements UserService {
-
-
     private UserRepository userRepository;
-
     private RoleRepository roleRepository;
-
     private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
@@ -31,11 +29,6 @@ public class UserServiceImpl implements UserService {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
-//    public boolean createUser(User user) {
-//        String email = user.getEmail();
-//
-//    }
 
     @Override
     public void saveUser(UserDto userDto) {
@@ -79,5 +72,15 @@ public class UserServiceImpl implements UserService {
         Role role = new Role();
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
+    }
+
+    public User getCurrentUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            //возможно не будет рабоатть в связи с тем, что поиск пл имени пользователя, в у меня по эмейл
+            return userRepository.findByEmail(username);
+        }
+        return null;
     }
 }

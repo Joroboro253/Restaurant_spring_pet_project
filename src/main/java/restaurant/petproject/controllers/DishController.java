@@ -12,7 +12,6 @@ import restaurant.petproject.entity.Dish;
 import restaurant.petproject.entity.Image;
 import restaurant.petproject.entity.User;
 import restaurant.petproject.repository.DishRepository;
-import restaurant.petproject.service.DishService;
 import restaurant.petproject.service.ImageService;
 import restaurant.petproject.service.impl.DishServiceImpl;
 
@@ -45,19 +44,10 @@ public class DishController {
         return "menu";
     }
 
-
-
     @GetMapping("/authorization")
     public String authorizationGet(Model model) {
         return "authorization";
     }
-
-
-
-//    @GetMapping("/dish/add")
-//    public String dishGetAdd(Model model) {
-//        return "addImage";
-//    }
 
     @GetMapping("/dish/add")
     public ModelAndView addImage() {
@@ -72,61 +62,38 @@ public class DishController {
 //
 
     @PostMapping("/dish/add")
-    public String addImagePost(HttpServletRequest request, @RequestParam("image")MultipartFile file, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
-
-
+    public String addImagePost(@RequestParam("image")MultipartFile file, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
         byte[] bytes = file.getBytes();
         Blob blob = new SerialBlob(bytes);
         Image image = new Image();
         image.setImage(blob);
 
-
         imageService.create(image);
-        dishService.saveDish(principal, dish, file);
+        dishService.saveDish(principal, dish, image);
+//        dishRepository.save(dish);
         return "redirect:/menu";
     }
     @GetMapping("/")
-    public ModelAndView home(){
-        ModelAndView mv = new ModelAndView("insex");
-        List<Image> imageList = imageService.viewAll();
-        mv.addObject("imageList", imageList);
-        return mv;
+    public String home(){
+        return "home";
     }
 
-    //    @PostMapping("/dish/add")
-//    public String dishPostAdd(@RequestParam String title, @RequestParam String description, @RequestParam int price, Model model){
-////        Dish dish = new Dish(title, description, price);
-////        dishRepository.save(dish);
-//        return "redirect:/menu";
-////        return "/menu";
-//    }
     @GetMapping("/orders")
     public String orders(Model model) {
         return "orders";
     }
 
-//    @GetMapping("/dish/{id}")
-//    public String dishDetails(@PathVariable Long id, Model model, Principal principal) {
-//        if(!dishRepository.existsById(id)) {
-//            return "redirect:/dish";
-//        }
-//        Optional<Dish> dish = dishRepository.findById(id);
-//        ArrayList<Dish> res = new ArrayList<>();
-////        model.addAttribute("user", dishService.getUserByPrincipal(principal));
-////        model.addAttribute("dish", dish);
-//        dish.ifPresent(res::add);
-//        model.addAttribute("dish", res);
-//        return "dish-info";
-//    }
 
     @GetMapping("/dish/{id}")
-    public String dishInfo(@PathVariable Long id, Model model, Principal principal) {
+    public String dishInfo(@PathVariable Long id, Model model, Principal principal) throws SQLException {
         Dish dish = dishService.getDishById(id);
         model.addAttribute("user", dishService.getUserByPrincipal(principal));
         model.addAttribute("dish", dish);
         model.addAttribute("images", dish.getImages());
         model.addAttribute("authorDish", dish.getUser());
         Image image = imageService.viewById(id);
+        byte [] imageBytes = null;
+        imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
         return "dish-info";
     }
 

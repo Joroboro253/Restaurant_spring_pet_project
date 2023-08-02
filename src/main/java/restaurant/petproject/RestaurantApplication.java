@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 
 @SpringBootApplication
 public class RestaurantApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(RestaurantApplication.class, args);
 	}

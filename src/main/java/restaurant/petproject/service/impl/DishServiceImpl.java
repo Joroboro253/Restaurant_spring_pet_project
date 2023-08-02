@@ -10,6 +10,7 @@ import restaurant.petproject.entity.Image;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.repository.UserRepository;
 import restaurant.petproject.service.DishService;
+import restaurant.petproject.service.ImageService;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class DishServiceImpl implements DishService {
 
     public final DishRepository dishRepository;
     private final UserRepository userRepository;
+    private final ImageService imageService;
 
     public List<Dish> listDishes(String title) {
         if(title != null) return dishRepository.findByTitle(title);
@@ -40,33 +42,18 @@ public class DishServiceImpl implements DishService {
         return dishRepository.findById(id).orElse(null);
     }
 
-    public void saveDish(Principal principal, Dish dish, MultipartFile file) throws IOException, SQLException {
+    public void saveDish(Principal principal, Dish dish, Image image) throws IOException, SQLException {
         User user = getUserByPrincipal(principal);
-
         userRepository.save(user);
-
         dish.setUser(user);
-//        byte[] bytes = file.getBytes();
-//        Blob blob = new SerialBlob(bytes);
-//        Image image = new Image();
-//        image.setImage(blob);
-//        Image image1;
-//        Image image2;
-//        if(file1.getSize() != 0){
-//            image1 = toImageEntity(file1);
-////            image1.setPreviewImage(true);
-//            dish.addImageToProduct(image1);
-//        }
-//        if(file2.getSize() != 0) {
-//            image2 = toImageEntity(file2);
-//            dish.addImageToProduct(image2);
-//        }
-//        if(file3.getSize() != 0) {
-//            image3 = toImageEntity(file3);
-//            dish.addImageToProduct(image3);
-//        }
+
+//        imageService.create(image);
+//        dish.addImageToProduct(image);
+
         log.info("Saving new Product. Title: {}; Author email: {}", dish.getTitle(), dish.getUser().getEmail());
         // Ругается на строку ниже object references an unsaved transient instance - save the transient instance before flushing : restaurant.petproject.entity.Dish.user -> restaurant.petproject.entity.User
+//        userRepository.save(user);
+//        dishRepository.save(dish);
         Dish dishFromDb = dishRepository.save(dish);
         // Строка вызывает ошибку: Index 0 out of bounds for length 0. Убрал так как, есть возможность добавления только одного фото
 //        dishFromDb.setPreviewImageId(dishFromDb.getImages().get(0).getId());
@@ -80,15 +67,15 @@ public class DishServiceImpl implements DishService {
 
     }
 
-//    private Image toImageEntity(MultipartFile file) throws IOException {
-//        Image image = new Image();
-//        image.setName(file.getName());
-//        image.setOriginalFileName(file.getOriginalFilename());
-//        image.setContentType(file.getContentType());
-//        image.setSize(file.getSize());
-//        image.setBytes(file.getBytes());
-//        return image;
-//    }
+    private Image toImageEntity(MultipartFile file) throws IOException, SQLException {
+        byte[] bytes = file.getBytes();
+        Blob blob = new SerialBlob(bytes);
+        Image image = new Image();
+        image.setImage(blob);
+
+        imageService.create(image);
+        return image;
+    }
 
     public void deleteProduct(User user, Long id){
         Dish dish = dishRepository.findById(id).orElse(null);

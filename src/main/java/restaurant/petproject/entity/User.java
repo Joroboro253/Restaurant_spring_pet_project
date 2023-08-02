@@ -30,7 +30,6 @@ public class User implements UserDetails
     private String password;
     private boolean active;
 
-    // повторяющийся код, который будет необходимо удлаить в дальнейшем
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(
 //            name="user_roles",
@@ -38,16 +37,13 @@ public class User implements UserDetails
 //            inverseJoinColumns = {@JoinColumn(name="ROLE_ID", referencedColumnName = "ID")})
     private List<Role> roles = new ArrayList<>();
 
-    //ManyToOne
     @ManyToMany(cascade =  CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Dish> dishes = new ArrayList<>();
-
 
     public boolean isActive() {
         return active;
     }
 
-    // Why null?
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -69,8 +65,6 @@ public class User implements UserDetails
         this.roles = roles;
         this.dishes = dishes;
     }
-
-
 
     @Override
     public String getUsername() {

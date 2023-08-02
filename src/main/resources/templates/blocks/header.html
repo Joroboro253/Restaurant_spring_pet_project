@@ -1,6 +1,6 @@
 <div th:fragment="header">
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-
+<!-- th:if="${users != null}" th:each="user : ${users}-->
     <nav class="my-2 my-md mr-md-3">
       <a class="p-2 text-dark" href="/menu">Меню</a>
       <a class="p-2 text-dark" href="/orders">Мои заказы</a>
@@ -8,6 +8,7 @@
       <a class="p-2 text-dark" href="/">На главную</a> <!--done-->
       <a class="p-2 text-dark" href="/dish/add">Добавить блюдо</a>
       <a class="p-2 text-dark" href="/users">Все пользователи</a>
+<!--      <a class="p-2 text-dark" th:text="${user.firstName}"></a>-->
 
 
     </nav>

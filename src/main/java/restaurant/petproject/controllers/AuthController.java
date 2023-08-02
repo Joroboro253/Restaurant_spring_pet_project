@@ -19,33 +19,21 @@ import java.util.List;
 public class AuthController {
     @Autowired
     private UserService userService;
-
-
-
     public AuthController(UserService userService) {
         this.userService = userService;
     }
     public AuthController() {
     }
 
-    //    При создании без параметров возникает ошибка
-//    public AuthController() {
-//    }
-
-    // Здесь должен быть код для обработки начальной страницы, но он уже есть в классе MainController
     @GetMapping("/index")
     public String home(){
         return "index";
     }
 
-
-
     @GetMapping("/login")
     public String loginForm(){
         return "login";
     }
-
-
 
     //handler method t handle user registration from request
     @GetMapping("register")
@@ -55,8 +43,6 @@ public class AuthController {
         model.addAttribute("user", user);
         return "register";
     }
-
-
 
     //handler method to handle user registration from submit request
     @PostMapping("/register/save")
@@ -84,7 +70,4 @@ public class AuthController {
         model.addAttribute("users", users);
         return "users";
     }
-
-
-
 }

@@ -16,6 +16,7 @@ import restaurant.petproject.entity.User;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.service.ImageService;
 import restaurant.petproject.service.impl.DishServiceImpl;
+import restaurant.petproject.service.impl.ImageServiceImpl;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
@@ -36,7 +37,7 @@ public class DishController {
     @Autowired
     private final DishServiceImpl dishService;
     @Autowired
-    private ImageService imageService;
+    private ImageServiceImpl imageService;
 
     @GetMapping("/menu")
     public String menuMain(Principal principal, Model model){
@@ -62,9 +63,19 @@ public class DishController {
 //        dishService.saveDish(principal, dish, file1, file2);
 //        return "redirect:/menu";
 //    }
-//
 
-    // Этот контроллер отвечает за отображение фото
+
+    @PostMapping("/dish/add")
+    public String addImagePost(@RequestParam("image")MultipartFile[] files, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
+        List<Image> images = imageService.fromFileToImage(files);
+        for (Image image : images) {
+            imageService.create(image);
+        }
+//        dishRepository.save(dish);
+        dishService.saveDish(principal, dish, images);
+        return "redirect:/menu";
+    }
+
     @GetMapping("/display")
     public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
     {
@@ -72,19 +83,6 @@ public class DishController {
         byte [] imageBytes = null;
         imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
-    }
-
-    @PostMapping("/dish/add")
-    public String addImagePost(@RequestParam("image")MultipartFile file, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
-        byte[] bytes = file.getBytes();
-        Blob blob = new SerialBlob(bytes);
-        Image image = new Image();
-        image.setImage(blob);
-
-        imageService.create(image);
-        dishService.saveDish(principal, dish, image);
-//        dishRepository.save(dish);
-        return "redirect:/menu";
     }
     @GetMapping("/")
     public String home(){
@@ -126,20 +124,22 @@ public class DishController {
     }
 
     @PostMapping("/dish/{id}/edit")
-    public String dishPostUpdate(@PathVariable(value = "id") long id, @RequestParam("image")MultipartFile file, @RequestParam Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price, Model model) throws IOException, SQLException {
+    public String dishPostUpdate(@PathVariable(value = "id") long id, @RequestParam("image")MultipartFile file, @RequestParam Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price) throws IOException, SQLException {
         Dish dish = dishRepository.findById(id).orElseThrow();
         dish.setTitle(title);
         dish.setDescription(description);
         dish.setPrice(price);
 
 
-        byte[] bytes = file.getBytes();
-        Blob blob = new SerialBlob(bytes);
-        Image image = new Image();
-        image.setImage(blob);
+            byte[] bytes = file.getBytes();
+            Blob blob = new SerialBlob(bytes);
+            Image image = new Image();
+            image.setImage(blob);
 
-        imageService.create(image);
-        dishService.saveDish(principal, dish, image);
+            imageService.create(image);
+//            dish.setImages(image);
+
+//        dishService.saveDish(principal, dish, image);
 
         return "redirect:/menu";
     }

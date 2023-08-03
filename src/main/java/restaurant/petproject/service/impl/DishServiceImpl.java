@@ -42,21 +42,18 @@ public class DishServiceImpl implements DishService {
         return dishRepository.findById(id).orElse(null);
     }
 
-    public void saveDish(Principal principal, Dish dish, Image image) throws IOException, SQLException {
+    public void saveDish(Principal principal, Dish dish, List<Image> images) throws IOException, SQLException {
         User user = getUserByPrincipal(principal);
         userRepository.save(user);
         dish.setUser(user);
+        for (Image image : images) {
+            dish.addImageToProduct(image);
+        }
 
-//        imageService.create(image);
-//        dish.addImageToProduct(image);
 
         log.info("Saving new Product. Title: {}; Author email: {}", dish.getTitle(), dish.getUser().getEmail());
-        // Ругается на строку ниже object references an unsaved transient instance - save the transient instance before flushing : restaurant.petproject.entity.Dish.user -> restaurant.petproject.entity.User
-//        userRepository.save(user);
-//        dishRepository.save(dish);
         Dish dishFromDb = dishRepository.save(dish);
-        // Строка вызывает ошибку: Index 0 out of bounds for length 0. Убрал так как, есть возможность добавления только одного фото
-//        dishFromDb.setPreviewImageId(dishFromDb.getImages().get(0).getId());
+        dishFromDb.setPreviewImageId(dishFromDb.getImages().get(0).getId());
         dishRepository.save(dish);
     }
 

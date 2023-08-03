@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     //handler method t handle user registration from request
-    @GetMapping("register")
+    @GetMapping("/register")
     public String showRegistrationFrom(Model model){
         //create model object to store form data
         UserDto user = new UserDto();

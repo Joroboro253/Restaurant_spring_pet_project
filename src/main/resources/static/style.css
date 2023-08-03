@@ -1,0 +1,87 @@
+body{
+    background-image: url('images/background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, p, span {
+    color: rgb(10, 150, 180);
+}
+
+html,
+body {
+    height: 100%;
+}
+
+th, td {
+    color: rgb(10, 150, 180);
+}
+
+
+.wrapper {
+    position: relative;
+    min-height: 100%;
+}
+
+.content {
+    padding-bottom: 90px;
+}
+
+.footer {
+    /*flex: 0 0 auto;*/
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 80px;
+    background: transparent;
+}
+
+.copyright {
+    color: white;
+    position: absolute;
+    width: 132px;
+    height: 28px;
+
+    /*font-family: 'Nunito', serif;*/
+    font-style: normal;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 14px;
+
+    /*color: #D6D6DD;*/
+}
+
+.card {
+    background-color: aquamarine;
+    width: 50%;
+}
+
+.login-card {
+    background-color: aquamarine;
+    width: 100%;
+}
+
+.item-img {
+    width: 100px;
+    height: 50px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.preview_img {
+    width: 100px;
+    height: 100px;
+}

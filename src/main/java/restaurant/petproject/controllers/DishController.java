@@ -126,12 +126,20 @@ public class DishController {
     }
 
     @PostMapping("/dish/{id}/edit")
-    public String dishPostUpdate(@PathVariable(value = "id") long id, @RequestParam String title, @RequestParam String description, @RequestParam int price, Model model) {
+    public String dishPostUpdate(@PathVariable(value = "id") long id, @RequestParam("image")MultipartFile file, @RequestParam Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price, Model model) throws IOException, SQLException {
         Dish dish = dishRepository.findById(id).orElseThrow();
         dish.setTitle(title);
         dish.setDescription(description);
         dish.setPrice(price);
-        dishRepository.save(dish);
+
+
+        byte[] bytes = file.getBytes();
+        Blob blob = new SerialBlob(bytes);
+        Image image = new Image();
+        image.setImage(blob);
+
+        imageService.create(image);
+        dishService.saveDish(principal, dish, image);
 
         return "redirect:/menu";
     }

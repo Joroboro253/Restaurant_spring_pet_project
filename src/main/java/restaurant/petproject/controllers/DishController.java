@@ -69,6 +69,7 @@ public class DishController {
     public String addImagePost(@RequestParam("image")MultipartFile[] files, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
         List<Image> images = imageService.fromFileToImage(files);
         for (Image image : images) {
+//            dish.setPreviewImageId(image.getId());
             imageService.create(image);
         }
 //        dishRepository.save(dish);

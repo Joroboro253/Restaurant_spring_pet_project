@@ -16,7 +16,7 @@ public class Image {
 //    private String originalFileName;
 //    private Long size;
 //    private String contentType;
-//    private boolean previewImage;
+    private boolean previewImage;
     @Lob
     private Blob image;
 
@@ -45,5 +45,13 @@ public class Image {
 
     public void setDish(Dish dish) {
         this.dish = dish;
+    }
+
+    public boolean isPreviewImage() {
+        return previewImage;
+    }
+
+    public void setPreviewImage(boolean previewImage) {
+        this.previewImage = previewImage;
     }
 }

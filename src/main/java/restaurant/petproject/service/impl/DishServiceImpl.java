@@ -50,6 +50,8 @@ public class DishServiceImpl implements DishService {
             dish.addImageToProduct(image);
         }
 
+//        dish.setPreviewImageId(0L);
+
 
         log.info("Saving new Product. Title: {}; Author email: {}", dish.getTitle(), dish.getUser().getEmail());
         Dish dishFromDb = dishRepository.save(dish);

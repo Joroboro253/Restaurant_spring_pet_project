@@ -7,38 +7,50 @@
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 <header th:insert="blocks/header :: header"></header>
-
-
-
-<!--    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">-->
-<!--        <div class="carousel-inner">-->
-<!--            <div th:each="image, stat : ${images}" class="carousel-item" th:classappend="${stat.first}? 'active' : ''">-->
-<!--                <img th:src="@{/images/{id}(id=${image.id})}" class="d-block w-100" alt="Slide" th:alt="'Slide ' + ${stat.index}">-->
-<!--                <div class="carousel-caption d-none d-md-block">-->
-<!--                    <h5 th:text="'Slide ' + ${stat.index}">Slide</h5>-->
-<!--                    <a th:href="@{/images/{id}(id=${image.id})}">-->
-<!--                        <img class="product" style="height: 100px" th:src="@{/images/{id}(id=${image.id})}">-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 
 <div class="container">
     <div th:each="el : ${dish}" class="card alert alert-info">
         <h1 th:text="${el.title}"/>
         <p th:text="${el.description}"/>
         <p th:text="${el.price}"/>
-        <div th:each="image : ${images}">
-            <img class="item-img" th:src="@{${'/display?id=' + image.id}}" alt="Фото блюда" width="300" height="300"><br>
+
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li th:each="image, stat : ${images}" data-target="#myCarousel" th:data-slide-to="${stat.index}" th:class="${stat.first} ? 'active' : ''"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div th:each="image, state : ${images}" th:classappend="${state.first} ? active : ''" class="carousel-item">
+                    <div class="container">
+                        <div class="carousel-caption" style="position: relative; z-index: 1;">
+                            <img class="dish" style="height: 100px" alt="Первый слайд" th:src="@{'/display?id=' + ${image.id}}"/>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+            <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only" style="color: black">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only" style="color: black">Next</span>
+            </a><br>
         </div>
         <a th:href="'/dish/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br>
         <form th:action="'/dish/' + ${el.id} + '/remove'" method="post">
             <button class="btn btn-warning" type="submit">Удалить</button>
         </form>
     </div>
-        <!--        <a th:href="'/note/' + ${el.id} + '/remove'" class="btn btn-warning">Удалить</a>-->
 </div>
 
 <div th:insert="blocks/footer :: footer"></div>

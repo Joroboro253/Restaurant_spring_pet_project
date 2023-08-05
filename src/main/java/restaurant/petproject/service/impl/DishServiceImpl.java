@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,54 +28,66 @@ public class DishServiceImpl implements DishService {
 
     public final DishRepository dishRepository;
     private final UserRepository userRepository;
-    private final ImageService imageService;
+    private final ImageServiceImpl imageService;
 
     public List<Dish> listDishes(String title) {
         if(title != null) return dishRepository.findByTitle(title);
         return dishRepository.findAll();
     }
 
-    public void saveDish(Principal principal, Dish dish) throws Exception {
-        dish.setUser(getUserByPrincipal(principal));
-    }
+//    public void saveDish(Principal principal, Dish dish) throws Exception {
+//        dish.setUser(getUserByPrincipal(principal));
+//    }
 
     @Override
     public Dish getDishById(Long id) {
         return dishRepository.findById(id).orElse(null);
     }
 
-    public void saveDish(Principal principal, Dish dish, List<Image> images) throws IOException, SQLException {
-        User user = getUserByPrincipal(principal);
+//    , List<Image> images
+    public void saveDish(Principal principal, Dish dish) throws IOException, SQLException {
+        Optional<User> optionalUser = getUserByPrincipal(principal);
+        System.out.println(optionalUser);
+        if (optionalUser.isEmpty()) {
+            throw new IllegalStateException("User not found");
+        }
+        User user = optionalUser.get();
         userRepository.save(user);
         dish.setUser(user);
-        for (Image image : images) {
-            dish.addImageToProduct(image);
-        }
-
-//        dish.setPreviewImageId(0L);
-
-
+//        for (Image image : images) {
+//            dish.addImageToProduct(image);
+//        }
         log.info("Saving new Product. Title: {}; Author email: {}", dish.getTitle(), dish.getUser().getEmail());
         Dish dishFromDb = dishRepository.save(dish);
         dishFromDb.setPreviewImageId(dishFromDb.getImages().get(0).getId());
         dishRepository.save(dish);
     }
 
+    // Principal не доходит до этого метода
     @Override
-    public User getUserByPrincipal(Principal principal) {
-        if(principal == null) return new User();
-        return userRepository.findByEmail(principal.getName());
+    public Optional<User> getUserByPrincipal(Principal principal) {
+//        if(principal == null) return new User();
+//        return userRepository.findByEmail(principal.getName());
+        if(principal == null) return Optional.empty();
+//        log.info("Returning userRepository.findByEmail(principal.getName())", userRepository.findByEmail(principal.getName()));
+        return Optional.ofNullable(userRepository.findByEmail(principal.getName()));
 
     }
 
-    private Image toImageEntity(MultipartFile file) throws IOException, SQLException {
-        byte[] bytes = file.getBytes();
-        Blob blob = new SerialBlob(bytes);
-        Image image = new Image();
-        image.setImage(blob);
+    private List<Image> toImageEntity(MultipartFile[] files) throws IOException, SQLException {
+        Image image = null;
+        List<Image> images = new ArrayList<>();
+        for(MultipartFile file : files) {
+            byte[] bytes = file.getBytes();
+            Blob blob = new SerialBlob(bytes);
+            image = new Image();
+            image.setImage(blob);
+            images.add(image);
+        }
+
 
         imageService.create(image);
-        return image;
+        return images;
     }
 
     public void deleteProduct(User user, Long id){
@@ -89,4 +103,22 @@ public class DishServiceImpl implements DishService {
             log.error("Dish with id = {} is not found", id);
         }
     }
+
+    public Dish updateDishImages(Dish dish, MultipartFile[] files) throws IOException, SQLException {
+        // Deleting old images
+        for (Image oldImage : dish.getImages()) {
+            imageService.delete(oldImage);
+        }
+        //Adding new images
+        List<Image> newImages = toImageEntity(files);
+        for (Image newImage : newImages) {
+            imageService.create(newImage);
+            dish.addImageToProduct(newImage);
+        }
+        dishRepository.save(dish);
+
+        return dish;
+    }
+
+
 }

@@ -33,6 +33,8 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.findById(id).get();
     }
 
+
+
     public List<Image> fromFileToImage(MultipartFile[] files) throws IOException, SQLException {
         List<Image> images = new ArrayList<>();
         for (MultipartFile file : files) {
@@ -43,5 +45,10 @@ public class ImageServiceImpl implements ImageService {
             images.add(image);
         }
         return images;
+    }
+
+
+    public void delete(Image image) {
+        imageRepository.delete(image);
     }
 }

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class DishController {
     @GetMapping("/menu")
     public String menuMain(Principal principal, Model model){
         Iterable<Dish> dishes = dishRepository.findAll();
-        User user = dishService.getUserByPrincipal(principal);
+        Optional<User> user = dishService.getUserByPrincipal(principal);
         model.addAttribute("user", user);
         model.addAttribute("dish", dishes);
         return "menu";
@@ -67,13 +68,12 @@ public class DishController {
 
     @PostMapping("/dish/add")
     public String addImagePost(@RequestParam("image")MultipartFile[] files, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
-        List<Image> images = imageService.fromFileToImage(files);
-        for (Image image : images) {
-//            dish.setPreviewImageId(image.getId());
-            imageService.create(image);
-        }
+//        List<Image> images = imageService.fromFileToImage(files);
+        Dish updatedDish = dishService.updateDishImages(dish, files);
 //        dishRepository.save(dish);
-        dishService.saveDish(principal, dish, images);
+//        зменить обратнго
+//        dishService.saveDish(principal, dish, images);
+        dishService.saveDish(principal, updatedDish);
         return "redirect:/menu";
     }
 
@@ -117,6 +117,8 @@ public class DishController {
         if(!dishRepository.existsById(id)) {
             return "redirect:/menu";
         }
+
+
         Optional<Dish> dish = dishRepository.findById(id);
         ArrayList<Dish> res = new ArrayList<>();
         dish.ifPresent(res::add);
@@ -125,23 +127,13 @@ public class DishController {
     }
 
     @PostMapping("/dish/{id}/edit")
-    public String dishPostUpdate(@PathVariable(value = "id") long id, @RequestParam("image")MultipartFile file, @RequestParam Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price) throws IOException, SQLException {
-        Dish dish = dishRepository.findById(id).orElseThrow();
-        dish.setTitle(title);
-        dish.setDescription(description);
-        dish.setPrice(price);
-
-
-            byte[] bytes = file.getBytes();
-            Blob blob = new SerialBlob(bytes);
-            Image image = new Image();
-            image.setImage(blob);
-
-            imageService.create(image);
-//            dish.setImages(image);
-
-//        dishService.saveDish(principal, dish, image);
-
+    public String dishPostUpdate(@PathVariable(value = "id") long id,  @RequestParam("image")MultipartFile[] files, Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price) throws IOException, SQLException {
+        Dish currentDish = new Dish(title, description, price);
+            Dish updatedDish = dishService.updateDishImages(currentDish, files);
+//        dishRepository.save(dish);
+//        зменить обратнго
+//        dishService.saveDish(principal, dish, images);
+        dishService.saveDish(principal, updatedDish);
         return "redirect:/menu";
     }
 

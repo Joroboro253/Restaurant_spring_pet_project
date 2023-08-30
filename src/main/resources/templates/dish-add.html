@@ -11,20 +11,20 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div content="container mt-5 mv-5" class="row mx-3">
-  <h1>Создание нового блюда</h1>
+  <h1 class="text-white">Создание нового блюда</h1>
 
   <form action="/dish/add" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <div class="form-group">
-        <label for="title">Название блюда</label>
+        <label for="title" class="text-white">Название блюда</label>
         <input type="text" required class="form-control" id="title" name="title">
       </div>
       <div class="form-group">
-        <label for="description">Описание блюда</label>
+        <label for="description" class="text-white">Описание блюда</label>
         <input type="text" required class="form-control" id="description" name="description">
       </div>
       <div class="form-group">
-        <label for="price">Цена</label>
+        <label for="price" class="text-white">Цена</label>
         <div class="input-group">
           <input type="number" required class="form-control" id="price" name="price">
           <div class="input-group-append">
@@ -35,7 +35,7 @@
 
     </div>
       <div class="custom-file">
-        <p>Загрузите фотографии блюда (2)</p>
+        <p class="text-white">Загрузите фотографии блюда</p>
 <!--        multiple-->
         <input type="file" class="form-control" id="image" name="image" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required="required" multiple>
 

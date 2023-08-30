@@ -24,21 +24,21 @@
 
 <div class="container">
   <div class="row">
-    <h1> Зарегестрированные пользыватели </h1>
+    <h1 class="text-white"> Зарегестрированные пользыватели </h1>
   </div>
   <table class="table table-striped table-bordered table-hover">
-    <thead class="table-dark">
+    <thead class="white-dark">
     <tr>
-      <th>Имя</th>
-      <th>Фамилия</th>
-      <th>Почта</th>
+      <th class="text-white">Имя</th>
+      <th class="text-white">Фамилия</th>
+      <th class="text-white">Почта</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user: ${users}">
-      <td th:text="${user.firstName}"></td>
-      <td th:text="${user.lastName}"></td>
-      <td th:text="${user.email}"></td>
+    <tr th:each="user: ${users}" class="text-white">
+      <td th:text="${user.firstName}" class="text-white"></td>
+      <td th:text="${user.lastName}" class="text-white"></td>
+      <td th:text="${user.email}" class="text-white"></td>
     </tr>
     </tbody>
   </table>

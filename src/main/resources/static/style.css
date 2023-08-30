@@ -33,8 +33,12 @@ th, td {
     padding-bottom: 90px;
 }
 
+.footer-p {
+    color: aliceblue;
+}
+
 .footer {
-    /*flex: 0 0 auto;*/
+    flex: 0 0 auto;
     display: flex;
     justify-content: space-between;
     position: absolute;
@@ -44,7 +48,18 @@ th, td {
     width: 100%;
     height: 80px;
     background: transparent;
+
+
 }
+
+.header {
+    background-color: rgb(46, 50, 53);
+}
+
+.head-text {
+    text-decoration: none;
+}
+
 
 .copyright {
     color: white;

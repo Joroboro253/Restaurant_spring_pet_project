@@ -74,21 +74,16 @@ public class DishServiceImpl implements DishService {
 
     }
 
-    private List<Image> toImageEntity(MultipartFile[] files) throws IOException, SQLException {
-        Image image = null;
-        List<Image> images = new ArrayList<>();
-        for(MultipartFile file : files) {
-            byte[] bytes = file.getBytes();
-            Blob blob = new SerialBlob(bytes);
-            image = new Image();
-            image.setImage(blob);
-            images.add(image);
-        }
-
-
-        imageService.create(image);
-        return images;
+    private Image toImageEntity(MultipartFile file) throws IOException {
+        Image image = new Image();
+        image.setName(file.getName());
+        image.setOriginalFileName(file.getOriginalFilename());
+        image.setContentType(file.getContentType());
+        image.setSize(file.getSize());
+        image.setBytes(file.getBytes());
+        return image;
     }
+
 
     public void deleteProduct(User user, Long id){
         Dish dish = dishRepository.findById(id).orElse(null);
@@ -104,13 +99,13 @@ public class DishServiceImpl implements DishService {
         }
     }
 
-    public Dish updateDishImages(Dish dish, MultipartFile[] files) throws IOException, SQLException {
+    public Dish updateDishImages(Dish dish, MultipartFile files) throws IOException, SQLException {
         // Deleting old images
         for (Image oldImage : dish.getImages()) {
             imageService.delete(oldImage);
         }
         //Adding new images
-        List<Image> newImages = toImageEntity(files);
+        List<Image> newImages = (List<Image>) toImageEntity(files);
         for (Image newImage : newImages) {
             imageService.create(newImage);
             dish.addImageToProduct(newImage);

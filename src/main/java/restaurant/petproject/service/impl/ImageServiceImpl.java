@@ -35,17 +35,17 @@ public class ImageServiceImpl implements ImageService {
 
 
 
-    public List<Image> fromFileToImage(MultipartFile[] files) throws IOException, SQLException {
-        List<Image> images = new ArrayList<>();
-        for (MultipartFile file : files) {
-            byte[] bytes = file.getBytes();
-            Blob blob = new SerialBlob(bytes);
-            Image image = new Image();
-            image.setImage(blob);
-            images.add(image);
-        }
-        return images;
-    }
+//    public List<Image> fromFileToImage(MultipartFile[] files) throws IOException, SQLException {
+//        List<Image> images = new ArrayList<>();
+//        for (MultipartFile file : files) {
+//            byte[] bytes = file.getBytes();
+//            Blob blob = new SerialBlob(bytes);
+//            Image image = new Image();
+//            image.setImage(blob);
+//            images.add(image);
+//        }
+//        return images;
+//    }
 
 
     public void delete(Image image) {

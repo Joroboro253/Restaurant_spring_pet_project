@@ -67,7 +67,7 @@ public class DishController {
 
 
     @PostMapping("/dish/add")
-    public String addImagePost(@RequestParam("image")MultipartFile files, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
+    public String addImagePost(@RequestParam("image")MultipartFile[] files, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
 //        List<Image> images = imageService.fromFileToImage(files);
         Dish updatedDish = dishService.updateDishImages(dish, files);
 //        dishRepository.save(dish);
@@ -76,6 +76,17 @@ public class DishController {
         dishService.saveDish(principal, updatedDish);
         return "redirect:/menu";
     }
+
+    @GetMapping("/display")
+    public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
+    {
+        Image image = imageService.viewById(id);
+        byte [] imageBytes = null;
+        imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+    }
+
+
 
 //    @GetMapping("/display")
 //    public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
@@ -105,8 +116,7 @@ public class DishController {
         model.addAttribute("authorDish", dish.getUser());
         Image image = imageService.viewById(id);
         byte [] imageBytes = null;
-// Решаем позже
-//        imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
+        imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
 
         String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
         model.addAttribute("image", encodedImage);
@@ -128,7 +138,7 @@ public class DishController {
     }
 
     @PostMapping("/dish/{id}/edit")
-    public String dishPostUpdate(@PathVariable(value = "id") long id,  @RequestParam("image")MultipartFile files, Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price) throws IOException, SQLException {
+    public String dishPostUpdate(@PathVariable(value = "id") long id,  @RequestParam("image")MultipartFile[] files, Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price) throws IOException, SQLException {
         Dish currentDish = new Dish(title, description, price);
             Dish updatedDish = dishService.updateDishImages(currentDish, files);
 //        dishRepository.save(dish);

@@ -1,19 +1,25 @@
 package restaurant.petproject.entity;
 
 import jakarta.persistence.*;
+import restaurant.petproject.entity.Dish;
+
+import java.sql.Blob;
+import java.util.Date;
 
 @Entity
+@Table(name = "images_table")
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String originalFileName;
-    private Long size;
-    private String contentType;
+    //    private String name;
+//    private String originalFileName;
+//    private Long size;
+//    private String contentType;
     private boolean previewImage;
     @Lob
-    private byte[] bytes;
+    private Blob image;
+
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Dish dish;
 
@@ -25,52 +31,12 @@ public class Image {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Blob getImage() {
+        return image;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getOriginalFileName() {
-        return originalFileName;
-    }
-
-    public void setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public boolean isPreviewImage() {
-        return previewImage;
-    }
-
-    public void setPreviewImage(boolean previewImage) {
-        this.previewImage = previewImage;
-    }
-
-    public byte[] getBytes() {
-        return bytes;
-    }
-
-    public void setBytes(byte[] bytes) {
-        this.bytes = bytes;
+    public void setImage(Blob image) {
+        this.image = image;
     }
 
     public Dish getDish() {
@@ -79,5 +45,13 @@ public class Image {
 
     public void setDish(Dish dish) {
         this.dish = dish;
+    }
+
+    public boolean isPreviewImage() {
+        return previewImage;
+    }
+
+    public void setPreviewImage(boolean previewImage) {
+        this.previewImage = previewImage;
     }
 }

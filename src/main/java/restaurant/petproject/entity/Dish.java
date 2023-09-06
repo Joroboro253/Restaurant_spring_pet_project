@@ -6,7 +6,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // Lombok создаст автоматически геттеры и сеттеры
 @Data
@@ -29,6 +31,14 @@ public class Dish {
     @JoinColumn
     private User user;
     private LocalDateTime dateOfCreated;
+    // Новая система с реализацией скидок
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Coupon discount;
+    // Добавление категорий в код
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "dish_category", joinColumns = {
+            @JoinColumn(name = "dish_id", referencedColumnName = "id")})
+    private Set<Category> categories = new HashSet<>();
     @PrePersist
     private void onCreate() {
         dateOfCreated = LocalDateTime.now();

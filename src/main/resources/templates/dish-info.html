@@ -47,9 +47,11 @@
 <!--            </a><br>-->
         </div>
         <a th:href="'/dish/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br>
-        <form th:action="'/dish/' + ${el.id} + '/remove'" method="post">
-            <button class="btn btn-warning" type="submit">Удалить</button>
+        <form th:action="'/dish/' + ${el.id} + '/remove'" method="post" class="btn btn-warning">
+            <button class="btn btn-warning" type="button">Удалить</button>
         </form>
+        <br>
+        <button class="btn btn-warning" type="button">Купить</button>
     </div>
 </div>
 

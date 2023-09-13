@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
+@Entity
 public class Carousel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

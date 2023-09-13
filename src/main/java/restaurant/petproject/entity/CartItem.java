@@ -40,6 +40,15 @@ public class CartItem {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public Dish getDish() {
+        return dish;
+    }
+
+    public void setDish(Dish dish) {
+        this.dish = dish;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

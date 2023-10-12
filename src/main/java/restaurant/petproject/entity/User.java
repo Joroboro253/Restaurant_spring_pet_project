@@ -31,10 +31,10 @@ public class User implements UserDetails
     private boolean active;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name="user_roles",
-//            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName = "ID")},
-//            inverseJoinColumns = {@JoinColumn(name="ROLE_ID", referencedColumnName = "ID")})
+    @JoinTable(
+            name="user_roles",
+            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name="ROLE_ID", referencedColumnName = "ID")})
     private List<Role> roles = new ArrayList<>();
 
     @ManyToMany(cascade =  CascadeType.ALL, fetch = FetchType.EAGER)
@@ -46,7 +46,7 @@ public class User implements UserDetails
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurity {
     @Autowired
     private UserDetailsService userDetailsService;
@@ -30,13 +32,13 @@ public class SpringSecurity {
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/menu").permitAll()
-                                .requestMatchers("/orders").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/orders").permitAll()
                                 .requestMatchers("/authorization").permitAll()
                                 .requestMatchers("/").permitAll()
-                                .requestMatchers("/users").permitAll()
+                                .requestMatchers("/users").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers("/dish").permitAll()
                                 .requestMatchers("/add").permitAll()
-                                .requestMatchers("/dish/add").permitAll()
+                                .requestMatchers("/dish/add").hasAuthority("ROLE_ADMIN")
                                 .requestMatchers("/**").permitAll()
                                 .requestMatchers("/dish/**").permitAll()
                                 .requestMatchers("/images/**").permitAll()
@@ -45,7 +47,7 @@ public class SpringSecurity {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users")
+                                .defaultSuccessUrl("/menu")
                                 .permitAll()
                 ).logout(
                         logout -> logout

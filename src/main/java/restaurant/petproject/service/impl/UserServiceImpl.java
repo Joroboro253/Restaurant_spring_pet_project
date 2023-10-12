@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // Только первый юзер с ид = 1 будет иметь роль админ
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
@@ -38,11 +39,34 @@ public class UserServiceImpl implements UserService {
         //encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
-        if(role == null){
-            role = checkRoleExist();
+        // If it is first user -> user admin else user
+        Role role;
+
+        // проверка, первый ли это пользователь
+        long userCount = userRepository.count();
+        if(userCount == 0) {
+            role = roleRepository.findByName("ROLE_ADMIN");
+            if(role == null) {
+                role = new Role();
+                role.setName("ROLE_ADMIN");
+                roleRepository.save(role);
+            }
+//            role.setName("ROLE_ADMIN");
+
+        } else {
+            role = roleRepository.findByName("ROLE_USER");
+            if(role == null) {
+                role = new Role();
+                role.setName("ROLE_USER");
+                role.setName("ROLE_USER");
+            }
+//            role.setName("ROLE_USER");
+
         }
+
+
         user.setRoles(Arrays.asList(role));
+
         userRepository.save(user);
     }
 

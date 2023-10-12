@@ -23,7 +23,7 @@ public class User implements UserDetails
     private Long id;
     @Column(nullable = false, unique = true)
     private String email;
-    private String phoneNumber;
+//    private String phoneNumber;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)

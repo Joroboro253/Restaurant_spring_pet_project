@@ -54,29 +54,6 @@ public class DishController {
         return "authorization";
     }
 
-    @GetMapping("/dish/add")
-    public ModelAndView addImage() {
-        return new ModelAndView("dish-add");
-    }
-
-    //    @PostMapping("/dish/add")
-//    public String dishPostAdd(@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2, Dish dish, Principal principal) throws IOException {
-//        dishService.saveDish(principal, dish, file1, file2);
-//        return "redirect:/menu";
-//    }
-
-
-    @PostMapping("/dish/add")
-    public String addImagePost(@RequestParam("image")MultipartFile[] files, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
-//        List<Image> images = imageService.fromFileToImage(files);
-        Dish updatedDish = dishService.updateDishImages(dish, files);
-//        dishRepository.save(dish);
-//        зменить обратнго
-//        dishService.saveDish(principal, dish, images);
-        dishService.saveDish(principal, updatedDish);
-        return "redirect:/menu";
-    }
-
     @GetMapping("/display")
     public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
     {
@@ -85,8 +62,6 @@ public class DishController {
         imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
-
-
 
 //    @GetMapping("/display")
 //    public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
@@ -100,12 +75,6 @@ public class DishController {
     public String home(){
         return "home";
     }
-
-    @GetMapping("/orders")
-    public String orders(Model model) {
-        return "orders";
-    }
-
 
     @GetMapping("/dish/{id}")
     public String dishInfo(@PathVariable Long id, Model model, Principal principal) throws SQLException {
@@ -122,49 +91,4 @@ public class DishController {
         model.addAttribute("image", encodedImage);
         return "dish-info";
     }
-
-    @GetMapping("/dish/{id}/edit")
-    public String dishEdit(@PathVariable(value = "id") long id, Model model) {
-        if(!dishRepository.existsById(id)) {
-            return "redirect:/menu";
-        }
-
-
-        Optional<Dish> dish = dishRepository.findById(id);
-        ArrayList<Dish> res = new ArrayList<>();
-        dish.ifPresent(res::add);
-        model.addAttribute("dish", res);
-        return "dish-edit";
-    }
-
-    @PostMapping("/dish/{id}/edit")
-    public String dishPostUpdate(@PathVariable(value = "id") long id,  @RequestParam("image")MultipartFile[] files, Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price) throws IOException, SQLException {
-        Dish currentDish = new Dish(title, description, price);
-            Dish updatedDish = dishService.updateDishImages(currentDish, files);
-//        dishRepository.save(dish);
-//        зменить обратнго
-//        dishService.saveDish(principal, dish, images);
-        dishService.saveDish(principal, updatedDish);
-        return "redirect:/menu";
-    }
-
-
-    @PostMapping("/dish/{id}/remove")
-    public String dishPostDelete(@PathVariable(value = "id") long id, Model model) {
-        Dish dish = dishRepository.findById(id).orElseThrow();
-        dishRepository.delete(dish);
-
-        return "redirect:/menu";
-    }
-
-    @GetMapping("/dish/{id}/remove")
-    public String dishGetDelete(@PathVariable(value = "id") long id, Model model){
-        return "/menu";
-    }
-
-
-
-
-
-
 }

@@ -49,11 +49,11 @@
         <a th:href="'/dish/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br>
 
         <form th:action="'/dish/' + ${el.id} + '/remove'" method="post" class="btn btn-warning">
-            <button class="btn btn-warning" type="button">Удалить</button>
+            <button class="btn btn-warning" type="submit">Удалить</button>
         </form>
-        <br>
-        <button class="btn btn-warning" type="button">Купить</button>
-    </div>
+<br>
+<button class="btn btn-warning" type="button">Купить</button>
+</div>
 </div>
 
 <div th:insert="blocks/footer :: footer"></div>

@@ -19,7 +19,7 @@
         <div class="card-body my-card">
             <img class="preview_img" th:src="@{${'/display?id=' + el.getPreviewImageId()}}" alt="Фото блюда"><br>
             <p th:text="${el.title}"/>
-            <p>Цена: <span th:text="${el.price} + '₴'"></span></p>
+            <p>Цена: <span th:text="${el.price} + ' UAH'"></span></p>
             <a th:href="'/dish/' + ${el.id}" class="btn">Детальнее</a>
         </div>
     </div>

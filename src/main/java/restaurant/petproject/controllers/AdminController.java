@@ -64,7 +64,7 @@ public class AdminController {
     }
 
     @PostMapping("/dish/{id}/edit")
-    public String dishPostUpdate(@PathVariable(value = "id") long id,  @RequestParam("image")MultipartFile[] files, Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam Double price) throws IOException, SQLException {
+    public String dishPostUpdate(@PathVariable(value = "id") long id,  @RequestParam("image")MultipartFile[] files, Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price) throws IOException, SQLException {
         Dish currentDish = new Dish(title, description, price);
         Dish updatedDish = dishService.updateDishImages(currentDish, files);
         dishService.saveDish(principal, updatedDish);
@@ -116,7 +116,7 @@ public class AdminController {
 
     @PostMapping("/Admin/changePrice")
     public String changePrice(@RequestParam("id") Long id,
-                              @RequestParam("newPrice") Double price) {
+                              @RequestParam("newPrice") int price) {
         dishService.changeDishPrice(id, price);
         return "redirect:/Admin/index";
      }

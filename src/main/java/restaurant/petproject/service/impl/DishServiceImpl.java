@@ -148,7 +148,7 @@ public class DishServiceImpl implements DishService {
         dishRepository.save(d);
     }
 
-    public void changeDishPrice(Long id, Double price) {
+    public void changeDishPrice(Long id, int price) {
         Dish d = new Dish();
         d = dishRepository.findById(id).get();
         d.setPrice(price);

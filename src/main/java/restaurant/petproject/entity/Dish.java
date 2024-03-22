@@ -21,7 +21,7 @@ public class Dish {
     @NotNull
     private String title;
     private String description;
-    private Double price;
+    private int price;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "dish")
     private List<Image> images = new ArrayList<>();
@@ -59,7 +59,7 @@ public class Dish {
         image.setDish(this);
         images.add(image);
     }
-    public Dish(String title, String description, Double price) {
+    public Dish(String title, String description, int price) {
         this.title = title;
         this.description = description;
         this.price = price;

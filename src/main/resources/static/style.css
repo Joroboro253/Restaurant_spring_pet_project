@@ -247,3 +247,7 @@ img {
     }
 }
 
+.price {
+    /*color: rgb(227, 242, 253);*/
+    font-weight: bold;
+}

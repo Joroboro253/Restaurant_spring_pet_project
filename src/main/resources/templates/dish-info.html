@@ -27,25 +27,27 @@
 
 <div class="container centered-carousel">
     <div th:each="el : ${dish}" class="card alert alert-info">
-        <h1 th:text="${el.title}"/>
-        <p th:text="${el.description}"/>
-        <p th:text="${el.price}"/>
 
-        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li th:each="image, stat : ${images}" data-target="#myCarousel" th:data-slide-to="${stat.index}" th:class="${stat.first} ? 'active' : ''"></li>
-            </ol>
-            <div class="carousel-inner">
+        <div>
+            <div th:each="image, stat : ${images}" data-target="#myCarousel" th:data-slide-to="${stat.index}" th:class="${stat.first} ? 'active' : ''"></div>
+            <div>
                 <div th:each="image, state : ${images}" th:classappend="${state.first} ? active : ''" class="carousel-item">
                     <div class="container">
-                        <div class="carousel-caption" style="position: relative; z-index: 1;">
-                            <img class="dish" style="height: 100px" alt="Первый слайд" th:src="@{'/display?id=' + ${image.id}}"/>
+                        <div class="card-body my-card">
+                            <img class="preview_img" alt="Первый слайд" th:src="@{'/display?id=' + ${image.id}}"/>
                         </div>
                     </div>
                 </div>
             </div><br>
         </div>
+
+        <h1 th:text="${el.title}"/>
+        <p class="price" th:text="${el.price} + ' UAH'"/>
+        <p th:text="${el.description}"/>
+
+
         <a th:href="'/dish/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br>
+
         <form th:action="'/dish/' + ${el.id} + '/remove'" method="post" class="btn btn-warning">
             <button class="btn btn-warning" type="button">Удалить</button>
         </form>

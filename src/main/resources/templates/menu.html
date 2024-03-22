@@ -16,13 +16,11 @@
   <h1>Меню</h1>
   <div class="row mt-5">
     <div th:each="el : ${dish}" class="col-lg-2 col-md-4 col-sm-6 mt-2">
-        <div class="card-body alert alert-info my-card">
-          <h3 th:text="${el.title}"/>
-          <img class="preview_img" th:src="@{${'/display?id=' + el.getPreviewImageId()}}" alt="Фото блюда" width="200" height="150"><br>
-<!--          <p  th:text="${el.price} + ' ₴'">Цена </p>-->
-<!--          <p th:text="${el.price} + ">Цена</p>-->
-          <p>Цена: <span th:text="${el.price} + '₴'"></span></p>
-          <a th:href="'/dish/' + ${el.id}" class="btn btn-warning">Детальнее</a>
+        <div class="card-body my-card">
+            <img class="preview_img" th:src="@{${'/display?id=' + el.getPreviewImageId()}}" alt="Фото блюда"><br>
+            <p th:text="${el.title}"/>
+            <p>Цена: <span th:text="${el.price} + '₴'"></span></p>
+            <a th:href="'/dish/' + ${el.id}" class="btn">Детальнее</a>
         </div>
     </div>
   </div>

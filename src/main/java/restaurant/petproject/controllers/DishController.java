@@ -63,14 +63,6 @@ public class DishController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 
-//    @GetMapping("/display")
-//    public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException
-//    {
-//        Image image = imageService.viewById(id);
-//        byte [] imageBytes = null;
-//        imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
-//        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
-//    }
     @GetMapping("/")
     public String home(){
         return "home";

@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.Set;
 
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
     @Autowired

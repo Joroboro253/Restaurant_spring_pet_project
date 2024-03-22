@@ -22,32 +22,14 @@ public class ImageServiceImpl implements ImageService {
     public Image create(Image image) {
         return imageRepository.save(image);
     }
-
     @Override
     public List<Image> viewAll() {
         return (List<Image>) imageRepository.findAll();
     }
-
     @Override
     public Image viewById(long id) {
         return imageRepository.findById(id).get();
     }
-
-
-
-//    public List<Image> fromFileToImage(MultipartFile[] files) throws IOException, SQLException {
-//        List<Image> images = new ArrayList<>();
-//        for (MultipartFile file : files) {
-//            byte[] bytes = file.getBytes();
-//            Blob blob = new SerialBlob(bytes);
-//            Image image = new Image();
-//            image.setImage(blob);
-//            images.add(image);
-//        }
-//        return images;
-//    }
-
-
     public void delete(Image image) {
         imageRepository.delete(image);
     }

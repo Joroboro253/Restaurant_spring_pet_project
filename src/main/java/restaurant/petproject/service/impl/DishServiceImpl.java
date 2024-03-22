@@ -39,8 +39,6 @@ public class DishServiceImpl implements DishService {
     public final DishRepository dishRepository;
     private final UserRepository userRepository;
     private final ImageServiceImpl imageService;
-    // this repo need Autowired or no ?
-    // change it all to private later ?
     public CategoryRepository categoryRepository;
     private CouponRepository couponRepository;
 
@@ -59,7 +57,6 @@ public class DishServiceImpl implements DishService {
         return dishRepository.findById(id).orElse(null);
     }
 
-//    , List<Image> images
     public void saveDish(Principal principal, Dish dish) throws IOException, SQLException {
         Optional<User> optionalUser = getUserByPrincipal(principal);
         System.out.println(optionalUser);
@@ -102,7 +99,7 @@ public class DishServiceImpl implements DishService {
     }
 
 
-    public void deleteProduct(User user, Long id){
+    public void deleteDish(User user, Long id){
         Dish dish = dishRepository.findById(id).orElse(null);
         if(dish != null) {
             if(dish.getUser().getId().equals(user.getId())) {

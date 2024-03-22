@@ -35,16 +35,13 @@ public class AuthController {
         return "login";
     }
 
-    //handler method t handle user registration from request
     @GetMapping("/register")
     public String showRegistrationFrom(Model model){
-        //create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "register";
     }
 
-    //handler method to handle user registration from submit request
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model){
         User existingUser = userService.findByEmail(userDto.getEmail());

@@ -13,7 +13,6 @@ import restaurant.petproject.service.impl.UserServiceImpl;
 public class GlobalControllerAdvice {
     @Autowired
     private UserServiceImpl userService;
-
     @ModelAttribute("users")
     public User globalUser() {
         return userService.getCurrentUser();

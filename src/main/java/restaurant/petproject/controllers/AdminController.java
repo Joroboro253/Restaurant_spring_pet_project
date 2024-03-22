@@ -40,11 +40,7 @@ public class AdminController {
 
     @PostMapping("/dish/add")
     public String addImagePost(@RequestParam("image")MultipartFile[] files, Dish dish, Principal principal) throws IOException, SerialException, SQLException {
-//        List<Image> images = imageService.fromFileToImage(files);
         Dish updatedDish = dishService.updateDishImages(dish, files);
-//        dishRepository.save(dish);
-//        зменить обратнго
-//        dishService.saveDish(principal, dish, images);
         dishService.saveDish(principal, updatedDish);
         return "redirect:/menu";
     }
@@ -60,7 +56,6 @@ public class AdminController {
             return "redirect:/menu";
         }
 
-
         Optional<Dish> dish = dishRepository.findById(id);
         ArrayList<Dish> res = new ArrayList<>();
         dish.ifPresent(res::add);
@@ -72,9 +67,6 @@ public class AdminController {
     public String dishPostUpdate(@PathVariable(value = "id") long id,  @RequestParam("image")MultipartFile[] files, Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam Double price) throws IOException, SQLException {
         Dish currentDish = new Dish(title, description, price);
         Dish updatedDish = dishService.updateDishImages(currentDish, files);
-//        dishRepository.save(dish);
-//        зменить обратнго
-//        dishService.saveDish(principal, dish, images);
         dishService.saveDish(principal, updatedDish);
         return "redirect:/menu";
     }
@@ -100,7 +92,6 @@ public class AdminController {
         return "Admin/index";
     }
 
-//    --
     @GetMapping("/Admin/dish")
     public String showAddDish(Model model){
         model.addAttribute("category", new Category());
@@ -109,27 +100,7 @@ public class AdminController {
         return "Admin/dish";
     }
 
-    // Это скорее всего полная хуйня, которая не нужна в моём коде. Но для чистоты оставим, вдруг понадобится
-//    @PostMapping("/Admin/AddD")
-//    public String saveDish(@RequestParam("file") MultipartFile file,
-//                           @RequestParam("dname") String name,
-//                           @RequestParam("price") Double price,
-//                           @RequestParam("desc") String desc,
-//                           @RequestParam("quantity") int quantity,
-//                           @RequestParam("brand") String brand,
-//                           @RequestParam("categories") String categories)
-//    {
-//        // от здесь методы сейв диш отличаются, возможны конфликты
-//        dishService.saveDish(file, name, desc, quantity, brand, categories);
-//        return "redirect:/Admin/dish";
-//    }
-
-//    @GetMapping("/Admin/deleteDish/{id}")
-//    public String deleteDish(@PathVariable("id") Long id) {
-//        dishService.de
-//    }
-
-     @PostMapping("/Admin/ChangeName")
+    @PostMapping("/Admin/ChangeName")
     public String changeDname(@RequestParam("id") Long id, @RequestParam("newDname")
                               String name)
      {
@@ -137,23 +108,18 @@ public class AdminController {
          return "redirect:/Admin/index";
      }
 
-     @PostMapping("/Admin/changeDescription")
+    @PostMapping("/Admin/changeDescription")
     public String changeDescription(@RequestParam("id") Long id, @RequestParam("newDescription") String description) {
         dishService.changeDishDescription(id, description);
         return "redirect:/Admin/index";
-     }
+    }
 
-     @PostMapping("/Admin/changePrice")
+    @PostMapping("/Admin/changePrice")
     public String changePrice(@RequestParam("id") Long id,
                               @RequestParam("newPrice") Double price) {
         dishService.changeDishPrice(id, price);
         return "redirect:/Admin/index";
      }
-
-//     @PostMapping("Admin/changeQuantity")
-//    public String changeQuantity(@RequestParam("id") Long id, @RequestParam("newQuan") int quantity) {
-//        dishService.changeD
-//     }
 
     // Тут нужно ещё дописать
     @PostMapping("/Admin/addCategory")
@@ -176,7 +142,5 @@ public class AdminController {
         dishService.saveDishDiscount(id, discount);
         return "redirect:/Admin/dish";
     }
-
-
 
 }

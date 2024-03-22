@@ -2,23 +2,23 @@ package restaurant.petproject.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "shoppingcart")
 public class ShoppingCart {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Getter
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @Getter
     @Transient
     private Double totalPrice;
     @Transient
@@ -31,41 +31,6 @@ public class ShoppingCart {
     public ShoppingCart() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public int getItemsNumber() {
-        return itemsNumber;
-    }
-
-    public void setItemsNumber(int itemsNumber) {
-        this.itemsNumber = itemsNumber;
-    }
-
-    public Set<CartItem> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<CartItem> items) {
-        this.items = items;
-    }
-
-    public String getSessionToken() {
-        return sessionToken;
-    }
-
-    public void setSessionToken(String sessionToken) {
-        this.sessionToken = sessionToken;
-    }
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -7,7 +7,7 @@ import restaurant.petproject.entity.WishListItem;
 import restaurant.petproject.repository.WishListItemRepository;
 import restaurant.petproject.repository.WishListRepository;
 import restaurant.petproject.service.WishListService;
-
+// Почему это всё неимплементировано???
 @Service
 public class WishListServiceImpl implements WishListService {
 

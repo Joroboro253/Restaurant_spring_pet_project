@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -30,13 +30,13 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Только первый юзер с ид = 1 будет иметь роль админ
+    // Only user with id 1 will have admin role
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        //encrypt the password using spring security
+        // Encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         // If it is first user -> user admin else user
@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
                 role.setName("ROLE_ADMIN");
                 roleRepository.save(role);
             }
-//            role.setName("ROLE_ADMIN");
 
         } else {
             role = roleRepository.findByName("ROLE_USER");
@@ -60,10 +59,7 @@ public class UserServiceImpl implements UserService {
                 role.setName("ROLE_USER");
                 role.setName("ROLE_USER");
             }
-//            role.setName("ROLE_USER");
-
         }
-
 
         user.setRoles(Arrays.asList(role));
 
@@ -79,7 +75,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map((user) -> convertEntityToDto(user))
+                .map(this::convertEntityToDto)
                         .collect(Collectors.toList());
     }
 
@@ -90,12 +86,6 @@ public class UserServiceImpl implements UserService {
         userDto.setLastName(str[1]);
         userDto.setEmail(user.getEmail());
         return userDto;
-    }
-
-    private Role checkRoleExist(){
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        return roleRepository.save(role);
     }
 
     public User getCurrentUser(){

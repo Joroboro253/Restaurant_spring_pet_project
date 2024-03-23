@@ -65,9 +65,21 @@ public class AdminController {
 
     @PostMapping("/dish/{id}/edit")
     public String dishPostUpdate(@PathVariable(value = "id") long id,  @RequestParam("image")MultipartFile[] files, Principal principal, @RequestParam String title, @RequestParam String description, @RequestParam int price) throws IOException, SQLException {
-        Dish currentDish = new Dish(title, description, price);
-        Dish updatedDish = dishService.updateDishImages(currentDish, files);
-        dishService.saveDish(principal, updatedDish);
+        Optional<Dish> dishOptional = dishRepository.findById(id);
+        if (dishOptional.isPresent()) {
+            Dish dishToUpdate = dishOptional.get();
+            dishToUpdate.setTitle(title);
+            dishToUpdate.setDescription(description);
+            dishToUpdate.setPrice(price);
+
+            if(files != null) {
+                dishToUpdate = dishService.updateDishImages(dishToUpdate, files);
+            }
+            dishRepository.save(dishToUpdate);
+        } else {
+            return "redirect:/menu";
+        }
+
         return "redirect:/menu";
     }
 

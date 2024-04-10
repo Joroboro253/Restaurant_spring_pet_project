@@ -31,9 +31,6 @@ public class Dish {
     @JoinColumn
     private User user;
     private LocalDateTime dateOfCreated;
-    // Новая система с реализацией скидок
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Coupon discount;
     // Добавление категорий в код
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "dish_category", joinColumns = {

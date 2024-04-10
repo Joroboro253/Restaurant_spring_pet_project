@@ -151,7 +151,7 @@ public class AdminController {
     @PostMapping("/Admin/addDiscountToD")
     public String addDiscountToDish(@RequestParam("dish_id") Long id,
                                     @RequestParam("discount") int discount) {
-        dishService.saveDishDiscount(id, discount);
+//        dishService.saveDishDiscount(id, discount);
         return "redirect:/Admin/dish";
     }
 

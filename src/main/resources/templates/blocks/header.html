@@ -1,15 +1,43 @@
 <link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <div th:fragment="header">
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm header">
 <!-- th:if="${users != null}" th:each="user : ${users}-->
     <nav class="my-2 my-md mr-md-3">
-      <a class="p-2 text-white head-text" href="/menu">Меню</a>
-      <a class="p-2 text-white head-text" href="/orders">Мои заказы</a>
-      <a class="p-2 text-white head-text" href="/login">Авторизация</a>
-      <a class="p-2 text-white head-text" href="/">На главную</a> <!--done-->
-      <a class="p-2 text-white head-text" href="/dish/add">Добавить блюдо</a>
-      <a class="p-2 text-white head-text" href="/users">Все пользователи</a>
-<!--      <a class="p-2 text-dark" th:text="${user.firstName}"></a>-->
+      <div>
+        <a class="p-2 text-white head-text" href="/menu">Меню</a>
+        <a class="p-2 text-white head-text" href="/orders">Мои заказы</a>
+        <a class="p-2 text-white head-text" href="/login">Авторизация</a>
+        <a class="p-2 text-white head-text" href="/">На главную</a> <!--done-->
+        <a class="p-2 text-white head-text" href="/dish/add">Добавить блюдо</a>
+        <a class="p-2 text-white head-text" href="/users">Все пользователи</a>
+      </div>
+      <!--        Выводи именю юзера -->
+
+      <div class="user_option_box">
+
+        <a class="account-link">
+          <i class="fa fa-user" aria-hidden="true"></i>
+
+        </a>
+        <a  th:if="${shop != null}" th:href="@{'/User/cart?id='+${shop.id}}" class="cart-link">
+                            <span
+                                    class="label">[[${shop.nbItems}]]
+                            </span>
+
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+
+        </a>
+        <a  th:if="${shop == null}" th:href="@{/User/cart}" class="cart-link">
+                            <span
+                                    class="label">0
+                            </span>
+          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+
+
+        </a>
+      </div>
+
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 

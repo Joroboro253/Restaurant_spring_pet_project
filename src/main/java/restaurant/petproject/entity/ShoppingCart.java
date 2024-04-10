@@ -14,57 +14,41 @@ import java.util.Set;
 @Table(name = "shoppingcart")
 public class ShoppingCart {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
+    private String sessionToken;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "shopping_cart_id")
+    private Set<CartItem> items;
     @Transient
     private Double totalPrice;
     @Transient
-    private int itemsNumber;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<CartItem> items = new HashSet<CartItem>();
-    private String sessionToken;
-
-    public ShoppingCart() {
+    private int nbItems;
+    @Getter
+    @OneToOne(fetch = FetchType.EAGER,orphanRemoval = true)
+    private User user;
+    @Temporal(TemporalType.DATE)
+    private Date date = new Date();
+    public ShoppingCart( ) {
+        this.items = new HashSet<>();
+    }
+    public ShoppingCart(String sessionToken, Set<CartItem> items, Double totalPrice) {
+        this.sessionToken = sessionToken;
+        this.items = items;
+        this.totalPrice = totalPrice;
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((items == null) ? 0 : items.hashCode());
-        result = prime * result + ((sessionToken == null) ? 0 : sessionToken.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ShoppingCart other = (ShoppingCart) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (items == null) {
-            if (other.items != null)
-                return false;
-        } else if (!items.equals(other.items))
-            return false;
-        if (sessionToken == null) {
-            if (other.sessionToken != null)
-                return false;
-        } else if (!sessionToken.equals(other.sessionToken))
-            return false;
-        return true;
+    public String toString() {
+        return "ShoppingCart{" +
+                "id=" + id +
+                ", sessionToken='" + sessionToken + '\'' +
+                ", items=" + items +
+                ", totalPrice=" + totalPrice +
+                ", nbItems=" + nbItems +
+                ", user=" + user +
+                ", date=" + date +
+                '}';
     }
 }

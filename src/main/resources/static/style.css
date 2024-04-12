@@ -67,14 +67,11 @@ th, td {
     border: 1px solid #ddd;
     transition: background-color 0.3s;
     cursor: pointer;
-    margin-right: 5px;
     outline: none;  /* уберем стандартный контур кнопок */
     font-weight: bold;
     color: #555;
     flex: 1;
     text-align: center;
-    flex: 1; /* Каждая кнопка будет занимать равное пространство */
-    text-align: center; /* Выравнивание текста по центру кнопки */
     margin-right: 10px;
     box-sizing: border-box;
     width: 25%;

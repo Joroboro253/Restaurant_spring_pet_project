@@ -8,5 +8,4 @@ import java.util.List;
 public interface DishRepository extends JpaRepository<Dish, Long> {
     List<Dish> findByTitle(String title);
     List<Dish> findByPrice(Double price);
-    List<Dish> findByNameContaining(String name);
 }

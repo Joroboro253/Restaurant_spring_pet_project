@@ -11,35 +11,27 @@
         <a class="p-2 text-white head-text" href="/">На главную</a> <!--done-->
         <a class="p-2 text-white head-text" href="/dish/add">Добавить блюдо</a>
         <a class="p-2 text-white head-text" href="/users">Все пользователи</a>
-      </div>
+
       <!--        Выводи именю юзера -->
+        <div class="user_option_box">
+          <span style="color: white">[[${user.getName()}]]</span>
+          <a class="account-link">
+            <i class="fa fa-user" aria-hidden="true"></i>
 
-      <div class="user_option_box">
+          </a>
 
-        <a class="account-link">
-          <i class="fa fa-user" aria-hidden="true"></i>
+          <a th:href="@{/User/cart}" class="cart-link">
+            <span
+                    class="label">0
+            </span>
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
 
-        </a>
-        <a  th:if="${shop != null}" th:href="@{'/User/cart?id='+${shop.id}}" class="cart-link">
-                            <span
-                                    class="label">[[${shop.nbItems}]]
-                            </span>
-
-          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-
-        </a>
-        <a  th:if="${shop == null}" th:href="@{/User/cart}" class="cart-link">
-                            <span
-                                    class="label">0
-                            </span>
-          <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-
-
-        </a>
+          </a>
+        </div>
       </div>
 
 
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     </nav>
   </div>

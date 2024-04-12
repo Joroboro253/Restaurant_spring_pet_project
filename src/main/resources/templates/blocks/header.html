@@ -1,38 +1,26 @@
 <link rel="stylesheet" type="text/css" href="/style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <div th:fragment="header">
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm header">
+  <div class="d-flex flex-md-row justify-content-between align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm header">
 <!-- th:if="${users != null}" th:each="user : ${users}-->
-    <nav class="my-2 my-md mr-md-3">
-      <div>
+    <nav class="my-2 my-md-0">
         <a class="p-2 text-white head-text" href="/menu">Меню</a>
         <a class="p-2 text-white head-text" href="/orders">Мои заказы</a>
         <a class="p-2 text-white head-text" href="/login">Авторизация</a>
         <a class="p-2 text-white head-text" href="/">На главную</a> <!--done-->
         <a class="p-2 text-white head-text" href="/dish/add">Добавить блюдо</a>
         <a class="p-2 text-white head-text" href="/users">Все пользователи</a>
-
-      <!--        Выводи именю юзера -->
-        <div class="user_option_box">
-          <span style="color: white">[[${user.getName()}]]</span>
-          <a class="account-link">
-            <i class="fa fa-user" aria-hidden="true"></i>
-
-          </a>
-
-          <a th:href="@{/User/cart}" class="cart-link">
-            <span
-                    class="label">0
-            </span>
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-
-          </a>
-        </div>
-      </div>
-
-
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
     </nav>
+      <div class="user_option_box d-flex align-items-center">
+        <span style="color: white">[[${user.getName()}]]</span>
+        <a class="account-link mx-2">
+          <i class="fa fa-user" aria-hidden="true"></i>
+        </a>
+        <a th:href="@{/User/#}" class="cart-link">
+            <span class="label"></span>
+          <i class="fa fa-shopping-cart"></i>
+        </a>
+      </div>
   </div>
 </div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

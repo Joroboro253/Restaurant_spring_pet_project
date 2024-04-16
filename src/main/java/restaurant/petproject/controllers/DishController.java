@@ -8,11 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import restaurant.petproject.entity.Dish;
 import restaurant.petproject.entity.Image;
+import restaurant.petproject.entity.User;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.service.impl.DishServiceImpl;
 import restaurant.petproject.service.impl.ImageServiceImpl;
 import restaurant.petproject.service.impl.ShopServiceImpl;
 import restaurant.petproject.service.impl.UserServiceImpl;
+import org.springframework.security.core.Authentication;
+
 
 import java.security.Principal;
 import java.sql.SQLException;
@@ -76,4 +79,6 @@ public class DishController {
         model.addAttribute("image", encodedImage);
         return "dish-info";
     }
+
+
 }

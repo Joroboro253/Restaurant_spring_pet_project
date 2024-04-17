@@ -16,7 +16,8 @@
         <a class="account-link mx-2">
           <i class="fa fa-user" aria-hidden="true"></i>
         </a>
-        <a th:href="@{/User/ShoppingCart}" class="cart-link">
+          // Код ниже делает статус 500. Как это исправить?
+        <a th:href="@{'/User/cart?id='+${shop.id}}" class="cart-link">
             <span class="label"></span>
           <i class="fa fa-shopping-cart"></i>
         </a>

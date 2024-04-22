@@ -12,12 +12,13 @@
         <a class="p-2 text-white head-text" href="/users">Все пользователи</a>
     </nav>
       <div class="user_option_box d-flex align-items-center">
-        <span style="color: white">[[${user.getName()}]]</span>
-        <a class="account-link mx-2">
+          <span th:if="${user != null}" style="color: white" th:text="${user.name}">Default Name</span>
+        <a th:if="${user != null}" class="account-link mx-2">
           <i class="fa fa-user" aria-hidden="true"></i>
         </a>
-          // Код ниже делает статус 500. Как это исправить?
-        <a th:href="@{'/User/cart?id='+${shop.id}}" class="cart-link">
+
+<!--          // Код ниже делает статус 500. Как это исправить?-->
+        <a th:if="${shop != null}" th:href="@{'/User/cart?id='+${shop.id}}" class="cart-link">
             <span class="label"></span>
           <i class="fa fa-shopping-cart"></i>
         </a>

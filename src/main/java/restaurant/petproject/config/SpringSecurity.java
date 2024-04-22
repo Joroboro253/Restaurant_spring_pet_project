@@ -42,7 +42,7 @@ public class SpringSecurity {
                                 .requestMatchers("/**").permitAll()
                                 .requestMatchers("/dish/**").permitAll()
                                 .requestMatchers("/images/**").permitAll()
-
+                                .requestMatchers("/menu").permitAll()
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

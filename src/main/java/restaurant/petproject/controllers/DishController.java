@@ -3,11 +3,13 @@ package restaurant.petproject.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import restaurant.petproject.entity.Dish;
 import restaurant.petproject.entity.Image;
+import restaurant.petproject.entity.ShoppingCart;
 import restaurant.petproject.entity.User;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.service.impl.DishServiceImpl;
@@ -40,7 +42,7 @@ public class DishController {
     @GetMapping("/menu")
     public String menuMain(Model model){
         Iterable<Dish> dishes = dishRepository.findAll();
-        model.addAttribute("dishes", dishes);
+        model.addAttribute("dish", dishes);
 
         return "menu";
     }
@@ -65,9 +67,9 @@ public class DishController {
     }
 
     @GetMapping("/dish/{id}")
-    public String dishInfo(@PathVariable Long id, Model model, Principal principal) throws SQLException {
+    public String dishInfo(@PathVariable Long id, Model model) throws SQLException {
         Dish dish = dishService.getDishById(id);
-        model.addAttribute("user", dishService.getUserByPrincipal(principal));
+//        model.addAttribute("user", dishService.getUserByPrincipal(principal));
         model.addAttribute("dish", dish);
         model.addAttribute("images", dish.getImages());
         model.addAttribute("authorDish", dish.getUser());

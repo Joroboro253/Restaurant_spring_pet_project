@@ -41,8 +41,8 @@ public class DishController {
 
     @GetMapping("/menu")
     public String menuMain(Model model){
-        Iterable<Dish> dishes = dishRepository.findAll();
-        model.addAttribute("dish", dishes);
+        Iterable<Dish> dish = dishRepository.findAll();
+        model.addAttribute("dish", dish);
 
         return "menu";
     }
@@ -69,7 +69,7 @@ public class DishController {
     @GetMapping("/dish/{id}")
     public String dishInfo(@PathVariable Long id, Model model) throws SQLException {
         Dish dish = dishService.getDishById(id);
-//        model.addAttribute("user", dishService.getUserByPrincipal(principal));
+
         model.addAttribute("dish", dish);
         model.addAttribute("images", dish.getImages());
         model.addAttribute("authorDish", dish.getUser());
@@ -81,6 +81,8 @@ public class DishController {
         model.addAttribute("image", encodedImage);
         return "dish-info";
     }
+
+    
 
 
 }

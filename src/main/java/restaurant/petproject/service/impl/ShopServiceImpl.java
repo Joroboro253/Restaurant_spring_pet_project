@@ -30,20 +30,19 @@ public class ShopServiceImpl implements ShopService {
     }
 
 
-    public void addItem(Long dish_id, Integer quantity) {
+    public void addItem(Long dish_id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email);
         ShoppingCart shoppingCart = shoppingCartRepository.findByUser(user);
         if(shoppingCart != null){
             if(itemIsNotThere(shoppingCart.getItems(), dish_id)){
-                CartItem item = new CartItem(dishRepository.getById(dish_id),quantity);
+                CartItem item = new CartItem(dishRepository.getById(dish_id));
                 shoppingCart.getItems().add(item);
                 shoppingCartRepository.save(shoppingCart);
             } else {
 
                 for (CartItem it : shoppingCart.getItems()) {
                     if(it.getDish().getId().equals(dish_id)){
-                        it.setQuantity(it.getQuantity()+quantity);
                         cartItemRepository.save(it);
                     }
                 }
@@ -51,7 +50,7 @@ public class ShopServiceImpl implements ShopService {
         } else {
             ShoppingCart shopping = new ShoppingCart();
             shopping.setUser(user);
-            CartItem item = new CartItem(dishRepository.getById(dish_id),quantity);
+            CartItem item = new CartItem(dishRepository.getById(dish_id));
             cartItemRepository.save(item);
             shopping.getItems().add(item);
             shoppingCartRepository.save(shopping);
@@ -81,7 +80,6 @@ public class ShopServiceImpl implements ShopService {
         ShoppingCart shoppingCart = getShoppingCartByUser(user);
         for (CartItem item : shoppingCart.getItems()) {
             if(item.getId().equals(item_id)){
-                item.setQuantity(newQuantity);
                 cartItemRepository.save(item);
                 break;
             }
@@ -100,7 +98,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     public ShoppingCart getShoppingCartById(Long id) {
-        return shoppingCartRepository.findById(id).get();
+        return shoppingCartRepository.findById(id)
+                .orElse(new ShoppingCart());
     }
 
     public ShoppingCart creatEmptyCart(User principal) {

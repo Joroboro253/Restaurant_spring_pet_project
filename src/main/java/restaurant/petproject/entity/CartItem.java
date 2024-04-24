@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cart_item")
+//@Table(name = "cart_item")
 @Getter
 @Setter
 public class CartItem {
@@ -18,13 +18,11 @@ public class CartItem {
     private Long id;
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
     private Dish dish;
-    private Integer quantity;
     @Transient
      private double subtotal;
 
-    public CartItem(Dish dish, Integer quantity) {
+    public CartItem(Dish dish) {
         this.dish = dish;
-        this.quantity = quantity;
     }
 
     public CartItem() {
@@ -36,12 +34,12 @@ public class CartItem {
         if (this == o) return true;
         if (!(o instanceof CartItem)) return false;
         CartItem cartItem = (CartItem) o;
-        return Double.compare(cartItem.getSubtotal(), getSubtotal()) == 0 && Objects.equals(getId(), cartItem.getId()) && Objects.equals(getDish(), cartItem.getDish()) && Objects.equals(getQuantity(), cartItem.getQuantity());
+        return Double.compare(cartItem.getSubtotal(), getSubtotal()) == 0 && Objects.equals(getId(), cartItem.getId()) && Objects.equals(getDish(), cartItem.getDish());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDish(), getQuantity(), getSubtotal());
+        return Objects.hash(getId(), getDish(), getSubtotal());
     }
 
     @Override
@@ -49,7 +47,6 @@ public class CartItem {
         return "CartItem{" +
                 "id=" + id +
                 ", dish=" + dish +
-                ", quantity=" + quantity +
                 ", subtotal=" + subtotal +
                 '}';
     }

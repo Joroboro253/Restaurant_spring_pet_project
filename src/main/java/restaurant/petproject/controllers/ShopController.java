@@ -15,7 +15,7 @@ import restaurant.petproject.service.impl.UserServiceImpl;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("User")
+//@RequestMapping("User")
 public class ShopController {
     private final ShopServiceImpl shopService;
     private final UserServiceImpl userService;
@@ -39,11 +39,10 @@ public class ShopController {
         return "cart";
     }
 
-    @PostMapping("/add-cart")
-    public String addToCart(Model model, Authentication auth, @RequestParam("id") Long id,
-                            @RequestParam("quantity") Integer quantity ) {
-        shopService.addItem(id,quantity);
-        return "redirect:/User/index";
+    @GetMapping("/add-cart")
+    public String addToCart(@RequestParam("id") Long id) {
+        shopService.addItem(id);
+        return "redirect:/index";
     }
     @GetMapping("/remove-cartItem/{id}")
     public String addToCart(Model model, Authentication auth, @PathVariable("id") Long id) {

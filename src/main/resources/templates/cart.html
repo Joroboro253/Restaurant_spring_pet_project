@@ -1,25 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pl-PL">
 <head>
-    <!-- Basic -->
-    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Site Metas -->
-    <link rel="icon" href=" https://start.spring.io/images/icon-48x48.png"/>
-
-    <title>spring security</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <!-- boostrap ccs -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/boostrap.css}" />
 
-    <!-- fonts style -->
-    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
-
-    <!-- custom styles -->
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-
-    <!-- rensponsive style -->
-    <link th:href="@{/css/responsive.css}" rel="stylesheet" />
     <style>
         .label{
             background-color: white !important;
@@ -70,92 +59,14 @@
 </head>
 <body>
 
-<div class="hero_area" style="min-height: 1vh !important">
-    <!-- header section -->
-    <header class="header_section">
-        <div class="header_top">
-            <div class="container-fluid">
-                <div class="top_nav_container">
-                    <div class="contact_nav">
-                        <a href="">
-                            <i class="fa fa-phone" aria-hidden="true"></i>
-                            <span>
-                   phone : 67892311
-                </span>
-                        </a>
-                        <a href="">
-                            <i class="fa fa-envelope" aria-hidden="true"></i>
-                            <span>
-                            Email : spring@gmail.com
-
-                </span>
-                        </a>
-                    </div>
-                    <from class="search_form">
-                        <input type="text" class="form-control" placeholder="search products...">
-                        <button class="" type="submit">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </from>
-                    <div class="user_option_box">
-                        <span style="color:white">[[${user.firstName}]]</span>
-                        <a href="#" class="account-link">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                        </a>
-                        <a th:href="@{'/User/cart?id='+${shop.id}}" class="cart-link">
-                             <span th:if="${shop != null}"
-                                   class="label">[[${shop.nbItems}]]
-                            </span>
-                            <span th:if="${shop == null}"
-                                  class="label">0
-                            </span>
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="header_bottom">
-            <div class="container-fluid">
-                <nav class="navbar navbar-expand-lg custom_nav-container ">
-                    <a class="navbar-brand" href="index.html">
-              <span>
-                OurShop
-              </span>
-                    </a>
-
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class=""> </span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ">
-                            <li class="nav-item active">
-                                <a class="nav-link" th:href="@{/User/index}">Home </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/User/cart}">My cart</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/logout}">Logout</a>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </header>
-
-</div>
-
+<header th:insert="blocks/header :: header"></header>
 <!-- product section -->
 
 <section class="product_section pt-4 ">
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
-                shopping cart
+                Корзина
             </h2>
         </div>
         <div class="row">
@@ -164,10 +75,9 @@
                 <table id="cart" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th style="width:50%">Product</th>
-                        <th style="width:10%">Price</th>
-                        <th style="width:8%">Quantity</th>
-                        <th style="width:22%" class="text-center">Subtotal</th>
+                        <th style="width:50%">Блюдо</th>
+                        <th style="width:10%">Цена</th>
+                        <th style="width:22%" class="text-center">Всего к оплате</th>
                         <th style="width:10%"></th>
                     </tr>
                     </thead>
@@ -175,19 +85,14 @@
                     <tr th:each="item : ${shop.items}">
                         <td data-th="Product">
                             <div class="row">
-<!--                                <div class="col-sm-2 hidden-xs"><img th:src="*{'data:image/jpeg;base64,'+{item.product.image}}" alt="..." width="95px" height="100px" class="img-responsive"/></div>-->
                                 <div class="col-sm-10">
                                     <h4 class="nomargin pl-2">[[${item.product.name}]]</h4>
                                     <p class="pl-2">[[${item.product.description}]]</p>
                                 </div>
-<!--                            </div>-->
+                            </div>
                         </td>
                         <td data-th="Price">$[[${item.product.price}]]</td>
                         <form th:action="@{/User/update-cartItem}">
-                            <td data-th="Quantity">
-                                <input type="number" name="quantity" min="1" th:value="${item.getQuantity()}" th:attr="max='${item.product.stock}'" class="form-control text-center" value="1">
-                                <input type="number" hidden="hidden" name="id" th:value="${item.id}">
-                            </td>
                             <td data-th="Subtotal" class="text-center">[[${item.getSubtotal()}]]</td>
                             <td class="actions" data-th="">
                                 <button th:href class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
@@ -198,13 +103,13 @@
                     </tbody>
                     <tfoot>
                     <tr class="visible-xs">
-                        <td class="text-center"><strong>Total [[${shop.getTotalPrice()}]]$</strong></td>
+                        <td class="text-center"><strong>Всего: [[${shop.getTotalPrice()}]]$</strong></td>
                     </tr>
                     <tr>
-                        <td><a th:href="@{/User/index}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                        <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Дополнить заказ</a></td>
                         <td colspan="2" class="hidden-xs"></td>
-                        <td class="hidden-xs text-center"><strong>Total $[[${shop.getTotalPrice()}]]$</strong></td>
-                        <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+                        <td class="hidden-xs text-center"><strong>Всего: $[[${shop.getTotalPrice()}]]$</strong></td>
+                        <td><a href="#" class="btn btn-success btn-block">Оплатить <i class="fa fa-angle-right"></i></a></td>
                     </tr>
                     </tfoot>
                 </table>
@@ -213,17 +118,13 @@
         </div>
 
     </div>
+
+
 </section>
 
-<!-- footer section -->
-<footer class="footer_section">
-    <div class="container">
-        <p>
-            &copy; <span id="displayYear"></span> All Rights Reserved: 2022
-        </p>
-    </div>
-</footer>
-<!-- footer section -->
+<!-- Почему не отображается? -->
+<div th:insert="blocks/footer :: footer"></div>
+
 
 <!-- jQery -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

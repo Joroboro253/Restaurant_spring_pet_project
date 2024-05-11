@@ -18,11 +18,13 @@ public class CartItem {
     private Long id;
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
     private Dish dish;
+    private Integer quantity;
     @Transient
      private double subtotal;
 
-    public CartItem(Dish dish) {
+    public CartItem(Dish dish, Integer quantity) {
         this.dish = dish;
+        this.quantity = quantity;
     }
 
     public CartItem() {

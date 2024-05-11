@@ -6,8 +6,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import restaurant.petproject.entity.Dish;
 import restaurant.petproject.entity.ShoppingCart;
 import restaurant.petproject.entity.User;
+import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.service.impl.DishServiceImpl;
 import restaurant.petproject.service.impl.ShopServiceImpl;
 import restaurant.petproject.service.impl.UserServiceImpl;
@@ -15,16 +17,18 @@ import restaurant.petproject.service.impl.UserServiceImpl;
 import java.util.Optional;
 
 @Controller
-//@RequestMapping("User")
 public class ShopController {
     private final ShopServiceImpl shopService;
     private final UserServiceImpl userService;
     private final DishServiceImpl dishService;
+    private final DishRepository dishRepository;
+
     @Autowired
-    public ShopController(ShopServiceImpl shopService, UserServiceImpl userService, DishServiceImpl dishService) {
+    public ShopController(ShopServiceImpl shopService, UserServiceImpl userService, DishServiceImpl dishService, DishRepository dishRepository) {
         this.shopService = shopService;
         this.userService = userService;
         this.dishService = dishService;
+        this.dishRepository = dishRepository;
     }
 
     @GetMapping("/cart")
@@ -34,16 +38,18 @@ public class ShopController {
         }else{
             model.addAttribute("shop", shopService.creatEmptyCart((User) auth.getPrincipal()));
         }
-
+        Iterable<Dish> dish = dishRepository.findAll();
+        model.addAttribute("dish", dish);
         model.addAttribute("user", userService.findByEmail(auth.getName()));
         return "cart";
     }
 
-    @GetMapping("/add-cart")
-    public String addToCart(@RequestParam("id") Long id) {
-        shopService.addItem(id);
-        return "redirect:/index";
+    @PostMapping("/add-cart")
+    public String addToCart(@RequestParam("id") Long id, @RequestParam("quantity") Integer quantity) {
+        shopService.addItem(id, quantity);
+        return "redirect:/menu";
     }
+
     @GetMapping("/remove-cartItem/{id}")
     public String addToCart(Model model, Authentication auth, @PathVariable("id") Long id) {
         ShoppingCart shop = shopService.removeItem((User) auth.getPrincipal(),id);

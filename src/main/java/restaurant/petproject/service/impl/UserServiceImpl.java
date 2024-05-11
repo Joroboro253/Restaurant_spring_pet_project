@@ -40,31 +40,30 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         // If it is first user -> user admin else user
-        Role role;
-
-        // проверка, первый ли это пользователь
-        long userCount = userRepository.count();
-        if(userCount == 0) {
-            role = roleRepository.findByName("ROLE_ADMIN");
-            if(role == null) {
-                role = new Role();
-                role.setName("ROLE_ADMIN");
-                roleRepository.save(role);
-            }
-
-        } else {
-            role = roleRepository.findByName("ROLE_USER");
-            if(role == null) {
-                role = new Role();
-                role.setName("ROLE_USER");
-                role.setName("ROLE_USER");
-            }
-        }
-
-        user.setRoles(Arrays.asList(role));
+        user.setRoles(Arrays.asList(determineUserRole()));
 
         userRepository.save(user);
     }
+
+    private Role determineUserRole() {
+        // Check if any user exists, if not, the first user is admin
+        if (userRepository.count() == 0) {
+            return roleRepository.findByName("ROLE_ADMIN")
+                    .orElseGet(() -> {
+                        Role newRole = new Role();
+                        newRole.setName("ROLE_ADMIN");
+                        return roleRepository.save(newRole);
+                    });
+        } else {
+            return roleRepository.findByName("ROLE_USER")
+                    .orElseGet(() -> {
+                        Role newRole = new Role();
+                        newRole.setName("ROLE_USER");
+                        return roleRepository.save(newRole);
+                    });
+        }
+    }
+
 
     @Override
     public User findByEmail(String email) {
@@ -76,23 +75,22 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(this::convertEntityToDto)
-                        .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     private UserDto convertEntityToDto(User user) {
         UserDto userDto = new UserDto();
-        String[] str = user.getName().split(" ");
-        userDto.setFirstName(str[0]);
-        userDto.setLastName(str[1]);
+        String[] nameParts = user.getName().split(" ");
+        userDto.setFirstName(nameParts.length > 0 ? nameParts[0] : "");
+        userDto.setLastName(nameParts.length > 1 ? nameParts[1] : "");
         userDto.setEmail(user.getEmail());
         return userDto;
     }
 
-    public User getCurrentUser(){
+    public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof UserDetails) {
+        if (principal instanceof UserDetails) {
             String username = ((UserDetails) principal).getUsername();
-            //возможно не будет рабоатть в связи с тем, что поиск пл имени пользователя, в у меня по эмейл
             return userRepository.findByEmail(username);
         }
         return null;

@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Service
 public interface ShopService {
-    void addItem(Long product_id);
+    void addItem(Long product_id, Integer quantity);
     boolean itemIsNotThere(Set<CartItem> items, Long product_id);
     ShoppingCart removeItem(User user, Long item_id);
     ShoppingCart updateItemQuantity(User user, Long item_id, Integer newQuantity);

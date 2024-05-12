@@ -16,11 +16,13 @@
 
 
         <a th:if="${shop?.id != null}" th:href="@{' /cart?id='+${shop.id}}" class="cart-link">
-
-            <span th:if="${shop != null}"
-                  class="label">[[${shop.nbItems}]]
-            </span>
-            <span th:if="${shop == null}"
+<!--            <span-->
+<!--                  class="label">[[${shop.nbItems}]]-->
+<!--            </span>-->
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        </a>
+        <a  th:if="${shop == null}" th:href="@{/User/cart}" class="cart-link">
+            <span
                   class="label">0
             </span>
           <i class="fa fa-shopping-cart" aria-hidden="true"></i>

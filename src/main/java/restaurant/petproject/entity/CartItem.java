@@ -16,7 +16,7 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+    @ManyToOne
     private Dish dish;
     private Integer quantity;
     @Transient

@@ -39,6 +39,10 @@ public class ShoppingCart {
         this.totalPrice = totalPrice;
     }
 
+    public Integer getTotalPrice() {
+        return this.items.stream().map(CartItem::getSubtotal).reduce(0, Integer::sum);
+    }
+
     @Override
     public String toString() {
         return "ShoppingCart{" +

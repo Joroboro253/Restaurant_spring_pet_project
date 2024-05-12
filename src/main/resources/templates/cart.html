@@ -84,11 +84,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="item : ${shop.items}" th:if="${item.dish != null}">
-
-                        <td data-th="Dish" th:each="el : ${dish}">
+                        <td data-th="Dish">
                             <div class="row">
-                                <div class="col-sm-2 hidden-xs"><img th:src="@{${'/display?id=' + el.getPreviewImageId()}}" alt="..." width="95px" height="100px"/></div>
-
+                                <div class="col-sm-2 hidden-xs"><img th:src="@{${'/display?id=' + item.dish.previewImageId}}" alt="..." width="95px" height="100px"/></div>
                                     <div class="col-sm-10">
                                         <h4 class="nomargin pl-2">[[${item.dish.title}]]</h4>
                                         <p class="pl-2">[[${item.dish.description}]]</p>
@@ -112,7 +110,7 @@
                     <tr>
                         <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Дополнить заказ</a></td>
                         <td colspan="2" class="hidden-xs"></td>
-                        <td class="hidden-xs text-center"><strong>Всего: $[[${shop.getTotalPrice()}]]$</strong></td>
+                        <td class="hidden-xs text-center"><strong>Всего: [[${shop.getTotalPrice()}]]$</strong></td>
                         <td><a href="#" class="btn btn-success btn-block">Оплатить <i class="fa fa-angle-right"></i></a></td>
                     </tr>
                     </tfoot>

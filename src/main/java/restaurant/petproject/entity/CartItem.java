@@ -31,6 +31,10 @@ public class CartItem {
 
     }
 
+    public Integer getSubtotal(){
+        return dish.getPrice()*quantity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

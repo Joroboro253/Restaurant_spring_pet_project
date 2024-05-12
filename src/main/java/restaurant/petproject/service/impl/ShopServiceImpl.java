@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import restaurant.petproject.entity.CartItem;
-import restaurant.petproject.entity.ShoppingCart;
+
 import restaurant.petproject.entity.User;
 import restaurant.petproject.repository.CartItemRepository;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.repository.ShoppingCartRepository;
 import restaurant.petproject.repository.UserRepository;
 import restaurant.petproject.service.ShopService;
+import restaurant.petproject.entity.ShoppingCart;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,19 +31,20 @@ public class ShopServiceImpl implements ShopService {
     }
 
 
-    public void addItem(Long dish_id) {
+    public void addItem(Long dish_id, Integer quantity  ) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email);
         ShoppingCart shoppingCart = shoppingCartRepository.findByUser(user);
         if(shoppingCart != null){
             if(itemIsNotThere(shoppingCart.getItems(), dish_id)){
-                CartItem item = new CartItem(dishRepository.getById(dish_id));
+                CartItem item = new CartItem(dishRepository.getById(dish_id),quantity);
                 shoppingCart.getItems().add(item);
                 shoppingCartRepository.save(shoppingCart);
             } else {
 
                 for (CartItem it : shoppingCart.getItems()) {
                     if(it.getDish().getId().equals(dish_id)){
+                        it.setQuantity(it.getQuantity()+quantity);
                         cartItemRepository.save(it);
                     }
                 }
@@ -50,7 +52,7 @@ public class ShopServiceImpl implements ShopService {
         } else {
             ShoppingCart shopping = new ShoppingCart();
             shopping.setUser(user);
-            CartItem item = new CartItem(dishRepository.getById(dish_id));
+            CartItem item = new CartItem(dishRepository.getById(dish_id),quantity);
             cartItemRepository.save(item);
             shopping.getItems().add(item);
             shoppingCartRepository.save(shopping);
@@ -94,7 +96,13 @@ public class ShopServiceImpl implements ShopService {
 
     public ShoppingCart getShoppingCartByUser(User user) {
         User account = userRepository.findByEmail(user.getUsername());
-        return shoppingCartRepository.findByUser(account);
+        ShoppingCart cart = shoppingCartRepository.findByUser(account);
+        if (cart == null) {
+            cart = new ShoppingCart();
+            cart.setUser(account);
+            shoppingCartRepository.save(cart); // saving a new cart
+        }
+        return cart;
     }
 
     public ShoppingCart getShoppingCartById(Long id) {

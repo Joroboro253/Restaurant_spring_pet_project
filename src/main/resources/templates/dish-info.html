@@ -53,30 +53,34 @@
         </form>
 <br>
     <button class="btn btn-warning" type="button" data-toggle="modal" th:attr="data-target='#addM'+${dish.id}">Купить</button>
-</div>
-</div>
+        <div class="modal fade" th:id="'addM' + ${dish.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Добавить в корзину</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+<!--                        Отличия есть здесь -->
+                        <form th:action="@{/add-cart}" method="post">
 
+                            <div class="form-group">
+                                <input type="number" name="id" hidden="hidden" th:value="${dish.id}">
 
-    <div class="modal fade" th:id="'addM' + ${dish.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Добавить в корзину</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/cart}" method="get">
-                        <div class="form-group">
-                            <input type="number" name="id" hidden="hidden" th:value="${dish.id}">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Подтвердить</button>
-                    </form>
+                                <label for="quantity">Quantity :</label>
+                                <input type="number" name="quantity" min="1" th:attr="max='${dish.stock}'"  class="form-control" id="quantity" >
+
+                            </div>
+                            <button type="submit" class="btn btn-primary">Подтвердить</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 <div th:insert="blocks/footer :: footer"></div>

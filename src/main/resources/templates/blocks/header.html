@@ -5,18 +5,24 @@
 <!-- th:if="${users != null}" th:each="user : ${users}-->
     <nav class="my-2 my-md-0">
         <a class="p-2 text-white head-text" href="/menu">Меню</a>
-        <a class="p-2 text-white head-text" href="/orders">Мои заказы</a>
-        <a class="p-2 text-white head-text" href="/login" th:if="${user == null}">Авторизация</a>
+        <a class="p-2 text-white head-text" th:if="${user?.id != null and shop?.id != null}"  th:href="@{'/cart?id='+${shop.id}}">Мои заказы</a>
+        <a class="p-2 text-white head-text" href="/login" th:if="${user?.id == null}">Авторизация</a>
         <a class="p-2 text-white head-text" href="/">На главную</a> <!--done-->
         <a class="p-2 text-white head-text" href="/dish/add">Добавить блюдо</a>
         <a class="p-2 text-white head-text" href="/users">Все пользователи</a>
     </nav>
       <div class="user_option_box d-flex align-items-center">
-          <span th:if="${user != null}" th:text="${user.name}" style="color: white">Default Name</span>
+          <span th:if="${user.id != null}" th:text="${user.name}" style="color: white">Default Name</span>
 
-<!--          // Код ниже делает статус 500. Как это исправить?-->
-        <a th:if="${shop != null}" th:href="@{'/User/cart?id='+${shop.id}}" class="cart-link">
-            <span class="label" th:text="${shop.nbItems} ?: '0'"></span>
+
+        <a th:if="${shop?.id != null}" th:href="@{' /cart?id='+${shop.id}}" class="cart-link">
+
+            <span th:if="${shop != null}"
+                  class="label">[[${shop.nbItems}]]
+            </span>
+            <span th:if="${shop == null}"
+                  class="label">0
+            </span>
           <i class="fa fa-shopping-cart" aria-hidden="true"></i>
         </a>
       </div>

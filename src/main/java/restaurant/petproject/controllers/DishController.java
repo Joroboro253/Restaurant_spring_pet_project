@@ -3,6 +3,7 @@ package restaurant.petproject.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,10 +41,27 @@ public class DishController {
     }
 
     @GetMapping("/menu")
-    public String menuMain(Model model){
+    public String menuMain(Model model, User user){
         Iterable<Dish> dish = dishRepository.findAll();
         model.addAttribute("dish", dish);
+        model.addAttribute("user", user);
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String email = authentication.getName();
+            User user2 = userService.findByEmail(email);
+
+            if (user2 != null) {
+                model.addAttribute("user", user2);
+                model.addAttribute("shop", shopService.getShoppingCartByUser(user));
+            } else {
+                model.addAttribute("user", new User());
+                model.addAttribute("shop", new ShoppingCart());
+            }
+        }  else {
+            model.addAttribute("user", new User());
+            model.addAttribute("shop", new ShoppingCart());
+        }
         return "menu";
     }
 

@@ -1,4 +1,7 @@
-<link rel="stylesheet" type="text/css" href="/style.css">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <div th:fragment="header">
   <div class="d-flex flex-md-row justify-content-between align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm header">
@@ -8,8 +11,8 @@
         <a class="p-2 text-white head-text" href="/menu">Menu</a>
         <a class="p-2 text-white head-text" th:if="${user?.id != null and shop?.id != null}"  th:href="@{'/cart?id='+${shop.id}}">My Orders</a>
         <a class="p-2 text-white head-text" href="/login" th:if="${user?.id == null}">Authorization</a>
-        <a class="p-2 text-white head-text" href="/dish/add">Add dish</a>
-        <a class="p-2 text-white head-text" href="/users">All users</a>
+        <a sec:authorize="hasRole('ADMIN')" class="p-2 text-white head-text" href="/dish/add">Add dish</a>
+        <a sec:authorize="hasRole('ADMIN')" class="p-2 text-white head-text" href="/users">All users</a>
 
     </nav>
       <div class="user_option_box d-flex align-items-center">

@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import restaurant.petproject.entity.Dish;
 import restaurant.petproject.entity.ShoppingCart;
 import restaurant.petproject.entity.User;
@@ -38,6 +39,11 @@ public class ShopController {
         }else{
             model.addAttribute("shop", shopService.creatEmptyCart((User) auth.getPrincipal()));
         }
+        if (!model.containsAttribute("shop")) {
+            ShoppingCart shop = shopService.getShoppingCartByUser((User) auth.getPrincipal());
+            model.addAttribute("shop", shop);
+        }
+
         Iterable<Dish> dish = dishRepository.findAll();
         model.addAttribute("dish", dish);
         model.addAttribute("user", userService.findByEmail(auth.getName()));
@@ -67,4 +73,5 @@ public class ShopController {
         model.addAttribute("user", userService.findByEmail(((User) ((User) auth.getPrincipal())).getUsername()));
         return "cart";
     }
+
 }

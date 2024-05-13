@@ -82,6 +82,7 @@ public class ShopServiceImpl implements ShopService {
         ShoppingCart shoppingCart = getShoppingCartByUser(user);
         for (CartItem item : shoppingCart.getItems()) {
             if(item.getId().equals(item_id)){
+                item.setQuantity(newQuantity);
                 cartItemRepository.save(item);
                 break;
             }

@@ -45,11 +45,6 @@ public class AdminController {
         return "redirect:/menu";
     }
 
-    @GetMapping("/orders")
-    public String orders(Model model) {
-        return "orders";
-    }
-
     @GetMapping("/dish/{id}/edit")
     public String dishEdit(@PathVariable(value = "id") long id, Model model) {
         if(!dishRepository.existsById(id)) {

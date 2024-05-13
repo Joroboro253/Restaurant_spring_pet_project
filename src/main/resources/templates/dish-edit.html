@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Редактирование</title>
+  <title>Editing</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/style.css">
@@ -11,18 +11,18 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div content="container mt-5 mv-5" class="row mx-3">
-  <h1>Редактирование постов о блюдах</h1>
+  <h1>Editing posts about dishes</h1>
   <div th:each="el: ${dish}">
   <form method="post" enctype="multipart/form-data">
-    <input type="text" th:value="${el.title}" name="title" placeholder="Название блюда" class="form-control"><br>
-    <textarea name="description" th:value="${el.description}" placeholder="Описание блюда" class="form-control"></textarea><br>
-    <input type="number" name="price" th:value="${el.price}" placeholder="Цена блюда" class="form-control"><br>
+    <input type="text" th:value="${el.title}" name="title" placeholder="Dish name" class="form-control"><br>
+    <textarea name="description" th:value="${el.description}" placeholder="Dish description" class="form-control"></textarea><br>
+    <input type="number" name="price" th:value="${el.price}" placeholder="Dish price" class="form-control"><br>
     <div class="custom-file">
-      <p>Добавить другое фото</p>
+      <p>Update photo</p>
       <input type="file" class="form-control" id="image" name="image" aria-describedby="inputGroupFileAddon04" aria-label="Upload" multiple><br>
     </div>
 
-    <button type="submit" class="btn btn-success">Обновить</button>
+    <button type="submit" class="btn btn-success">Update</button>
   </form>
   </div>
 </div>

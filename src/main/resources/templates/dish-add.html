@@ -31,21 +31,21 @@
 <!--  </div>-->
   </div>
 
-  <h1>Создание нового блюда</h1>
+  <h1>Add new dish</h1>
 
   <form action="/dish/add" method="post" enctype="multipart/form-data">
     <div class="mb-3">
-      <label for="title">Название блюда</label>
+      <label for="title">Dish name</label>
       <input type="text" required class="form-control" id="title" name="title">
     </div>
 
     <div class="mb-3">
-      <label for="description">Описание блюда</label>
+      <label for="description">Dish description</label>
       <textarea required class="form-control" id="description" name="description"></textarea>
     </div>
 
     <div class="mb-3">
-      <label for="price">Цена</label>
+      <label for="price">Price</label>
       <div class="input-group">
         <input type="number" required class="form-control" id="price" name="price">
         <div class="input-group-append">
@@ -55,11 +55,11 @@
     </div>
 
     <div class="mb-3">
-      <p>Загрузите фотографии блюда</p>
+      <p>Upload photos of the dish</p>
       <input type="file" class="form-control" id="image" name="image" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required multiple>
     </div>
 
-    <button type="submit" class="btn btn-success">Добавить блюдо</button>
+    <button type="submit" class="btn btn-success">Add dish</button>
   </form>
 <!--</div>-->
 

@@ -46,18 +46,18 @@
         <p th:text="${dish.description}"/>
 
 
-        <a th:href="'/dish/' + ${dish.id} + '/edit'" class="btn btn-warning">Редактировать</a><br>
+        <a th:href="'/dish/' + ${dish.id} + '/edit'" class="btn btn-warning">Edit</a><br>
 
         <form th:action="'/dish/' + ${dish.id} + '/remove'" method="post" class="btn btn-warning">
-            <button class="btn btn-warning" type="submit">Удалить</button>
+            <button class="btn btn-warning" type="submit">Delete</button>
         </form>
 <br>
-    <button class="btn btn-warning" type="button" data-toggle="modal" th:attr="data-target='#addM'+${dish.id}">Купить</button>
+    <button class="btn btn-warning" type="button" data-toggle="modal" th:attr="data-target='#addM'+${dish.id}">Buy</button>
         <div class="modal fade" th:id="'addM' + ${dish.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Добавить в корзину</h5>
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Add ro cart</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -73,7 +73,7 @@
                                 <input type="number" name="quantity" min="1" th:attr="max='${dish.stock}'"  class="form-control" id="quantity" >
 
                             </div>
-                            <button type="submit" class="btn btn-primary">Подтвердить</button>
+                            <button type="submit" class="btn btn-primary">Confirm</button>
                         </form>
                     </div>
                 </div>

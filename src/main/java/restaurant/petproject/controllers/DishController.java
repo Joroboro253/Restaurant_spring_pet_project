@@ -65,11 +65,6 @@ public class DishController {
         return "menu";
     }
 
-    @GetMapping("/authorization")
-    public String authorizationGet() {
-        return "authorization";
-    }
-
     @GetMapping("/display")
     public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws SQLException
     {

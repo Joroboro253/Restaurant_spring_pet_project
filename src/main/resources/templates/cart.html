@@ -66,7 +66,7 @@
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
-                Корзина
+                Basket
             </h2>
         </div>
         <div class="row">
@@ -74,10 +74,10 @@
                 <table id="cart" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th style="width:50%">Блюдо</th>
-                        <th style="width:10%">Цена</th>
-                        <th style="width:20%">Количество</th>
-                        <th style="width:10%">К оплате</th>
+                        <th style="width:50%">Dish</th>
+                        <th style="width:10%">Price</th>
+                        <th style="width:20%">Amount</th>
+                        <th style="width:10%">To payment</th>
                         <th style="width:20%"></th>
                     </tr>
                     </thead>
@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td data-th="Price">$[[${item.dish.price}]]</td>
+                        <td data-th="Price">[[${item.dish.price}]] ₴</td>
                         <form th:action="@{/update-cartItem}">
                             <td data-th="Quantity">
                                     <input type="number" name="quantity" min="1" th:value="${item.getQuantity()}" th:attr="max='${item.dish.stock}'" class="form-control text-center">
@@ -109,10 +109,10 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Дополнить заказ</a></td>
+                        <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Order more</a></td>
                         <td colspan="2" class="hidden-xs"></td>
-                        <td class="hidden-xs text-center"><strong>Всего: [[${shop.getTotalPrice()}]]$</strong></td>
-                        <td><a href="#" class="btn btn-success btn-block">Оплатить <i class="fa fa-angle-right"></i></a></td>
+                        <td class="hidden-xs text-center"><strong>Total: [[${shop.getTotalPrice()}]] ₴</strong></td>
+                        <td><a href="#" class="btn btn-success btn-block">Payment <i class="fa fa-angle-right"></i></a></td>
                     </tr>
                     </tfoot>
                 </table>

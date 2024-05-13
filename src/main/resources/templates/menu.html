@@ -15,21 +15,21 @@
 
 <main class="wrapper">
 <div class="row mx-3">
-  <h1>Меню</h1>
+  <h1>Menu</h1>
   <div class="row mt-5">
     <div th:each="el : ${dish}" class="col-lg-2 col-md-4 col-sm-6 mt-2">
         <div class="card-body my-card">
-            <img class="preview_img" th:src="@{${'/display?id=' + el.getPreviewImageId()}}" alt="Фото блюда"><br>
+            <img class="preview_img" th:src="@{${'/display?id=' + el.getPreviewImageId()}}" alt="Dish photo"><br>
             <p th:text="${el.title}"/>
             <p>Цена: <span th:text="${el.price} + ' UAH'"></span></p>
-            <a th:href="'/dish/' + ${el.id}" class="btn">Детальнее</a>
+            <a th:href="'/dish/' + ${el.id}" class="btn">More</a>
         </div>
     </div>
   </div>
   <br>
 
 </div>
-  <a th:href="'/dish/add'" class="btn btn-warning row mx-3">Добавить блюдо</a>
+  <a th:href="'/dish/add'" class="btn btn-warning row mx-3">Add dish</a>
 </main>
 
 <div th:insert="blocks/footer :: footer"></div>

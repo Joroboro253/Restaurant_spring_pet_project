@@ -19,8 +19,9 @@ public class CartItem {
     @Column(name = "id", nullable = false)
     private Long id;
 //    @ManyToOne
-    @OneToOne(fetch = FetchType.EAGER,orphanRemoval = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.EAGER)
+//    ,orphanRemoval = true
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
     private Integer quantity;
     @Transient

@@ -53,7 +53,7 @@
             <button class="btn btn-warning" type="submit">Delete</button>
         </form>
 <br>
-    <button class="btn btn-warning" type="button" data-toggle="modal" th:attr="data-target='#addM'+${dish.id}">Buy</button>
+    <button th:if="${user.id != null}" class="btn btn-warning" type="button" data-toggle="modal" th:attr="data-target='#addM'+${dish.id}">Buy</button>
         <div class="modal fade" th:id="'addM' + ${dish.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div class="modal-content">

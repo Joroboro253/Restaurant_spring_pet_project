@@ -8,10 +8,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -29,20 +32,9 @@ public class SpringSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/register/**").permitAll()
-                                .requestMatchers("/index").permitAll()
-                                .requestMatchers("/menu").permitAll()
-                                .requestMatchers("/orders").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/authorization").permitAll()
-                                .requestMatchers("/").permitAll()
-                                .requestMatchers("/users").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/dish").permitAll()
-                                .requestMatchers("/add").permitAll()
-                                .requestMatchers("/dish/add").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/**").permitAll()
-                                .requestMatchers("/dish/**").permitAll()
-                                .requestMatchers("/images/**").permitAll()
-                                .requestMatchers("/menu").permitAll()
+                        authorize.requestMatchers("/", "/register/**", "/index", "/menu","/authorization", "/dish", "/add", "/dish/**", "/images/**", "/menu", "/access-denied", "/**").permitAll()
+                                .requestMatchers("/orders", "/cart").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers("/users", "/dish/add").hasAuthority("ROLE_ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -53,13 +45,33 @@ public class SpringSecurity {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
+
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(customAuthenticationEntryPoint())
+                        .accessDeniedHandler(accessDeniedHandler())
                 );
         return http.build();
     }
+
+
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public AccessDeniedHandlerImpl accessDeniedHandler() {
+        AccessDeniedHandlerImpl handler = new AccessDeniedHandlerImpl();
+        handler.setErrorPage("/access-denied");
+        return handler;
+    }
+
+    @Bean
+    public CustomAuthenticationEntryPoint customAuthenticationEntryPoint() {
+        return new CustomAuthenticationEntryPoint();
     }
 }

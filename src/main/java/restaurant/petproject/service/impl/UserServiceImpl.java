@@ -95,4 +95,9 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    public boolean isUserAdmin(User user) {
+        return user.getRoles().stream()
+                .anyMatch(role -> "ROLE_ADMIN".equals(role.getName()));
+    }
 }

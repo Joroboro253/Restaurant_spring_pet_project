@@ -3,12 +3,14 @@ package restaurant.petproject.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-//@Table(name = "cart_item")
+@Table(name = "cart_item")
 @Getter
 @Setter
 public class CartItem {
@@ -16,7 +18,10 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+//    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+//    ,orphanRemoval = true
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
     private Integer quantity;
     @Transient

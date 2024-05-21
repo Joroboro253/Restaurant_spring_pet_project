@@ -1,26 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <link rel="stylesheet" type="text/css" href="/style.css">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <div th:fragment="header">
-  <div class="d-flex flex-md-row justify-content-between align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm header">
-<!-- th:if="${users != null}" th:each="user : ${users}-->
+  <div class="d-flex flex-md-row justify-content-between align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm bg-dark">
     <nav class="my-2 my-md-0">
-        <a class="p-2 text-white head-text" href="/menu">Меню</a>
-        <a class="p-2 text-white head-text" th:if="${user?.id != null and shop?.id != null}"  th:href="@{'/cart?id='+${shop.id}}">Мои заказы</a>
-        <a class="p-2 text-white head-text" href="/login" th:if="${user?.id == null}">Авторизация</a>
-        <a class="p-2 text-white head-text" href="/">На главную</a> <!--done-->
-        <a class="p-2 text-white head-text" href="/dish/add">Добавить блюдо</a>
-        <a class="p-2 text-white head-text" href="/users">Все пользователи</a>
+        <a class="p-2 text-white head-text" href="/">Home</a> <!--done-->
+        <a class="p-2 text-white head-text" href="/menu">Menu</a>
+        <a class="p-2 text-white head-text" th:if="${user?.id != null and shop?.id != null}"  th:href="@{'/cart?id='+${shop.id}}">My Orders</a>
+        <a class="p-2 text-white head-text" href="/login" th:if="${user?.id == null}">Authorization</a>
+        <a sec:authorize="hasRole('ADMIN')" class="p-2 text-white head-text" href="/dish/add">Add dish</a>
+        <a sec:authorize="hasRole('ADMIN')" class="p-2 text-white head-text" href="/users">All users</a>
+
     </nav>
       <div class="user_option_box d-flex align-items-center">
           <span th:if="${user.id != null}" th:text="${user.name}" style="color: white">Default Name</span>
-
+          <form th:if="${user.id != null}" action="/logout" method="post">
+              <button type="submit" class="btn btn-default" style="border: none; background: none">
+                <i class="fas fa-sign-out-alt" title="Logout" style="color: white;"></i>
+              </button>
+          </form>
 
         <a th:if="${shop?.id != null}" th:href="@{' /cart?id='+${shop.id}}" class="cart-link">
-
-            <span th:if="${shop != null}"
-                  class="label">[[${shop.nbItems}]]
-            </span>
-            <span th:if="${shop == null}"
+<!--            <span-->
+<!--                  class="label">[[${shop.nbItems}]]-->
+<!--            </span>-->
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        </a>
+        <a  th:if="${shop == null}" th:href="@{/User/cart}" class="cart-link">
+            <span
                   class="label">0
             </span>
           <i class="fa fa-shopping-cart" aria-hidden="true"></i>

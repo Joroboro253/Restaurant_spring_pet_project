@@ -66,19 +66,18 @@
     <div class="container">
         <div class="heading_container heading_center">
             <h2>
-                Корзина
+                Basket
             </h2>
         </div>
         <div class="row">
-
             <div class="container">
                 <table id="cart" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th style="width:50%">Блюдо</th>
-                        <th style="width:10%">Цена</th>
-                        <th style="width:20%">Количество</th>
-                        <th style="width:10%">К оплате</th>
+                        <th style="width:50%">Dish</th>
+                        <th style="width:10%">Price</th>
+                        <th style="width:20%">Amount</th>
+                        <th style="width:10%">To payment</th>
                         <th style="width:20%"></th>
                     </tr>
                     </thead>
@@ -87,44 +86,42 @@
                         <td data-th="Dish">
                             <div class="row">
                                 <div class="col-sm-2 hidden-xs"><img th:src="@{${'/display?id=' + item.dish.previewImageId}}" alt="..." width="95px" height="100px"/></div>
-                                    <div class="col-sm-10">
-                                        <h4 class="nomargin pl-2">[[${item.dish.title}]]</h4>
-                                        <p class="pl-2">[[${item.dish.description}]]</p>
-                                    </div>
+                                <div class="col-sm-10">
+                                    <h4 class="nomargin pl-2">[[${item.dish.title}]]</h4>
+                                    <p class="pl-2">[[${item.dish.description}]]</p>
+                                </div>
                             </div>
                         </td>
-                        <td data-th="Price">$[[${item.dish.price}]]</td>
+                        <td data-th="Price">[[${item.dish.price}]] ₴</td>
+                        <form th:action="@{/update-cartItem}">
                             <td data-th="Quantity">
-                                <input type="number" name="quantity" min="1" th:value="${item.quantity}" th:attr="max='${item.dish.stock}'" class="form-control text-center">
-                                <input type="hidden" name="id" th:value="${item.id}">
-                                </td>
-                                <td data-th="Subtotal" class="text-center">[[${item.getSubtotal()}]]</td>
-                                <td class="actions" data-th="">
-                                    <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-                                </form>
-                                <a th:href="@{/remove-cartItem/{id}(id=${item.id})}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
+                                    <input type="number" name="quantity" min="1" th:value="${item.getQuantity()}" th:attr="max='${item.dish.stock}'" class="form-control text-center">
+                                    <input type="number" hidden="hidden" name="id" th:value="${item.id}">
                             </td>
-                        </tr>
+                            <td data-th="Subtotal" class="text-center">[[${item.getSubtotal()}]]</td>
+                            <td class="actions" data-th="">
+                                <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                                <a th:href="@{/remove-cartItem/{id}(id=${item.id})}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </form>
+
+                    </tr>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Дополнить заказ</a></td>
+                        <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Order more</a></td>
                         <td colspan="2" class="hidden-xs"></td>
-                        <td class="hidden-xs text-center"><strong>Всего: [[${shop.getTotalPrice()}]]$</strong></td>
-                        <td><a href="#" class="btn btn-success btn-block">Оплатить <i class="fa fa-angle-right"></i></a></td>
+                        <td class="hidden-xs text-center"><strong>Total: [[${shop.getTotalPrice()}]] ₴</strong></td>
+                        <td><a href="#" class="btn btn-success btn-block">Payment <i class="fa fa-angle-right"></i></a></td>
                     </tr>
                     </tfoot>
                 </table>
             </div>
-
         </div>
-
     </div>
-
 
 </section>
 
-<!-- Почему не отображается? -->
 <div th:insert="blocks/footer :: footer"></div>
 
 

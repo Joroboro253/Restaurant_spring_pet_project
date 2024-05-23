@@ -283,3 +283,30 @@ img {
     align-items: center;
     height: 100%;
 }
+
+.custom-file-input {
+    display: none;
+}
+.custom-file-label {
+    cursor: pointer;
+}
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+}
+.file-upload-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.file-upload-filename {
+    flex-grow: 1;
+}
+
+/*.custom-file-input ~ .custom-file-label::after {*/
+/*    content: "Browse";*/
+/*}*/

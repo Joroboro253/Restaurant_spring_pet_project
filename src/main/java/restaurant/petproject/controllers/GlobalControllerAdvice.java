@@ -20,7 +20,6 @@ public class GlobalControllerAdvice {
     private UserServiceImpl userService;
     @Autowired
     private ShopServiceImpl shopService;
-//    private Logger log;
 
     @ModelAttribute
     public void globalUser(Model model, HttpServletRequest request) {
@@ -39,9 +38,6 @@ public class GlobalControllerAdvice {
                 ShoppingCart cart = shopService.getShoppingCartByUser(user);
                 model.addAttribute("user", user);
                 model.addAttribute("shop", cart);
-//                log.info("Authentication object: " + authentication);
-//                log.info("User object: " + user);
-//                log.info("ShoppingCart object: " + cart);
             } else {
                 model.addAttribute("user", new User());
                 model.addAttribute("shop", new ShoppingCart());

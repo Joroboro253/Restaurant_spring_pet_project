@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 //import restaurant.petproject.models.User;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import restaurant.petproject.dto.UserDto;
 import restaurant.petproject.entity.Category;
 import restaurant.petproject.entity.Dish;
 import restaurant.petproject.repository.DishRepository;
@@ -90,64 +91,13 @@ public class AdminController {
     public String dishGetDelete(@PathVariable(value = "id") long id, Model model){
         return "/menu";
     }
-
-    @GetMapping("/Admin/index")
-    public String showExampleView(Model model)
-    {
-        List<Dish> dishes = dishService.getAllDishes();
-        model.addAttribute("dishes", dishes);
-        return "Admin/index";
+    @GetMapping("/users")
+    public String users(Model model){
+        List<UserDto> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "users";
     }
 
-    @GetMapping("/Admin/dish")
-    public String showAddDish(Model model){
-        model.addAttribute("category", new Category());
-        model.addAttribute("categories", dishService.getAllCategories());
-        model.addAttribute("dishes", dishService.getAllDishes());
-        return "Admin/dish";
-    }
 
-    @PostMapping("/Admin/ChangeName")
-    public String changeDname(@RequestParam("id") Long id, @RequestParam("newDname")
-                              String name)
-     {
-         dishService.changeDishName(id, name);
-         return "redirect:/Admin/index";
-     }
-
-    @PostMapping("/Admin/changeDescription")
-    public String changeDescription(@RequestParam("id") Long id, @RequestParam("newDescription") String description) {
-        dishService.changeDishDescription(id, description);
-        return "redirect:/Admin/index";
-    }
-
-    @PostMapping("/Admin/changePrice")
-    public String changePrice(@RequestParam("id") Long id,
-                              @RequestParam("newPrice") int price) {
-        dishService.changeDishPrice(id, price);
-        return "redirect:/Admin/index";
-     }
-
-    // Тут нужно ещё дописать
-    @PostMapping("/Admin/addCategory")
-    public String addCategory(@ModelAttribute Category category, Model model) {
-        dishService.saveCategory(category);
-        return "redirect:/Admin/dish";
-    }
-
-    // Работать не будет, так как один метод не реализован
-    @PostMapping("/Admin/addPictureToD")
-    public String addImageToDish(@RequestParam("file") MultipartFile file,
-                                 @RequestParam("dish_id") Long id) {
-//        dishService.addImageToDish(file, id);
-        return "redirect:/Admin/dish";
-    }
-
-    @PostMapping("/Admin/addDiscountToD")
-    public String addDiscountToDish(@RequestParam("dish_id") Long id,
-                                    @RequestParam("discount") int discount) {
-//        dishService.saveDishDiscount(id, discount);
-        return "redirect:/Admin/dish";
-    }
 
 }

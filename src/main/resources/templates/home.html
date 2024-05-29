@@ -7,6 +7,39 @@
     <link rel="stylesheet" type="text/css" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="../static/images/icon.png">
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+        }
+        .hero-section {
+            background-image: url('static/images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 3em;
+            margin: 0;
+        }
+        .hero-section p {
+            font-size: 1.5em;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content-section {
+            padding: 20px 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -14,17 +47,35 @@
 
 <main>
 
-    <section class="py-5 text-center container wrapper">
-        <div class="row py-lg-5 content">
-            <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">Top restaurant</h1>
-                <p class="lead text-body-secondary">In this place the best dish</p>
-                <p>
-                    <a href="/menu" class="btn btn-primary my-2">Make an order</a>
-                </p>
+
+    <div class="hero-section">
+        <section class="py-5 text-center container wrapper">
+            <div class="row py-lg-5 content">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light text-white">Top restaurant</h1>
+                    <p class="lead text-body-secondary text-white">In this place the best dish</p>
+                    <p>
+                        <a href="/menu" class="btn btn-primary my-2">Make an order</a>
+                    </p>
+                </div>
             </div>
+        </section>
+    </div>
+
+    <div class="content">
+        <div class="content-section">
+            <h2>About Us</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa.</p>
         </div>
-    </section>
+        <div class="content-section">
+            <h2>Our Menu</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa.</p>
+        </div>
+        <div class="content-section">
+            <h2>Contact Us</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa.</p>
+        </div>
+    </div>
 
 
 

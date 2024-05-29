@@ -1,6 +1,6 @@
 body{
     background-color: aliceblue;
-}
+    font-family: "Open Sans", 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;}
 
 * {
     margin: 0;
@@ -76,23 +76,6 @@ th, td {
 
 .content {
     padding-bottom: 90px;
-}
-
-.footer-p {
-    color: aliceblue;
-}
-
-.footer {
-    flex: 0 0 auto;
-    display: flex;
-    justify-content: space-between;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 80px;
-    background: #ffffff; /* or any other color you prefer */
-    z-index: 1000; /* ensures the footer stays on top */
 }
 
 .header {
@@ -307,6 +290,82 @@ img {
     flex-grow: 1;
 }
 
-/*.custom-file-input ~ .custom-file-label::after {*/
-/*    content: "Browse";*/
-/*}*/
+.footer-background {
+    background-color: #f8f9fa;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f8f9fa;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.info-and-hours {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+.footer-column {
+    padding: 15px;
+}
+
+.footer-column p.bold {
+    font-weight: bold;
+}
+
+.working-hours-content span,
+.icon {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.footer h3 {
+    margin-top: 0;
+}
+.footer a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    margin: 5px 0;
+}
+.footer .working-hours span {
+    display: block;
+}
+.map {
+    width: 100%;
+    height: 200px;
+    border: none;
+}
+.footer .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+}
+
+
+@media (max-width: 768px) {
+    .info-and-hours {
+        flex-direction: row;
+    }
+
+    .contact-info, .working-hours {
+        flex: 1;
+        padding: 0 10px;
+    }
+
+    .footer {
+        flex-direction: column;
+    }
+}

@@ -113,7 +113,7 @@
                         <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Order more</a></td>
                         <td colspan="2" class="hidden-xs"></td>
                         <td class="hidden-xs text-center"><strong>Total: [[${shop.getTotalPrice()}]] ₴</strong></td>
-                        <td><a href="#" class="btn btn-success btn-block">Payment <i class="fa fa-angle-right"></i></a></td>
+                        <td><a th:href="@{/payment}" class="btn btn-success btn-block">Payment <i class="fa fa-angle-right"></i></a></td>
                     </tr>
                     </tfoot>
                 </table>

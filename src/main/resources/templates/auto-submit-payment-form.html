@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting to payment</title>
+</head>
+<body>
+    <p>Redirecting to payment...</p>
+    <div th:utext="${paymentFormUrl}"></div>
+    <script type="text/javascript">
+        document.forms[0].submit();
+    </script>
+</body>
+</html>

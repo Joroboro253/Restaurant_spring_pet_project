@@ -18,10 +18,7 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-//    @ManyToOne
     @ManyToOne(fetch = FetchType.EAGER)
-//    ,orphanRemoval = true
-//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;
     private Integer quantity;
     @Transient
@@ -61,6 +58,4 @@ public class CartItem {
                 ", subtotal=" + subtotal +
                 '}';
     }
-
-
 }

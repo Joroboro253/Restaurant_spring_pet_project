@@ -1,15 +1,17 @@
 package restaurant.petproject.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import restaurant.petproject.entity.Dish;
 import restaurant.petproject.entity.ShoppingCart;
 import restaurant.petproject.entity.User;
+import restaurant.petproject.payment.LiqPayPayment;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.service.impl.DishServiceImpl;
 import restaurant.petproject.service.impl.ShopServiceImpl;
@@ -18,14 +20,14 @@ import restaurant.petproject.service.impl.UserServiceImpl;
 import java.util.Optional;
 
 @Controller
-public class ShopController {
+public class CartController {
     private final ShopServiceImpl shopService;
     private final UserServiceImpl userService;
     private final DishServiceImpl dishService;
     private final DishRepository dishRepository;
 
     @Autowired
-    public ShopController(ShopServiceImpl shopService, UserServiceImpl userService, DishServiceImpl dishService, DishRepository dishRepository) {
+    public CartController(ShopServiceImpl shopService, UserServiceImpl userService, DishServiceImpl dishService, DishRepository dishRepository) {
         this.shopService = shopService;
         this.userService = userService;
         this.dishService = dishService;
@@ -50,6 +52,8 @@ public class ShopController {
         return "cart";
     }
 
+
+
     @PostMapping("/add-cart")
     public String addToCart(@RequestParam("id") Long id, @RequestParam("quantity") Integer quantity) {
         shopService.addItem(id, quantity);
@@ -73,5 +77,4 @@ public class ShopController {
         model.addAttribute("user", userService.findByEmail(((User) ((User) auth.getPrincipal())).getUsername()));
         return "cart";
     }
-
 }

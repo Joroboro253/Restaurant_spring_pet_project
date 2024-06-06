@@ -40,6 +40,11 @@ public class DishController {
         this.userService = userService;
     }
 
+    @GetMapping("/")
+    public String home(){
+        return "index";
+    }
+
     @GetMapping("/menu")
     public String menuMain(Model model, User user){
         Iterable<Dish> dish = dishRepository.findAll();
@@ -72,11 +77,6 @@ public class DishController {
         byte [] imageBytes = null;
         imageBytes = image.getImage().getBytes(1,(int) image.getImage().length());
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
-    }
-
-    @GetMapping("/")
-    public String home(){
-        return "home";
     }
 
     @GetMapping("/dish/{id}")

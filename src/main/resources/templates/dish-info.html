@@ -48,13 +48,13 @@
         <p th:text="${dish.description}"/>
 
 
-        <a sec:authorize="hasRole('ADMIN')" th:href="'/dish/' + ${dish.id} + '/edit'" class="btn btn-warning">Edit</a><br>
+        <a sec:authorize="hasRole('ADMIN')" th:href="'/dish/' + ${dish.id} + '/edit'" class="btn btn-warning" th:text="#{button.edit}">Edit</a><br>
 
-        <form sec:authorize="hasRole('ADMIN')" th:action="'/dish/' + ${dish.id} + '/remove'" method="post" class="btn btn-warning">
+        <form sec:authorize="hasRole('ADMIN')" th:action="'/dish/' + ${dish.id} + '/remove'" method="post" class="btn btn-warning" th:text="#{button.delete}">
             <button class="btn btn-warning" type="submit">Delete</button>
         </form>
 <br>
-    <button th:if="${user.id != null}" class="btn btn-warning" type="button" data-toggle="modal" th:attr="data-target='#addM'+${dish.id}">Buy</button>
+    <button th:if="${user.id != null}" class="btn btn-warning" type="button" data-toggle="modal" th:attr="data-target='#addM'+${dish.id}" th:text="#{button.buy}">Buy</button>
         <div class="modal fade" th:id="'addM' + ${dish.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div class="modal-content">

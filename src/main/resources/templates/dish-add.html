@@ -13,18 +13,18 @@
 <header th:insert="blocks/header :: header"></header>
 <div class="wrapper">
   <div class="container" id="app">
-    <h1>Add new dish</h1>
+    <h1 th:text="#{adding.newDish}">Add new dish</h1>
     <form action="/dish/add" method="post" enctype="multipart/form-data">
       <div class="mb-3">
-        <label for="title">Dish name</label>
+        <label for="title" th:text="#{adding.name}">Dish name</label>
         <input type="text" required class="form-control" id="title" name="title">
       </div>
       <div class="mb-3">
-        <label for="description">Dish description</label>
+        <label for="description" th:text="#{adding.description}">Dish description</label>
         <textarea required class="form-control" id="description" name="description"></textarea>
       </div>
       <div class="mb-3">
-        <label for="price">Price</label>
+        <label for="price" th:text="#{adding.price}">Price</label>
         <div class="input-group">
           <input type="number" required class="form-control" id="price" name="price">
           <div class="input-group-append">
@@ -33,14 +33,14 @@
         </div>
       </div>
       <div class="mb-3">
-        <p>Upload photos of the dish</p>
+        <p th:text="#{adding.upload}">Upload photos of the dish</p>
         <div class="file-upload-wrapper">
-          <label class="file-upload-button" for="image">Choose files</label>
+          <label class="file-upload-button" for="image" th:text="#{adding.chooseFile}">Choose files</label>
           <input type="file" class="custom-file-input" id="image" name="image" required multiple>
-          <span class="custom-file-label file-upload-filename">No file chosen</span>
+          <span class="custom-file-label file-upload-filename" th:text="#{adding.noFile}">No file chosen</span>
         </div>
       </div>
-      <button type="submit" class="btn btn-success">Add dish</button>
+      <button type="submit" class="btn btn-success" th:text="#{adding.addDish}">Add dish</button>
     </form>
   </div>
   <div th:insert="blocks/footer :: footer"></div>

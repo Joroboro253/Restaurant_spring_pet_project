@@ -66,19 +66,17 @@
 <section class="product_section pt-4 ">
     <div class="container">
         <div class="heading_container heading_center">
-            <h2>
-                Basket
-            </h2>
+            <h2 th:text="#{cart.basket}">Basket</h2>
         </div>
         <div class="row">
             <div class="container">
                 <table id="cart" class="table table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th style="width:50%">Dish</th>
-                        <th style="width:10%">Price</th>
-                        <th style="width:20%">Amount</th>
-                        <th style="width:10%">To payment</th>
+                        <th style="width:50%" th:text="#{cart.dish}">Dish</th>
+                        <th style="width:10%" th:text="#{cart.price}">Price</th>
+                        <th style="width:20%" th:text="#{cart.amount}">Amount</th>
+                        <th style="width:10%" th:text="#{cart.toPayment}">To payment</th>
                         <th style="width:20%"></th>
                     </tr>
                     </thead>
@@ -110,10 +108,12 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Order more</a></td>
+                        <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left" th:text="#{cart.more}"></i></a></td>
                         <td colspan="2" class="hidden-xs"></td>
-                        <td class="hidden-xs text-center"><strong>Total: [[${shop.getTotalPrice()}]] ₴</strong></td>
-                        <td><a th:href="@{/payment}" class="btn btn-success btn-block">Payment <i class="fa fa-angle-right"></i></a></td>
+                        <td class="hidden-xs text-center">
+                            <strong th:utext="#{cart.total} + ' ' + ${shop.getTotalPrice()} + ' ₴'">Total: [[${shop.getTotalPrice()}]] ₴</strong>
+                        </td>
+                        <td><a th:href="@{/payment}" class="btn btn-success btn-block" th:text="#{cart.payment}">Payment <i class="fa fa-angle-right"></i></a></td>
                     </tr>
                     </tfoot>
                 </table>

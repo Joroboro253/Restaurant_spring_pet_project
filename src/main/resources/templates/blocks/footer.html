@@ -11,31 +11,31 @@
     <div class="footer">
       <div class="info-and-hours">
         <div class="footer-column contact-info">
-          <p class="bold">Contact Information</p>
-          <p>Nauky ave, 14, Kharkiv, Ukraine, 61166</p>
+          <p class="bold" th:text="#{footer.contact}">Contact Information</p>
+          <p th:text="#{footer.address}">Nauky ave, 14, Kharkiv, Ukraine, 61166</p>
           <p>+380 57 702 1013</p>
         </div>
         <div class="footer-column working-hours">
-          <p class="bold">Working Hours</p>
+          <p class="bold" th:text="#{footer.hours}">Working Hours</p>
           <div class="working-hours-content">
-            <span>Monday: 07:30 - 21:00</span>
-            <span>Tuesday: 07:30 - 21:00</span>
-            <span>Wednesday: 07:30 - 21:00</span>
-            <span>Thursday: 07:30 - 21:00</span>
-            <span>Friday: 07:30 - 21:00</span>
-            <span>Saturday: 08:00 - 21:00</span>
-            <span>Sunday: 08:00 - 21:00</span>
+            <span th:text="#{footer.monday}">Monday: 07:30 - 21:00</span>
+            <span th:text="#{footer.tuesday}">Tuesday: 07:30 - 21:00</span>
+            <span th:text="#{footer.wednesday}">Wednesday: 07:30 - 21:00</span>
+            <span th:text="#{footer.thursday}">Thursday: 07:30 - 21:00</span>
+            <span th:text="#{footer.friday}">Friday: 07:30 - 21:00</span>
+            <span th:text="#{footer.saturday}">Saturday: 08:00 - 21:00</span>
+            <span th:text="#{footer.sunday}">Sunday: 08:00 - 21:00</span>
           </div>
         </div>
       </div>
       <div class="footer-column">
-        <p class="bold">Follow Us</p>
-        <a href="https://www.facebook.com" target="_blank" class="icon"><i class="fab fa-facebook"></i> Facebook</a>
-        <a href="https://www.instagram.com" target="_blank" class="icon"><i class="fab fa-instagram"></i> Instagram</a>
-        <a href="https://t.me/vitaliiLiashchenko" target="_blank" class="icon"><i class="fab fa-telegram"></i> Telegram</a>
+        <p class="bold" th:text="#{footer.follow}">Follow Us</p>
+        <a href="https://www.facebook.com" target="_blank" class="icon"><i class="fab fa-facebook" th:text="#{footer.facebook}"></i></a>
+        <a href="https://www.instagram.com" target="_blank" class="icon"><i class="fab fa-instagram" th:text="#{footer.instagram}"></i></a>
+        <a href="https://t.me/vitaliiLiashchenko" target="_blank" class="icon"><i class="fab fa-telegram" th:text="#{footer.tg}"></i></a>
       </div>
       <div class="footer-column">
-        <p class="bold">On the Map</p>
+        <p class="bold" th:text="#{footer.map}">On the Map</p>
         <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d855.5651091533231!2d36.22593480378801!3d50.01513222916083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a1243f9e69d1%3A0x6daed05394f03251!2z0KXQsNGA0YzQutC-0LLRgdC60LjQuSDQvdCw0YbQuNC-0L3QsNC70YzQvdGL0Lkg0YPQvdC40LLQtdGA0YHQuNGC0LXRgiDRgNCw0LTQuNC-0Y3Qu9C10LrRgtGA0L7QvdC40LrQuA!5e0!3m2!1sru!2sua!4v1716496118107!5m2!1sru!2sua" allowfullscreen="" loading="lazy"></iframe>
       </div>
     </div>

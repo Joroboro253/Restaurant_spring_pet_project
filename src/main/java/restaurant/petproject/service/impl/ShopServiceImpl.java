@@ -121,4 +121,7 @@ public class ShopServiceImpl implements ShopService {
             return shoppingCartRepository.findByUser(user);
         }
     }
+    public void clearCart(User user) {
+        shoppingCartRepository.deleteByUserId(user.getId());
+    }
 }

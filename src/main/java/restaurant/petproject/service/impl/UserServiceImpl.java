@@ -16,6 +16,7 @@ import restaurant.petproject.service.UserService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -76,6 +77,11 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     private UserDto convertEntityToDto(User user) {

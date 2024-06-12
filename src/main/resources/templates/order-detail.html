@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Detail</title>
+</head>
+<body>
+<h1>Order Detail</h1>
+<div th:if="${order != null}">
+    <p>Order ID: <span th:text="${order.id}"></span></p>
+    <p>User: <span th:text="${order.user.name}"></span></p>
+    <p>Status: <span th:text="${order.status}"></span></p>
+    <p>Total Price: <span th:text="${order.totalPrice}"></span></p>
+    <ul>
+        <li th:each="item : ${order.items}">
+            <span th:text="${item.dish.name}"></span> - <span th:text="${item.quantity}"></span> x <span th:text="${item.dish.price}"></span> = <span th:text="${item.subtotal}"></span>
+        </li>
+    </ul>
+    <form action="/orders/update-status" method="post">
+        <input type="hidden" name="orderId" th:value="${order.id}">
+        <select name="status">
+            <option value="PENDING" th:selected="${order.status == 'PENDING'}">PENDING</option>
+            <option value="CONFIRMED" th:selected="${order.status == 'CONFIRMED'}">CONFIRMED</option>
+            <option value="REJECTED" th:selected="${order.status == 'REJECTED'}">REJECTED</option>
+        </select>
+        <button type="submit">Update Status</button>
+    </form>
+</div>
+</body>
+</html>

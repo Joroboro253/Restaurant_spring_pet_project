@@ -1,5 +1,7 @@
 package restaurant.petproject.controllers;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -7,11 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import restaurant.petproject.entity.Order;
 import restaurant.petproject.entity.CartItem;
+import restaurant.petproject.entity.ShoppingCart;
 import restaurant.petproject.entity.User;
+import restaurant.petproject.payment.LiqPayPayment;
 import restaurant.petproject.service.impl.OrderServiceImpl;
 import restaurant.petproject.service.impl.UserServiceImpl;
 import restaurant.petproject.service.impl.ShopServiceImpl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -23,12 +28,14 @@ public class OrderController {
     private final OrderServiceImpl orderService;
     private final UserServiceImpl userService;
     private final ShopServiceImpl shopServiceImpl;
+    private final LiqPayPayment liqPayPayment;
 
     @Autowired
-    public OrderController(OrderServiceImpl orderService, UserServiceImpl userService, ShopServiceImpl shopServiceImpl) {
+    public OrderController(OrderServiceImpl orderService, UserServiceImpl userService, ShopServiceImpl shopServiceImpl, LiqPayPayment liqPayPayment) {
         this.orderService = orderService;
         this.userService = userService;
         this.shopServiceImpl = shopServiceImpl;
+        this.liqPayPayment = liqPayPayment;
     }
 
     @GetMapping
@@ -46,22 +53,56 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public String createOrder(@RequestParam Long userId, @RequestParam Set<CartItem> items, Model model) {
-        Optional<User> userOptional = userService.getUserById(userId);
-        if (!userOptional.isPresent()) {
-            model.addAttribute("error", "User not found");
+    public String createOrder(Authentication auth, Model model) {
+        User user = (User) auth.getPrincipal();
+        ShoppingCart cart = shopServiceImpl.getShoppingCartByUser(user);
+        if (cart == null || cart.getItems().isEmpty()) {
+            model.addAttribute("error", "Your cart is empty");
             return "error";
         }
-        User user = userOptional.get();
-        Integer totalPrice = items.stream().mapToInt(CartItem::getSubtotal).sum();
-        Order order = orderService.createOrder(user, items, totalPrice);
-        model.addAttribute("order", order);
+
+        Integer totalPrice = cart.getItems().stream().mapToInt(CartItem::getSubtotal).sum();
+        Order order = orderService.createOrder(user, new HashSet<>(cart.getItems()), totalPrice);
+
+        // Redirect to payment processing
         return "redirect:/orders/payment/" + order.getId();
+    }
+
+    @PostMapping("/initiate-payment")
+    public String initiatePayment(Authentication auth, Model model) {
+        User user = (User) auth.getPrincipal();
+        ShoppingCart cart = shopServiceImpl.getShoppingCartByUser(user);
+        if (cart == null || cart.getItems().isEmpty()) {
+            model.addAttribute("error", "Your cart is empty");
+            return "error";
+        }
+
+        Integer totalPrice = cart.getItems().stream().mapToInt(CartItem::getSubtotal).sum();
+        Order order = orderService.createOrder(user, new HashSet<>(cart.getItems()), totalPrice);
+
+        // LiqPay Data
+        String amount = String.valueOf(order.getTotalPrice());
+        String currency = "UAH";
+        String description = "Payment for order " + order.getId();
+        String orderId = "order_id_" + System.currentTimeMillis();
+
+        String serverUrl = "https://yourserver.com/liqpay-callback"; // URL для серверного уведомления
+        String returnUrl = "http://localhost:8082/orders/payment-success/" + order.getId(); // URL перенаправления после оплаты
+
+        String paymentFormHtml = liqPayPayment.createPayment(amount, currency, description, orderId, serverUrl, returnUrl);
+
+        // Передаем форму LiqPay на клиентскую сторону для автоматической отправки
+        model.addAttribute("paymentFormHtml", paymentFormHtml);
+        return "auto-submit-payment-form";
     }
 
     @PostMapping("/update-status")
     public String updateOrderStatus(@RequestParam Long orderId, @RequestParam String status, Model model) {
-        Order order = orderService.updateOrderStatus(orderId, status);
+        Order order = orderService.findById(orderId);
+        if (order != null) {
+            order.setStatus(status);
+            orderService.save(order);
+        }
         model.addAttribute("order", order);
         return "order-detail";
     }
@@ -73,13 +114,22 @@ public class OrderController {
 //            model.addAttribute("error", "Order not found");
 //            return "error";
 //        }
-//        // Здесь должно быть перенаправление на страницу оплаты LiqPay
-//        // Например:
-//        // return "redirect:/liqpay/payment/" + orderId;
-//        model.addAttribute("order", order);
-//        return "payment";
+//
+//        String amount = String.valueOf(order.getTotalPrice());
+//        String currency = "UAH";
+//        String description = "Payment for order " + order.getId();
+//        String orderIdStr = "order_id_" + System.currentTimeMillis();
+//
+//        String serverUrl = "https://yourserver.com/liqpay-callback";
+//        String returnUrl = "https://yourwebsite.com/orders/payment-success/" + order.getId();
+//
+//        String paymentFormHtml = liqPayPayment.createPayment(amount, currency, description, orderIdStr, serverUrl, returnUrl);
+//
+//        model.addAttribute("paymentFormHtml", paymentFormHtml);
+//        return "auto-submit-payment-form";
 //    }
 
+    @Transactional
     @GetMapping("/payment-success/{orderId}")
     public String paymentSuccess(@PathVariable Long orderId, Model model) {
         Order order = orderService.getOrderById(orderId).orElse(null);
@@ -87,11 +137,20 @@ public class OrderController {
             model.addAttribute("error", "Order not found");
             return "error";
         }
+        // Updating status transaction
         orderService.updateOrderStatus(orderId, "PAID");
-        shopServiceImpl.clearCart(order.getUser());
+
+        // Cleaning user cart
+        ShoppingCart cart = shopServiceImpl.getShoppingCartByUser(order.getUser());
+        if (cart != null) {
+            cart.getItems().clear();
+            shopServiceImpl.save(cart);
+        }
+
         model.addAttribute("order", order);
         return "redirect:/orders/" + orderId;
     }
 }
+
 
 

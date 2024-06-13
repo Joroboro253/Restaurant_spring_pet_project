@@ -14,6 +14,6 @@ public interface OrderService {
     List<Order> getAllOrders();
     Optional<Order> getOrderById(Long id);
     List<Order> getOrderByStatus(String status);
-    Order updateOrderStatus(Long id, String status);
+    void updateOrderStatus(Long id, String status);
     public Order createOrder(User user, Set<CartItem> items, Integer totalPrice);
 }

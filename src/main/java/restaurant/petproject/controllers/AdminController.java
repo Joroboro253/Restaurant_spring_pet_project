@@ -6,11 +6,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-//import restaurant.petproject.models.User;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import restaurant.petproject.dto.UserDto;
-import restaurant.petproject.entity.Category;
 import restaurant.petproject.entity.Dish;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.service.impl.DishServiceImpl;
@@ -22,7 +20,6 @@ import java.security.Principal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller

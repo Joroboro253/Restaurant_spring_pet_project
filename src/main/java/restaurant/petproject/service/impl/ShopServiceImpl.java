@@ -1,5 +1,6 @@
 package restaurant.petproject.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -121,7 +122,16 @@ public class ShopServiceImpl implements ShopService {
             return shoppingCartRepository.findByUser(user);
         }
     }
+    @Transactional
     public void clearCart(User user) {
-        shoppingCartRepository.deleteByUserId(user.getId());
+        ShoppingCart cart = shoppingCartRepository.findByUser(user);
+        if (cart != null) {
+            shoppingCartRepository.delete(cart);
+        }
     }
+
+    public void save(ShoppingCart cart) {
+        shoppingCartRepository.save(cart);
+    }
+
 }

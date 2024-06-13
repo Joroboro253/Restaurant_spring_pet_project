@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import restaurant.petproject.entity.*;
-import restaurant.petproject.repository.CategoryRepository;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.repository.UserRepository;
 import restaurant.petproject.service.DishService;
@@ -37,7 +36,7 @@ public class DishServiceImpl implements DishService {
     public final DishRepository dishRepository;
     private final UserRepository userRepository;
     private final ImageServiceImpl imageService;
-    public CategoryRepository categoryRepository;
+//    public CategoryRepository categoryRepository;
 //    private CouponRepository couponRepository;
 
     public List<Dish> listDishes(String title) {
@@ -127,11 +126,6 @@ public class DishServiceImpl implements DishService {
         return dish;
     }
 
-
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
-    }
-
     public void changeDishName(Long id, String name) {
         Dish d = new Dish();
         d = dishRepository.findById(id).get();
@@ -151,13 +145,6 @@ public class DishServiceImpl implements DishService {
         d = dishRepository.findById(id).get();
         d.setPrice(price);
     }
-
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
-    }
-
-
-
     public void changeDishDiscount(Long id, int discount) {
         Dish d = new Dish();
         d= dishRepository.findById(id).get();

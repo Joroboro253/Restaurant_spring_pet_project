@@ -33,7 +33,7 @@ public class LiqPayPayment {
         params.put("description", description);
         params.put("order_id", orderId);
         params.put("server_url", serverUrl);
-        params.put("result_url", returnUrl); // Добавление URL перенаправления
+        params.put("result_url", returnUrl);
 
         return liqPay.cnb_form(params);
     }

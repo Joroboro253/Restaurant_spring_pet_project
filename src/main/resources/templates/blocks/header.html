@@ -29,6 +29,7 @@
             <a th:text="#{header.authorize}" class="p-2 text-white head-text" href="/login" th:if="${user?.id == null}">Authorization</a>
             <a th:text="#{header.addDish}" sec:authorize="hasRole('ADMIN')" class="p-2 text-white head-text" href="/dish/add">Add dish</a>
             <a th:text="#{header.allUsers}" sec:authorize="hasRole('ADMIN')" class="p-2 text-white head-text" href="/users">All users</a>
+            <a th:text="#{header.UserOrders}" sec:authorize="hasRole('ADMIN')" class="p-2 text-white head-text" href="/orders">User orders</a>
         </nav>
         <div class="user_option_box d-flex align-items-center">
             <div class="dropdown language-dropdown">

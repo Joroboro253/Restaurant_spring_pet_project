@@ -31,21 +31,6 @@ public class Dish {
     @JoinColumn
     private User user;
     private LocalDateTime dateOfCreated;
-    // Добавление категорий в код
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "dish_category", joinColumns = {
-            @JoinColumn(name = "dish_id", referencedColumnName = "id")})
-    private Set<Category> categories = new HashSet<>();
-
-    @Getter
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "dish_id")
-    private Set<Carousel> carousel;
-
-
-    public void setCarousel(Set<Carousel> carousel) {
-        this.carousel = carousel;
-    }
 
     @PrePersist
     private void onCreate() {
@@ -63,6 +48,4 @@ public class Dish {
     }
     public Dish() {
     }
-
-
 }

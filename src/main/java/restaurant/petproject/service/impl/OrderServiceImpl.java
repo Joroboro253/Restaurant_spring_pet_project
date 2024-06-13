@@ -1,5 +1,6 @@
 package restaurant.petproject.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import restaurant.petproject.entity.*;
@@ -12,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.math.BigDecimal;
+import java.util.stream.Collectors;
+
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -23,6 +27,11 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceImpl(OrderRepository orderRepository, ShoppingCartRepository shoppingCartRepository) {
         this.orderRepository = orderRepository;
         this.shoppingCartRepository = shoppingCartRepository;
+    }
+
+    @Transactional
+    public Order save(Order order) {
+        return orderRepository.save(order);
     }
 
     public Order createOrderFromCart(ShoppingCart cart) {
@@ -46,19 +55,24 @@ public class OrderServiceImpl implements OrderService {
         return savedOrder;
     }
 
-    @Override
     public Order createOrder(User user, Set<CartItem> items, Integer totalPrice) {
-        List<OrderItem> orderItems = new ArrayList<>();
-        for (CartItem cartItem : items) {
-            OrderItem orderItem = new OrderItem(null, cartItem.getDish(), cartItem.getQuantity(), cartItem.getDish().getPrice());
-            orderItems.add(orderItem);
-        }
-        Order order = new Order(user, orderItems, totalPrice, "PENDING");
-        for (OrderItem orderItem : orderItems) {
-            orderItem.setOrder(order); // Установить ссылку на заказ для каждого элемента заказа
-        }
+        Order order = new Order();
+        order.setUser(user);
+        order.setTotalPrice(totalPrice);
+        order.setStatus("PENDING");
+
+        List<OrderItem> orderItems = items.stream().map(cartItem -> {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setDish(cartItem.getDish());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setOrder(order); // Встановлюємо посилання на замовлення
+            return orderItem;
+        }).collect(Collectors.toList());
+
+        order.setOrderItems(orderItems);
         return orderRepository.save(order);
     }
+
 
     @Override
     public List<Order> getAllOrders() {
@@ -75,14 +89,16 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByStatus(status);
     }
 
+    @Transactional
     @Override
-    public Order updateOrderStatus(Long id, String status) {
-        Optional<Order> orderOptional = orderRepository.findById(id);
-        if (orderOptional.isPresent()) {
-            Order order = orderOptional.get();
-            order.setStatus(status);
-            return orderRepository.save(order);
-        }
-        return null;
+    public void updateOrderStatus(Long orderId, String status) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
+
+    public Order findById(Long id) {
+        Optional<Order> optionalOrder = orderRepository.findById(id);
+        return optionalOrder.orElse(null);
     }
 }

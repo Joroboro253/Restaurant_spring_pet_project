@@ -492,3 +492,6 @@ img {
 .dropdown.show .dropdown-content {
     display: block;
 }
+.user_option_box .btn, .user_option_box .cart-link, .user_option_box .user-name {
+    margin-right: 15px;
+}

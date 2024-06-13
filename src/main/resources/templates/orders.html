@@ -10,6 +10,9 @@
     <link rel="icon" type="image/x-icon" href="../static/images/icon.png">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,6 +59,30 @@
         .order-card p {
             margin: 10px 0;
         }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        .dropdown.show .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -75,5 +102,6 @@
 </main>
 
 <div th:insert="blocks/footer :: footer"></div>
+<script src="/js/main.js"></script>
 </body>
 </html>

@@ -5,7 +5,12 @@
     <title>Error</title>
 </head>
 <body>
+<header th:insert="blocks/header :: header"></header>
+
 <h1>Error</h1>
 <p th:text="${error}"></p>
+    <div th:insert="blocks/footer :: footer"></div>
+
+    <script src="/js/main.js"></script>
 </body>
 </html>

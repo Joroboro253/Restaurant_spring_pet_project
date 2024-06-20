@@ -48,12 +48,17 @@
         <p th:text="${dish.description}"/>
 
 
-        <a sec:authorize="hasRole('ADMIN')" th:href="'/dish/' + ${dish.id} + '/edit'" class="btn btn-warning" th:text="#{button.edit}">Edit</a><br>
+        <a sec:authorize="hasRole('ADMIN')" th:href="'/admin/dish/' + ${dish.id} + '/edit'" class="btn btn-warning" th:text="#{button.edit}">Edit</a><br>
 
-        <form sec:authorize="hasRole('ADMIN')" th:action="'/dish/' + ${dish.id} + '/remove'" method="post" class="btn btn-warning" th:text="#{button.delete}">
-            <button class="btn btn-warning" type="submit">Delete</button>
+<!--        <form sec:authorize="hasRole('ADMIN')" th:action="'/admin/dish/' + ${dish.id} + '/remove'" method="post" class="btn btn-warning">-->
+<!--            <button class="btn btn-warning" type="submit" th:text="#{button.delete}">Delete</button>-->
+<!--        </form>-->
+        <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/dish/{id}/remove(id=${dish.id})}" method="post">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit" class="btn btn-danger">Delete Dish</button>
         </form>
-<br>
+
+        <br>
     <button th:if="${user.id != null}" class="btn btn-warning" type="button" data-toggle="modal" th:attr="data-target='#addM'+${dish.id}" th:text="#{button.buy}">Buy</button>
         <div class="modal fade" th:id="'addM' + ${dish.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -65,7 +70,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-<!--                        Отличия есть здесь -->
                         <form th:action="@{/add-cart}" method="post">
 
                             <div class="form-group">

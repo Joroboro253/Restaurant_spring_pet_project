@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/orders")
+@RequestMapping("admin/orders")
 public class OrderController {
 
     private final OrderServiceImpl orderService;
@@ -86,12 +86,12 @@ public class OrderController {
         String description = "Payment for order " + order.getId();
         String orderId = "order_id_" + System.currentTimeMillis();
 
-        String serverUrl = "https://yourserver.com/liqpay-callback"; // URL для серверного уведомления
-        String returnUrl = "http://localhost:8082/orders/payment-success/" + order.getId(); // URL перенаправления после оплаты
+        String serverUrl = "https://yourserver.com/liqpay-callback"; // URL for server notification
+        String returnUrl = "http://savorthemoment.website/" + order.getId(); // URL redirection after payment
 
         String paymentFormHtml = liqPayPayment.createPayment(amount, currency, description, orderId, serverUrl, returnUrl);
 
-        // Передаем форму LiqPay на клиентскую сторону для автоматической отправки
+        // Transfer LiqPay form to client side for automatic sending
         model.addAttribute("paymentFormHtml", paymentFormHtml);
         return "auto-submit-payment-form";
     }

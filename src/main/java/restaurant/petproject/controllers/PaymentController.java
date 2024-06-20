@@ -35,7 +35,7 @@ public class PaymentController {
         String orderId = "order_id_" + System.currentTimeMillis();
 
         String serverUrl = "https://8b15-159-224-20-62.ngrok-free.app/liqpay-callback";
-        String returnUrl = "http://localhost:8082/"; // URL перенаправления после оплаты
+        String returnUrl = "http://localhost:8082/";
 
         String paymentFormHtml = liqPayPayment.createPayment(amount, currency, description, orderId, serverUrl, returnUrl);
 

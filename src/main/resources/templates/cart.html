@@ -111,13 +111,13 @@
                         <td><a th:href="@{/menu}" class="btn btn-warning"><i class="fa fa-angle-left" th:text="#{cart.more}"></i></a></td>
                         <td colspan="2" class="hidden-xs"></td>
                         <td class="hidden-xs text-center">
-                            <strong th:utext="#{cart.total} + ' ' + ${shop.getTotalPrice()} + ' ₴'">Total: [[${shop.getTotalPrice()}]] ₴</strong>
+                            <p th:utext="#{cart.total} + ' ' + ${shop.getTotalPrice()} + ' ₴'">Total: [[${shop.getTotalPrice()}]] ₴</p>
                         </td>
 <!--                        <td><a th:href="@{/payment}" class="btn btn-success btn-block" th:text="#{cart.payment}">Payment <i class="fa fa-angle-right"></i></a></td>-->
                         <td>
-                            <form action="/orders/initiate-payment" method="post">
-                                <button type="submit" class="btn btn-success btn-block">
-                                    Payment <i class="fa fa-angle-right"></i>
+                            <form action="admin/orders/initiate-payment" method="post">
+                                <button type="submit" class="btn btn-success btn-block"  th:utext="#{cart.payment}">
+                                   Payment
                                 </button>
                             </form>
                         </td>

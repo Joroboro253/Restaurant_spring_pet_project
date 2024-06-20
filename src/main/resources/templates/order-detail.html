@@ -89,7 +89,7 @@
                 <span th:text="${item.quantity * item.dish.price}"></span>
             </li>
         </ul>
-        <form action="/orders/update-status" method="post">
+        <form th:action="@{http://savorthemoment.website/admin/orders/update-status}" method="post">
             <input type="hidden" name="orderId" th:value="${order.id}">
             <select name="status">
                 <option value="PENDING" th:selected="${order.status == 'PENDING'}">PENDING</option>

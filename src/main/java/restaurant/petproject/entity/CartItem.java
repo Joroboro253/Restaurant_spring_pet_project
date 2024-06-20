@@ -18,11 +18,12 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dish_id")
     private Dish dish;
     private Integer quantity;
     @Transient
-     private double subtotal;
+    private double subtotal;
 
     public CartItem(Dish dish, Integer quantity) {
         this.dish = dish;

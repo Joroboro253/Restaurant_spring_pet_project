@@ -93,7 +93,7 @@
     <h1>All Orders</h1>
     <div class="order-list">
         <div th:each="order : ${orders}" class="order-card">
-            <a th:href="@{'/orders/' + ${order.id}}" th:text="${order.id} + ' - ' + ${order.status}"></a>
+            <a th:href="@{'orders/' + ${order.id}}" th:text="${order.id} + ' - ' + ${order.status}"></a>
             <p>User: <span th:text="${order.getUser().name}"></span> </p>
             <p>Status: <span th:text="${order.status}"></span></p>
             <p>Total Price: <span th:text="${order.totalPrice}"></span></p>

@@ -14,7 +14,7 @@
 <div class="wrapper">
   <div class="container" id="app">
     <h1 th:text="#{adding.newDish}">Add new dish</h1>
-    <form action="/dish/add" method="post" enctype="multipart/form-data">
+    <form action="/admin/dish/add" method="post" enctype="multipart/form-data">
       <div class="mb-3">
         <label for="title" th:text="#{adding.name}">Dish name</label>
         <input type="text" required class="form-control" id="title" name="title">
@@ -49,7 +49,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   $(document).ready(function() {
-    // При изменении файла, обновляем текст метки
+    // When editing a file, update the label text
     $('#image').on('change', function() {
       let fileName = $(this).val().split('\\').pop();
       $(this).next('.custom-file-label').html(fileName || 'No file chosen');

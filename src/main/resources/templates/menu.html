@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
   <title th:text="${title}"/>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -32,7 +32,7 @@
   <br>
 
 </div>
-  <a th:text="#{menu.add}" th:href="'/dish/add'" class="btn btn-warning row mx-3">Add dish</a>
+  <a th:text="#{menu.add}" sec:authorize="hasRole('ADMIN')" th:href="'admin/dish/add'" class="btn btn-warning row mx-3">Add dish</a>
 </main>
 
 <div th:insert="blocks/footer :: footer"></div>

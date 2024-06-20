@@ -1,10 +1,13 @@
 package restaurant.petproject.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import restaurant.petproject.entity.*;
+import restaurant.petproject.repository.CartItemRepository;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.repository.UserRepository;
 import restaurant.petproject.service.DishService;
@@ -32,12 +35,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class DishServiceImpl implements DishService {
-
+    @Autowired
     public final DishRepository dishRepository;
+    @Autowired
+    private CartItemRepository cartItemRepository;
     private final UserRepository userRepository;
     private final ImageServiceImpl imageService;
-//    public CategoryRepository categoryRepository;
-//    private CouponRepository couponRepository;
 
     public List<Dish> listDishes(String title) {
         if(title != null) return dishRepository.findByTitle(title);
@@ -70,13 +73,9 @@ public class DishServiceImpl implements DishService {
         dishRepository.save(dish);
     }
 
-    // Principal не доходит до этого метода
     @Override
     public Optional<User> getUserByPrincipal(Principal principal) {
-//        if(principal == null) return new User();
-//        return userRepository.findByEmail(principal.getName());
         if(principal == null) return Optional.empty();
-//        log.info("Returning userRepository.findByEmail(principal.getName())", userRepository.findByEmail(principal.getName()));
         return Optional.ofNullable(userRepository.findByEmail(principal.getName()));
 
     }
@@ -95,19 +94,10 @@ public class DishServiceImpl implements DishService {
         return images;
     }
 
-
-    public void deleteDish(User user, Long id){
-        Dish dish = dishRepository.findById(id).orElse(null);
-        if(dish != null) {
-            if(dish.getUser().getId().equals(user.getId())) {
-                dishRepository.delete(dish);
-                log.info("Dish with id = {} was deleted", id);
-            } else {
-                log.error("User: {} haven't this dish with id = {}", user.getEmail(), id);
-            }
-        } else {
-            log.error("Dish with id = {} is not found", id);
-        }
+    @Transactional
+    public void deleteDish(Long dishId) {
+        cartItemRepository.deleteByDishId(dishId);
+        dishRepository.deleteById(dishId);
     }
 
     public Dish updateDishImages(Dish dish, MultipartFile[] files) throws IOException, SQLException {
@@ -125,56 +115,4 @@ public class DishServiceImpl implements DishService {
 
         return dish;
     }
-
-    public void changeDishName(Long id, String name) {
-        Dish d = new Dish();
-        d = dishRepository.findById(id).get();
-        d.setTitle(name);
-        dishRepository.save(d);
-    }
-
-    public void changeDishDescription(Long id, String description){
-        Dish d = new Dish();
-        d = dishRepository.findById(id).get();
-        d.setDescription(description);
-        dishRepository.save(d);
-    }
-
-    public void changeDishPrice(Long id, int price) {
-        Dish d = new Dish();
-        d = dishRepository.findById(id).get();
-        d.setPrice(price);
-    }
-    public void changeDishDiscount(Long id, int discount) {
-        Dish d = new Dish();
-        d= dishRepository.findById(id).get();
-//        d.getDiscount().setDiscount(discount);
-        dishRepository.save(d);
-    }
-
-    private String bufferedImageTobase64(BufferedImage image ) throws UnsupportedEncodingException {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(image, "JPEG", Base64.getEncoder().wrap(out));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return out.toString(StandardCharsets.ISO_8859_1.name());
-    }
-
-    private BufferedImage base64ToBufferedImage(String base64Img) {
-        BufferedImage image = null;
-        byte[] decodedBytes = Base64.getDecoder().decode(base64Img);
-
-        try {
-            image = ImageIO.read(new ByteArrayInputStream(decodedBytes));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return image;
-    }
-
-
 }

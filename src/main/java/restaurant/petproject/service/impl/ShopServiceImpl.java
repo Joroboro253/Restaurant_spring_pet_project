@@ -2,10 +2,12 @@ package restaurant.petproject.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import restaurant.petproject.entity.CartItem;
 
+import restaurant.petproject.entity.Dish;
 import restaurant.petproject.entity.User;
 import restaurant.petproject.repository.CartItemRepository;
 import restaurant.petproject.repository.DishRepository;
@@ -14,6 +16,7 @@ import restaurant.petproject.repository.UserRepository;
 import restaurant.petproject.service.ShopService;
 import restaurant.petproject.entity.ShoppingCart;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,10 @@ public class ShopServiceImpl implements ShopService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
+    public void deleteCartItem(Long cartItemId) {
+        cartItemRepository.deleteById(cartItemId);
+    }
 
     public void addItem(Long dish_id, Integer quantity  ) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -71,12 +78,17 @@ public class ShopServiceImpl implements ShopService {
        return true;
     }
 
-    public ShoppingCart removeItem(User user, Long item_id) {
-        ShoppingCart shoppingCart = getShoppingCartByUser(user);
-        Set<CartItem> items = shoppingCart.getItems().stream().filter(item -> !item.getId().equals(item_id)).collect(Collectors.toSet());
-        shoppingCart.setItems(items);
-        cartItemRepository.deleteById(item_id);
-        return shoppingCartRepository.save(shoppingCart);
+//    public ShoppingCart removeItem(User user, Long item_id) {
+//        ShoppingCart shoppingCart = getShoppingCartByUser(user);
+//        Set<CartItem> items = shoppingCart.getItems().stream().filter(item -> !item.getId().equals(item_id)).collect(Collectors.toSet());
+//        shoppingCart.setItems(items);
+//        cartItemRepository.deleteById(item_id);
+//        return shoppingCartRepository.save(shoppingCart);
+//    }
+    public ShoppingCart removeItem(User user, Long cartItemId) {
+        ShoppingCart cart = shoppingCartRepository.findByUser(user);
+        cartItemRepository.deleteById(cartItemId);
+        return cart;
     }
 
     public ShoppingCart updateItemQuantity(User user, Long item_id, Integer newQuantity) {
@@ -129,6 +141,14 @@ public class ShopServiceImpl implements ShopService {
             shoppingCartRepository.delete(cart);
         }
     }
+
+    // Delete Linked Records in the CartItem Repository
+    public void deleteDish(Long dishId) {
+        List<CartItem> cartItems = cartItemRepository.findByDishId(dishId);
+        cartItemRepository.deleteAll(cartItems);
+        dishRepository.deleteById(dishId);
+    }
+
 
     public void save(ShoppingCart cart) {
         shoppingCartRepository.save(cart);

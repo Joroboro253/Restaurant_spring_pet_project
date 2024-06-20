@@ -94,8 +94,4 @@ public class DishController {
         model.addAttribute("image", encodedImage);
         return "dish-info";
     }
-
-    
-
-
 }

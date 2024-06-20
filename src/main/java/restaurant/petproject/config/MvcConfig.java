@@ -23,7 +23,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/index.html");
     }
 
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")

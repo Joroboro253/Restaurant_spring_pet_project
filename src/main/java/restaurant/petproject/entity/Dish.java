@@ -22,8 +22,9 @@ public class Dish {
     private String title;
     private String description;
     private int price;
+    private boolean isDeleted = false;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "dish")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "dish", orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
     private Long previewImageId;
 

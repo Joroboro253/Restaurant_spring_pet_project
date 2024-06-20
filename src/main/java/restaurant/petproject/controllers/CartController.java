@@ -61,10 +61,10 @@ public class CartController {
     }
 
     @GetMapping("/remove-cartItem/{id}")
-    public String addToCart(Model model, Authentication auth, @PathVariable("id") Long id) {
-        ShoppingCart shop = shopService.removeItem((User) auth.getPrincipal(),id);
+    public String removeFromCart(Model model, Authentication auth, @PathVariable("id") Long id) {
+        ShoppingCart shop = shopService.removeItem((User) auth.getPrincipal(), id);
         model.addAttribute("shop", shop);
-        model.addAttribute("user", userService.findByEmail(((User) ((User) auth.getPrincipal())).getUsername()));
+        model.addAttribute("user", userService.findByEmail(((User) auth.getPrincipal()).getUsername()));
         return "cart";
     }
 

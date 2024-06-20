@@ -2,6 +2,8 @@ package restaurant.petproject.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import restaurant.petproject.dto.UserDto;
 import restaurant.petproject.entity.Dish;
+import restaurant.petproject.repository.CartItemRepository;
 import restaurant.petproject.repository.DishRepository;
 import restaurant.petproject.service.impl.DishServiceImpl;
 import restaurant.petproject.service.impl.UserServiceImpl;
@@ -25,12 +28,15 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+@RequestMapping("/admin")
 public class AdminController {
     private final UserServiceImpl userService;
     @Autowired
     private final DishServiceImpl dishService;
     @Autowired
     private DishRepository dishRepository;
+    @Autowired
+    private final CartItemRepository cartItemRepository;
     @GetMapping("/dish/add")
     public ModelAndView addImage() {
         return new ModelAndView("dish-add");
@@ -76,12 +82,17 @@ public class AdminController {
         return "redirect:/menu";
     }
 
-    @PostMapping("/dish/{id}/remove")
-    public String dishPostDelete(@PathVariable(value = "id") long id, Model model) {
-        Dish dish = dishRepository.findById(id).orElseThrow();
-        dishRepository.delete(dish);
-
-        return "redirect:/menu";
+    @DeleteMapping("/dish/{id}/remove")
+    public ResponseEntity<Void> deleteDish(@PathVariable Long id) {
+        try {
+            cartItemRepository.deleteByDishId(id);
+            dishService.deleteDish(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            // Exception logging
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("/dish/{id}/remove")
@@ -94,7 +105,4 @@ public class AdminController {
         model.addAttribute("users", users);
         return "users";
     }
-
-
-
 }

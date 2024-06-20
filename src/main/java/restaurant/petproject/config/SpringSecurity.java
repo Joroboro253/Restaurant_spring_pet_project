@@ -15,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 
 @Configuration
@@ -31,10 +33,11 @@ public class SpringSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .addFilterAfter(new HiddenHttpMethodFilter(), CsrfFilter.class)
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/", "/register/**", "/index", "/menu","/authorization", "/dish", "/add", "/dish/**", "/images/**", "/menu", "/access-denied", "/**").permitAll()
-                                .requestMatchers("/orders", "/cart").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/users", "/dish/add").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers("/cart").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers("admin/orders", "/users", "admin/dish/**").hasAuthority("ROLE_ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
